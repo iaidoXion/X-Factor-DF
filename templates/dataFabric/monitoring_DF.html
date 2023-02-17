@@ -10,289 +10,235 @@
             <div class="col-xl-10">
                 <div class="row">
                     <!-- BEGIN col-xl-6 -->
-                    <div class="col-xl-6">
-                        <!-- BEGIN card -->
-                        <div class="card mb-3">
-                            <!-- BEGIN card-body -->
-                            <div class="card-body h-224px">
-                                <!-- BEGIN title -->
-                                <span class="fs-12px">Database 접속량</span>
-                                <!-- END title -->
-                                <div id="databaseConnectChart" class="mt-n3 mb-n2" ></div>
-                            </div>
-                            <!-- END card-body -->
-
-                            <!-- BEGIN card-arrow -->
-                            <div class="card-arrow">
-                                <div class="card-arrow-top-left"></div>
-                                <div class="card-arrow-top-right"></div>
-                                <div class="card-arrow-bottom-left"></div>
-                                <div class="card-arrow-bottom-right"></div>
-                            </div>
-                            <!-- END card-arrow -->
+                    <div class="col-xl-6 mb-3">
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            Database traffic
                         </div>
-                        <!-- END card -->
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-190px">
+                            <div id="databaseConnectChart" class="mt-n3 mb-n2" ></div>
+                        </div>
                     </div>
                     <!-- END col-xl-6 -->
 
                     <!-- BEGIN col-xl-6 -->
                     <div class="col-xl-6">
-                        <!-- BEGIN card -->
-                        <div class="card mb-3">
-                            <!-- BEGIN card-body -->
-                            <div class="card-body h-224px">
-                                <!-- BEGIN title -->
-                                <span class="fs-12px">User 접속량</span>
-                                <!-- END title -->
-                                <div id="UserConnectChart" class="mt-n3 mb-n2" ></div>
-                            </div>
-                            <!-- END card-body -->
-
-                            <!-- BEGIN card-arrow -->
-                            <div class="card-arrow">
-                                <div class="card-arrow-top-left"></div>
-                                <div class="card-arrow-top-right"></div>
-                                <div class="card-arrow-bottom-left"></div>
-                                <div class="card-arrow-bottom-right"></div>
-                            </div>
-                            <!-- END card-arrow -->
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            User traffic
                         </div>
-                        <!-- END card -->
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-190px">
+                            <div id="UserConnectChart"></div>
+                        </div>
                     </div>
                     <!-- END col-xl-6 -->
 
                     <!-- END col-xl-12 -->
                     <div class="col-xl-12">
-                        <!-- BEGIN card -->
-                        <div class="card mb-3">
-                            <!-- BEGIN card-body -->
-                            <div class="card-body h-270px">
-                                <!-- BEGIN title -->
-                                <span class="fs-12px">Database CPU 사용량</span>
-                                <!-- END title -->
-                                <div class="database-cpu-usage ">
-                                    <div id="CpuUsageChart" class="mt-n3 mb-n2"></div>
-                                </div>
-                            </div>
-                            <!-- END card-body -->
-                            <!-- BEGIN card-arrow -->
-                            <div class="card-arrow">
-                                <div class="card-arrow-top-left"></div>
-                                <div class="card-arrow-top-right"></div>
-                                <div class="card-arrow-bottom-left"></div>
-                                <div class="card-arrow-bottom-right"></div>
-                            </div>
-                            <!-- END card-arrow -->
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            Database CPU traffic
                         </div>
-                        <!-- END card -->
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-240px mb-3">
+                            <div id="CpuUsageChart" class="mt-n3 mb-n2"></div>
+                        </div>
                     </div>
 
                     <!-- END col-xl-12 -->
 
                     <!-- END col-xl-12 -->
                     <div class="col-xl-12">
-                        <div class="card">
-                            <!-- BEGIN card-body -->
-                            <div class="card-body h-340px Query-History-card">
-                                <p class="fs-12px">Query History</p>
-                                <!-- BEGIN monitoring-table -->
-                                <div class="monitoring-table ps ps--active-y" data-scrollbar="true">
-                                    <table class="table table-striped Query-History-table fs-12px">
-                                        <thead>
-                                            <tr class="table-dark">
-                                                <th>Timestamp</th>
-                                                <th>Dataname</th>
-                                                <th>Database</th>
-                                                <th>Table</th>
-                                                <th>User</th>
-                                                <th>Query</th>
-                                                <th>Result</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>2023-01-27 15:10:45</td>
-                                                <td></td>
-                                                <td>Teradata</td>
-                                                <td>Menu</td>
-                                                <td>Manager</td>
-                                                <td class="text-truncate" title="SELECT count(*) FROM Menu GG/GOOD/BAD">SELECT count(*) FROM Menu </td>
-                                                <td class="text-truncate" title="SUCCES ROWS GG/GOOD/BAD">SUCCES ROWS </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-27 14:35:13</td>
-                                                <td></td>
-                                                <td>Postgres</td>
-                                                <td>Statistics</td>
-                                                <td>Guest</td>
-                                                <td>CREATE TABLE Statistic</td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-27 14:20:22</td>
-                                                <td></td>
-                                                <td>Postgres</td>
-                                                <td>Statistics</td>
-                                                <td>Guest</td>
-                                                <td>DROP TABLE Statistic</td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-27 13:41:51</td>
-                                                <td></td>
-                                                <td>Teradata</td>
-                                                <td>Menu</td>
-                                                <td>Admin</td>
-                                                <td>INSERT INTO Menu Values</td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-27 11:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-26 19:40:02</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Manager</td>
-                                                <td>SELECT * FROM USER ORDER BY</td>
-                                                <td>Excuted as Error</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-26 18:10:16</td>
-                                                <td></td>
-                                                <td>Teradata</td>
-                                                <td>Web</td>
-                                                <td>Manager</td>
-                                                <td>SELECT count(*) FROM Menu </td>
-                                                <td>Excuted as Error</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-26 17:10:45</td>
-                                                <td></td>
-                                                <td>Teradata</td>
-                                                <td>Menu</td>
-                                                <td>Manager</td>
-                                                <td>SELECT count(*) FROM Menu </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-26 16:10:16</td>
-                                                <td></td>
-                                                <td>Teradata</td>
-                                                <td>Web</td>
-                                                <td>Manager</td>
-                                                <td>SELECT count(*) FROM Menu </td>
-                                                <td>Excuted as Error</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-26 15:10:16</td>
-                                                <td></td>
-                                                <td>Teradata</td>
-                                                <td>Web</td>
-                                                <td>Manager</td>
-                                                <td>SELECT count(*) FROM Menu </td>
-                                                <td>Excuted as Error</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-26 14:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2023-01-25 21:58:33</td>
-                                                <td></td>
-                                                <td>ETC1</td>
-                                                <td>User</td>
-                                                <td>Admin</td>
-                                                <td>SELECT * FROM USER WHERE </td>
-                                                <td>SUCCES ROWS</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- END monitoring-table -->
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            Query History
+                        </div>
+                        <div class="Query-History-card form-control form-control-lg bg-white bg-opacity-10">
+                            <!-- BEGIN monitoring-table -->
+                            <div class="monitoring-table ps ps--active-y" data-scrollbar="true">
+                                <table class="table table-striped Query-History-table fs-12px">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th>Timestamp</th>
+                                            <th>DB Name</th>
+                                            <th>Database</th>
+                                            <th>Table</th>
+                                            <th>User</th>
+                                            <th>Query</th>
+                                            <th>Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2023-01-27 15:10:45</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>Menu</td>
+                                            <td>Manager</td>
+                                            <td class="text-truncate" title="SELECT count(*) FROM Menu GG/GOOD/BAD">SELECT count(*) FROM Menu </td>
+                                            <td class="text-truncate" title="SUCCES ROWS GG/GOOD/BAD">SUCCES ROWS </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-27 14:35:13</td>
+                                            <td></td>
+                                            <td>Postgres</td>
+                                            <td>Statistics</td>
+                                            <td>Guest</td>
+                                            <td>CREATE TABLE Statistic</td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-27 14:20:22</td>
+                                            <td></td>
+                                            <td>Postgres</td>
+                                            <td>Statistics</td>
+                                            <td>Guest</td>
+                                            <td>DROP TABLE Statistic</td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-27 13:41:51</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>Menu</td>
+                                            <td>Admin</td>
+                                            <td>INSERT INTO Menu Values</td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-27 11:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-26 19:40:02</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Manager</td>
+                                            <td>SELECT * FROM USER ORDER BY</td>
+                                            <td>Excuted as Error</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-26 18:10:16</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>Web</td>
+                                            <td>Manager</td>
+                                            <td>SELECT count(*) FROM Menu </td>
+                                            <td>Excuted as Error</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-26 17:10:45</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>Menu</td>
+                                            <td>Manager</td>
+                                            <td>SELECT count(*) FROM Menu </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-26 16:10:16</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>Web</td>
+                                            <td>Manager</td>
+                                            <td>SELECT count(*) FROM Menu </td>
+                                            <td>Excuted as Error</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-26 15:10:16</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>Web</td>
+                                            <td>Manager</td>
+                                            <td>SELECT count(*) FROM Menu </td>
+                                            <td>Excuted as Error</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-26 14:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-01-25 21:58:33</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>User</td>
+                                            <td>Admin</td>
+                                            <td>SELECT * FROM USER WHERE </td>
+                                            <td>SUCCES ROWS</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- END card-body -->
-                            <div class="card-arrow">
-                                <div class="card-arrow-top-left"></div>
-                                <div class="card-arrow-top-right"></div>
-                                <div class="card-arrow-bottom-left"></div>
-                                <div class="card-arrow-bottom-right"></div>
-                            </div>
+                            <!-- END monitoring-table -->
                         </div>
                     </div>
                     <!-- END col-xl-12 -->
