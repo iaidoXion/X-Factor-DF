@@ -30527,9 +30527,8 @@ body .note-modal-backdrop {
     height: 18px;
 }
 
-.table-striped {
-    table-layout: auto;
-
+.table-striped{
+    table-layout: auto ;
 
 }
 
@@ -30602,7 +30601,8 @@ body .note-modal-backdrop {
     text-align: center;
     width: 99%;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    font-size: 12px;}
+    font-size: 12px;
+}
 
 
 .DataFabric-scroll{
@@ -30769,6 +30769,8 @@ body .note-modal-backdrop {
     color: black;
 }
 /* settinginput */
+
+
 .settinginput{
     background : none;
     border : 1px solid #a8b6bc;
