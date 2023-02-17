@@ -200,6 +200,56 @@ $(document).ready(function () {
             return;
         }
     });
+    $('.query-input').on('input',function(event){
+        let queryText = event.currentTarget.value
+        let split_txt = queryText.split('\n');
+        let i = 0
+        console.log(split_txt)
+        $(".show_text").text("");
+        split_txt.forEach(function(spText){
+            let noComment = 0
+            if (i >= 1){
+                $(".show_text").append('<br>')
+            }
+            let text = spText.trim();
+
+//            숫자 구분 () 안에 들어간 숫자  0
+            queryText = text.split(' ')
+            if(text.startsWith('--')){
+                $(".show_text").append('<span class = "text-comment">' + text + '</span>')
+                noComment++
+            }
+               queryText.forEach(function(qrText){
+                  console.log(queryText)
+                  let defaultColor = 0
+                  let tap = text.split('\t')
+                  let uppText = qrText.toUpperCase();
+                  blueText.forEach(function(bText){
+                    if (uppText === bText.toUpperCase()){
+                        $(".show_text").append('<span class = "text-queryBlue">' + qrText + ' </span>')
+                        defaultColor++
+                    }
+                  });
+                  yellowText.forEach(function(yText){
+                     if (uppText === yText.toUpperCase()){
+                       $(".show_text").append('<span class = "text-queryYellow">' + qrText + ' </span>')
+                        defaultColor++
+                    }
+                  });
+                  if(qrText == ''){
+                    $(".show_text").append('<span>​</span>')
+                  }
+                  if (defaultColor == 0 && noComment == 0){
+                    $(".show_text").append('<span>' + qrText + ' </span>')
+                  }
+
+                });
+
+
+            i++
+        });
+    });
+});
 
 
 });
