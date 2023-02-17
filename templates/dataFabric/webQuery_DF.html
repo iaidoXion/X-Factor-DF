@@ -15,18 +15,24 @@
                         <!--<button type="button" class="btn btn-outline-white btn-sm w-100px h-35px queryBtn-outline fs-12px">QueryGrid</button>-->
                         <div class="mt-sm-1">
                             <ul class="nav nav-tabs change-tabs query-tabs">
-                                <li class="nav-item me-1 w-100px text-center fs-12px"><a href="#query1" class="nav-link change-link active" data-bs-toggle="tab">Query1</a></li>
-                                <li class="nav-item me-1 w-100px text-center fs-12px"><a href="#query2" class="nav-link change-link" data-bs-toggle="tab">Query2</a></li>
+                                <li class="nav-item me-1 w-100px text-center fs-12px queryBtn" id = 'copyBtn'><a href="#Query1" class="nav-link change-link active" data-bs-toggle="tab">Query1</a> </li>
+                                <li class="nav-item me-1 w-100px text-center fs-12px queryBtn"><a href="#Query2" class="nav-link change-link" data-bs-toggle="tab">Query2</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="query-box tab-pane fade show active" id="query1">
+                                <div class="query-box tab-pane fade show active" id="Query1">
                                     <form>
-                                        <textarea type="text" class="query-input" id='query_text'></textarea>
+                                        <div style="position:relative; ">
+                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; color: rgba(255,255,255,0);"></textarea>
+                                            <div class="show_text"></div>
+                                        </div>
                                     </form>
                                 </div>
-                                <div class="query-box tab-pane fade" id="query2">
+                                <div class="query-box tab-pane fade" id="Query2">
                                     <form>
-                                        <textarea class="query-input"></textarea>
+                                        <div style="position:relative;">
+                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; color: rgba(255,255,255,0);"></textarea>
+                                            <div class="show_text"></div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -98,7 +104,7 @@
         var params = {
             'data' : String(a.value)
         }
-        
+
         $.ajax({
                 type : "POST",
                 url : "query_content/",
@@ -131,7 +137,7 @@
                                 str += '</TR>'
                             });
                             $("#query_tbody").html(str);
-                            
+
                         }else if (res.status==400){
                             $("#query_thead").empty();
                             var str = "";
@@ -149,7 +155,7 @@
                             $.each(res.data, function(i){
                                 str +=res.data[i] + '</br></br>'
                             });
-                            
+
                             $("#query_thead").html(str);
                         }else if (res.status==400){
                             var str = "";
@@ -160,7 +166,7 @@
                         }
                     }
                 },
-                
+
                 beforeSend: function() {
                     document.getElementById("query_stop").style.display = "inline";
                     document.getElementById("query_start").style.display = "none";

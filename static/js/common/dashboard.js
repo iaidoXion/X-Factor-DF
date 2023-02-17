@@ -200,6 +200,181 @@ $(document).ready(function () {
             return;
         }
     });
+        number = 2
+// X-factor DF
+	 $(".btn-dataNavi").on('click',function(){
+        const dataNavi = ['Teradata','Postgres','ETC']
+        $(".btn-dataNavi").removeClass("active");
+        $(this).addClass("active");
+        let btnText = $(this).text()
+        dataNavi.forEach(function(element){
+         if(btnText === element){
+            $('.Navi-DF').css("display","none");
+            $('.Navi-DF-' + element +'-menu').css("display","block");
+            }
+        });
+    });
+    const textBoxHover = function(){
+        $(".table-textBox").on({
+            'mouseover':function(){
+                $(this).addClass("textBox-scroll")
+            },
+            'mouseout':function(){
+                $(this).removeClass("textBox-scroll")
+            }
+        });
+    };
+
+    $(".btn-tableProperties").on('click',function(){
+//    Data Columns View Procedure DDL
+        const tableProperties = ['Data', 'Column', 'View', 'Procedure', 'DDL']
+        $(".btn-tableProperties").removeClass("active");
+        $(this).addClass("active");
+        let btnText = $(this).text()
+        tableProperties.forEach(function(element){
+             if(btnText === element){
+                $('.properties').css("display","none");
+                $(".properties-" + element).css("display","table");
+             }
+         });
+         textBoxHover()
+    });
+
+    $(".menu-list").on('click',function(){
+        if($(this).is('.menu-list1')){
+            var mother = $(this).closest('.Navi-DF-menu1')
+            if($(this).is('.bi-caret-right-fill')){
+                $(this).removeClass("bi-caret-right-fill")
+                $(this).addClass("bi-caret-down-fill")
+                mother.children(".Navi-DF-menu2").css("display",'block');
+            } else if($(this).is('.bi-caret-down-fill')) {
+                $(this).removeClass("bi-caret-down-fill")
+                $(this).addClass("bi-caret-right-fill")
+                mother.children(".Navi-DF-menu2").css("display",'none');
+            }
+        }
+        else if($(this).is('.menu-list2')){
+            var mother = $(this).closest('.Navi-DF-menu2')
+            if($(this).is('.bi-caret-right-fill')){
+                $(this).removeClass("bi-caret-right-fill")
+                $(this).addClass("bi-caret-down-fill")
+                mother.children(".Navi-DF-menu3").css("display",'block');
+            } else if($(this).is('.bi-caret-down-fill')) {
+                $(this).removeClass("bi-caret-down-fill")
+                $(this).addClass("bi-caret-right-fill")
+                mother.children(".Navi-DF-menu3").css("display",'none');
+            }
+        }
+        else if($(this).is('.menu-list3')){
+            var mother = $(this).closest('.Navi-DF-menu3')
+            if($(this).is('.bi-caret-right-fill')){
+                $(this).removeClass("bi-caret-right-fill")
+                $(this).addClass("bi-caret-down-fill")
+                mother.children(".Navi-DF-menu4").css("display",'block');
+            } else if($(this).is('.bi-caret-down-fill')) {
+                $(this).removeClass("bi-caret-down-fill")
+                $(this).addClass("bi-caret-right-fill")
+                mother.children(".Navi-DF-menu4").css("display",'none');
+            }
+        }
+        else if($(this).is('.menu-list4')){
+            var mother = $(this).closest('.Navi-DF-menu4')
+            if($(this).is('.bi-caret-right-fill')){
+                $(this).removeClass("bi-caret-right-fill")
+                $(this).addClass("bi-caret-down-fill")
+                $(this).children(".bi").removeClass("bi-folder")
+                $(this).children(".bi").addClass("bi-folder2-open")
+                mother.children(".Navi-DF-menu5").css("display",'block');
+            } else if($(this).is('.bi-caret-down-fill')) {
+                $(this).removeClass("bi-caret-down-fill")
+                $(this).addClass("bi-caret-right-fill")
+                $(this).children(".bi").removeClass("bi-folder2-open")
+                $(this).children(".bi").addClass("bi-folder")
+                mother.children(".Navi-DF-menu5").css("display",'none');
+            }
+        }
+        else if($(this).is('.menu-list5')){
+            var mother = $(this).closest('.Navi-DF-menu5')
+            if($(this).is('.bi-caret-right-fill')){
+                $(this).removeClass("bi-caret-right-fill")
+                $(this).addClass("bi-caret-down-fill")
+                $(this).children(".bi").removeClass("bi-folder")
+                $(this).children(".bi").addClass("bi-folder2-open")
+                mother.children(".Navi-DF-menu6").css("display",'block');
+            } else if($(this).is('.bi-caret-down-fill')) {
+                $(this).removeClass("bi-caret-down-fill")
+                $(this).addClass("bi-caret-right-fill")
+                $(this).children(".bi").removeClass("bi-folder2-open")
+                $(this).children(".bi").addClass("bi-folder")
+                mother.children(".Navi-DF-menu6").css("display",'none');
+            }
+
+    }
+
+
+            });
+
+    $("#addScript").on('click',function(){
+            let qBtnHere = document.getElementById('copyBtn');
+            let newBtn = qBtnHere.cloneNode(true);
+            number++
+            $(".query-tabs").append(newBtn);
+            console.log($(".queryBtn:last-child"))
+            $(".queryBtn:last-child").prop('href', '#query' + number)
+            $(".queryBtn:last-child").text('Query' + number)
+
+    });
+
+   $('.query-input').on('input',function(event){
+        let queryText = event.currentTarget.value
+        let split_txt = queryText.split('\n');
+        let i = 0
+        console.log(split_txt)
+        $(".show_text").text("");
+        split_txt.forEach(function(spText){
+            let noComment = 0
+            if (i >= 1){
+                $(".show_text").append('<br>')
+            }
+            let text = spText.trim();
+
+//            숫자 구분 () 안에 들어간 숫자  0
+            queryText = text.split(' ')
+            if(text.startsWith('--')){
+                $(".show_text").append('<span class = "text-comment">' + text + '</span>')
+                noComment++
+            }
+               queryText.forEach(function(qrText){
+                  console.log(queryText)
+                  let defaultColor = 0
+                  let tap = text.split('\t')
+                  let uppText = qrText.toUpperCase();
+                  blueText.forEach(function(bText){
+                    if (uppText === bText.toUpperCase()){
+                        $(".show_text").append('<span class = "text-queryBlue">' + qrText + ' </span>')
+                        defaultColor++
+                    }
+                  });
+                  yellowText.forEach(function(yText){
+                     if (uppText === yText.toUpperCase()){
+                       $(".show_text").append('<span class = "text-queryYellow">' + qrText + ' </span>')
+                        defaultColor++
+                    }
+                  });
+                  if(qrText == ''){
+                    $(".show_text").append('<span>​</span>')
+                  }
+                  if (defaultColor == 0 && noComment == 0){
+                    $(".show_text").append('<span>' + qrText + ' </span>')
+                  }
+
+                });
+
+
+            i++
+        });
+    });
+});
 
 
 });
