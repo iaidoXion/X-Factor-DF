@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- BEGIN content -->
+<div id="content" class="app-content" style="padding: 1rem !important;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- BEGIN col-xl-10 -->
+            <div class="col-xl-10">
+                <div class="row">
+                    <!-- BEGIN col-xl-12 -->
+                    <div class="col-xl-12 mb-6">
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            Database Connection
+                        </div>
+                        <div class="form-control form-control-lg bg-white bg-opacity-10">
+                            <form method="post">
+                            {% csrf_token %}
+                            <div class="row justify-content-center">
+                                <!-- BEGIN col-xl-9 -->
+                                <div class="col-xl-9">
+                                    <span>Server</span>
+                                    <div class="mb-4 settingConnection h-auto">
+                                        <div class="row justify-content-center">
+                                        <!-- BEGIN col-xl-10 -->
+                                            <div class="col-xl-5 mb-4 d-flex">
+                                                <span class="ps-5px">Database :
+                                                    <select class="w-200px h-23px text-center settinginput" name="db" >
+                                                        <option class="setting-select">Teradata</option>
+                                                        <option class="setting-select">Postgres</option>
+                                                        <option class="setting-select">ETC1</option>
+                                                        <option class="setting-select">ETC2</option>
+                                                        <option class="setting-select">ETC3</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5 mb-4 d-flex">
+                                                <span class="ps-4px">DB Name : <input class="w-200px settinginput" name="name" type="text"></span>
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        <!-- END col-xl-10 -->
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5 ">
+                                              <span class="ps-39px">Host : </span> <input class="w-200px settinginput" name="host"  type="text">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5">
+                                              <span style="padding-left:37px">Port :</span> <input class="w-200px settinginput" name="port"  type="text">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END col-xl-9 -->
+
+                                <!-- BEGIN col-xl-10 -->
+                                <div class="col-xl-9">
+                                    <span>Users</span>
+                                    <div class="mb-4 settingConnection h-auto">
+                                        <div class="row justify-content-center">
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5">
+                                              <span class="ps-56px">ID : </span> <input class="w-200px settinginput" name="id" type="text">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5">
+                                              <span>Password :</span> <input class="w-200px settinginput" name="pwd"  type="text">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END col-xl-9 -->
+                            </div>
+                            <!-- BEGIN col-xl-12 -->
+                            <div class="col-xl-12">
+                                <div class="text-end">
+                                    <button class="settingBtn w-130px" onclick=DBCON(this.form)>
+                                        <i class="fas fa-lg fa-fw me-1 fa-save "></i>
+                                        <span>Save</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                            <!-- END col-xl-10 -->
+                        </div>
+                    </div>
+                    <!-- END col-xl-12 -->
+
+                    <!-- END col-xl-12 -->
+                    <div class="col-xl-12">
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            Database Connected
+                        </div>
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-435px">
+                            <!-- BEGIN setting-table -->
+                            <div class="setting-table ps ps--active-y" data-scrollbar="true">
+                                <table class="table table-striped database-connected-table fs-12px">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th>NO</th>
+                                            <th>DB Name</th>
+                                            <th>Database</th>
+                                            <th>Host</th>
+                                            <th>Port</th>
+                                            <th>Username</th>
+                                            <th>Modify</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td></td>
+                                            <td>Postgres</td>
+                                            <td>127.0.0.1</td>
+                                            <td>5432</td>
+                                            <td>hostname</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td></td>
+                                            <td>ETC1</td>
+                                            <td>192.168.0.0</td>
+                                            <td>1234</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td></td>
+                                            <td>ETC2</td>
+                                            <td>localhost</td>
+                                            <td>9999</td>
+                                            <td>admin</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td></td>
+                                            <td>ETC3</td>
+                                            <td>localhost</td>
+                                            <td>5678</td>
+                                            <td>admin</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>11</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>12</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>13</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td></td>
+                                            <td>Teradata</td>
+                                            <td>localhost</td>
+                                            <td>1025</td>
+                                            <td>Username</td>
+                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- END setting-table -->
+                        </div>
+                    </div>
+                    <!-- END col-xl-12 -->
+                </div>
+            </div>
+            <!-- END col-xl-12 -->
+        </div>
+    </div>
+</div>
+<!-- END content -->
+<script>
+    function DBCON(form){
+        var db = form.db.value;
+        var name = form.name.value;
+        var host = form.host.value;
+        var port = form.port.value;
+        var id = form.id.value;
+        var pwd = form.pwd.value;
+        
+        if(!name){
+            alert('DB Name을 입력해주세요');
+            return false;
+        }else if(!host){
+            alert('호스트를 입력해주세요');
+            return false;
+        }else if(!port){
+            alert('포트를 입력해주세요');
+            return false;
+        }else if(!id){
+            alert('User ID를 입력해주세요');
+            return false;
+        }else if(!pwd){
+            alert('Password를 입력해주세요');
+            return false;
+        };
+        
+        var params = {
+            'db' : db,
+            'name' : name,
+            'host' : host,
+            'port' : port,
+            'id' : id,
+            'pwd' : pwd
+        };
+        $.ajax({
+                type : "POST",
+                url : "setting_api/",
+                data : params,
+                async : false,
+                success : function(res){
+                    console.log(res);
+                    alert('Database Connection is Successd');
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown){
+                    alert('hi');
+                }
+            });
+    }
+</script>
+{% endblock %}
