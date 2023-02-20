@@ -2336,7 +2336,7 @@ progress {
 }
 
 .table-sm>:not(caption)>*>* {
-    padding: 0.1rem
+    padding: 0.25rem
 }
 
 .table-bordered>:not(caption)>* {
@@ -30555,12 +30555,10 @@ body .note-modal-backdrop {
     border-radius: var(--bs-border-radius);
 }
 
-.query-container .query-tabs,.result-container .result-tabs {
-    margin-bottom: 3px;
-}
 
 .query-container .query-box,.result-container .result-box {
     width: 100%;
+
     height: 369px;
     background-color: rgba(255, 255, 255, .2);
 }
@@ -30599,11 +30597,13 @@ body .note-modal-backdrop {
 }
 
 
+
 .result-container .queryDownload-container .queryDownload-box .downloadBtn:active {
     color: var(--bs-black) !important;
     border-color: var(--bs-warning) !important;
     background-color: var(--bs-warning) !important;
 }
+
 
 .result-container .queryDownload-container .queryDownload-box .downloadBtn:nth-child(1),
 .result-container .queryDownload-container .queryDownload-box .downloadBtn:nth-child(2) {
@@ -30885,6 +30885,7 @@ body .note-modal-backdrop {
 .textBox-scroll::-webkit-scrollbar {
     width: 8px;
 }
+
 /* END BEGIN Data Fabric css */
 
 .btn-dataNavi{
@@ -30894,3 +30895,4 @@ body .note-modal-backdrop {
 .btn-tableProperties{
     background-color: #9baab2;
 }
+
