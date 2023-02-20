@@ -1,3 +1,7 @@
+// Query Text color
+const blueText = ['DROP','CREATE','TABLE','SEQUENCE','NOT','NULL','DEFAULT', 'CONSTRAINT', 'PRIMARY', 'KEY', 'UNIQUE',"SELECT","from"]
+const yellowText = ['nextval', 'integer', '::regclass','timestamp','text', 'varchar']
+
 
 $(document).ready(function(){
 //map chart display from setting.json
@@ -200,7 +204,6 @@ $(document).ready(function () {
             return;
         }
     });
-        number = 2
 // X-factor DF
 	 $(".btn-dataNavi").on('click',function(){
         const dataNavi = ['Teradata','Postgres','ETC']
@@ -314,22 +317,52 @@ $(document).ready(function () {
 
             });
 
-    $("#addScript").on('click',function(){
-            let qBtnHere = document.getElementById('copyBtn');
-            let newBtn = qBtnHere.cloneNode(true);
-            number++
-            $(".query-tabs").append(newBtn);
-            console.log($(".queryBtn:last-child"))
-            $(".queryBtn:last-child").prop('href', '#query' + number)
-            $(".queryBtn:last-child").text('Query' + number)
 
+    let qTab = $('.query-tabs').children().last()
+    let cTab = $('.query-tabContent').children().last()
+    let number = qTab.text().match(/\d+/g)[0]
+    $("#addScript").on('click',function(){
+        if (number < 10){
+            cTab.removeClass('active')
+            cTab.removeClass('show')
+            cTab.removeClass('active')
+            qTab.children().last().removeClass('active')
+//            let delBtn = qTab.children().children()
+
+            qTab = $('.query-tabs').children().last().clone(true)
+            cTab = $('.query-tabContent').children().last().clone(true)
+
+            cTab.addClass('active')
+            cTab.addClass('show')
+            cTab.addClass('active')
+            qTab.children().last().addClass('active')
+
+            qTab.appendTo( $('.query-tabs') )
+            cTab.appendTo( $('.query-tabContent') )
+//            delBtn.appendTo(qTab.children())
+            number++;
+            cTab.attr('id','Query'+ number)
+            qTab.children().last().text('Query' + number)
+            qTab.children().last().attr('href', '#Query' + number)
+          }
+    });
+
+    $(".delScript").on('click',function(){
+    if (number > 1){
+        let lastQtab = qTab.last()
+        let lastCtab =cTab.last()
+        lastQtab.remove()
+        lastCtab.remove()
+        qTab = $('.query-tabs').children().last()
+        cTab = $('.query-tabContent').children().last()
+        number--;
+    }
     });
 
    $('.query-input').on('input',function(event){
         let queryText = event.currentTarget.value
         let split_txt = queryText.split('\n');
         let i = 0
-        console.log(split_txt)
         $(".show_text").text("");
         split_txt.forEach(function(spText){
             let noComment = 0
@@ -345,7 +378,6 @@ $(document).ready(function () {
                 noComment++
             }
                queryText.forEach(function(qrText){
-                  console.log(queryText)
                   let defaultColor = 0
                   let tap = text.split('\t')
                   let uppText = qrText.toUpperCase();
@@ -377,4 +409,4 @@ $(document).ready(function () {
 });
 
 
-});
+
