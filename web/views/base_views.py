@@ -2,17 +2,19 @@ from datetime import timedelta, datetime
 from pprint import pprint
 
 import requests
-
+from teradataml import *
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, connect
+from common.DB.jdbc import db_select, db_create, connect , setting_insert, connect_DBList
 import json
 import math
 
 menuListDB = MenuSetting()
+connect_DBList = connect_DBList()
+
 
 with open("setting.json", encoding="UTF-8") as f:
     SETTING = json.loads(f.read())
@@ -55,7 +57,7 @@ def dataFabric_navigator(request):
     return render(request, 'dataFabric/navigator_DF.html', returnData)
 
 def dataFabric_setting(request):
-    returnData = {'menuList': menuListDB, 'Customer': Customer,}
+    returnData = {'menuList': menuListDB, 'Customer': Customer, 'connect_DBList': connect_DBList}
     return render(request, 'dataFabric/setting_DF.html', returnData)
 
 #################################### api ############################################
@@ -107,4 +109,21 @@ def settings_api(request) :
     
     returnData = result
     return JsonResponse(returnData)
-    
+
+def connect_DBList():
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+    qry = """
+        select 
+            *
+        from
+            xfactor.connect_tera2
+        """
+    result = td_context.execute(qry)
+    a = result.fetchall()
+
+    a = pd.DataFrame(a).reset_index()
+    a['index'] = a['index'].add(1)
+    # print(a)
+    dict = a.to_dict('records')
+
+    return dict

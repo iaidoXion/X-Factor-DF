@@ -17,5 +17,5 @@ urlpatterns = [
     path('navigator_DF/', base_views.dataFabric_navigator, name='navigator_DF'),
     path('setting_DF/', base_views.dataFabric_setting, name='setting_DF'),
     path('webQuery_DF/query_content/', base_views.dataFabric_api, name='DF_api'),
-    path('Settings_DF/setting_api/', base_views.settings_api, name='setting_api')
+    path('setting_DF/setting_api/', base_views.settings_api, name='setting_api')
 ]
