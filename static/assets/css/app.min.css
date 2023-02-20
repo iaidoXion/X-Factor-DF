@@ -4137,7 +4137,7 @@ fieldset:disabled .btn {
 
 .btn-outline-naviDF {
     --bs-btn-color: #ff9f0c;
-    --bs-btn-border-color: #9baab2;
+    --bs-btn-border-color: #798e98;
     --bs-btn-hover-color: #000000;
     --bs-btn-hover-bg: #ff9f0c;
     --bs-btn-hover-border-color: #ff9f0c;
@@ -17989,6 +17989,10 @@ fieldset:disabled .btn {
     padding-left: 40px !important
 }
 
+.ps-42px {
+    padding-left: 42px !important
+}
+
 .ps-45px {
     padding-left: 45px !important
 }
@@ -18925,6 +18929,10 @@ fieldset:disabled .btn {
     height: 5px !important
 }
 
+.h-28px {
+    height: 28px !important
+}
+
 .h-30px {
     height: 30px !important
 }
@@ -19143,6 +19151,10 @@ fieldset:disabled .btn {
 
 .h-400px {
     height: 400px !important
+}
+
+.h-423px {
+    height: 423px !important
 }
 
 .h-425px {
@@ -30519,8 +30531,8 @@ body .note-modal-backdrop {
 .change-link:hover {
   font-weight: bold;
   color: var(--bs-white) !important;
-  border: 1px solid #a8b6bc !important;
-  background-color: #9baab2 !important;
+  border: 1px solid #ff9f0c !important;
+    background-color: #ff9f0c !important;
 }
 
 .change-link.active {
@@ -30546,14 +30558,15 @@ body .note-modal-backdrop {
 
 .query-container .query-box,.result-container .result-box {
     width: 100%;
-    height: 350px;
-    background-color: rgba(255, 255, 255, .5);
+
+    height: 369px;
+    background-color: rgba(255, 255, 255, .2);
 }
 
 .query-container .query-box .query-input {
     width: 100%;
-    height: 350px;
-    background-color: transparent;
+    height: 369px;
+    background-color: rgba(255, 255, 255, .5);
     border: 1px solid rgba(255, 255, 255, .2);
     outline: none;
     caret-color: var(--bs-warning);
@@ -30583,6 +30596,15 @@ body .note-modal-backdrop {
     border-color: var(--bs-warning);
 }
 
+
+
+.result-container .queryDownload-container .queryDownload-box .downloadBtn:active {
+    color: var(--bs-black) !important;
+    border-color: var(--bs-warning) !important;
+    background-color: var(--bs-warning) !important;
+}
+
+
 .result-container .queryDownload-container .queryDownload-box .downloadBtn:nth-child(1),
 .result-container .queryDownload-container .queryDownload-box .downloadBtn:nth-child(2) {
     margin-right: 5px;
@@ -30605,24 +30627,20 @@ body .note-modal-backdrop {
 }
 
 .result-container .result-box .resultTable {
-   width: 98%;
+   width: 99%;
    margin: 0 auto;
    background-color: rgba(255, 255, 255, .2);
    padding: 0 !important;
 }
 
-.queryTable-sm>:not(caption)>*>* {
-    padding: 0.1rem !important;
-}
-
 /* Monitoring web-page */
 .Query-History-card{
-    padding: 16px 12px 16px 12px;
+    height: 295px;
 }
 
 .monitoring-table{
     overflow: auto;
-    height: 180px
+    height: 261px
 }
 
 .Query-History-table{
@@ -30755,12 +30773,12 @@ body .note-modal-backdrop {
 /* setting web-page */
 .setting-table{
     overflow: auto;
-    height: 490px;
+    height: 100%
 }
 
 .database-connected-table{
     text-align: center;
-    width: 99%;
+    width: 100%;
     border-left: 1px solid rgba(255, 255, 255, 0.3);
     border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -30903,4 +30921,14 @@ body .note-modal-backdrop {
 .textBox-scroll::-webkit-scrollbar {
     width: 8px;
 }
+
 /* END BEGIN Data Fabric css */
+
+.btn-dataNavi{
+    background-color: #9baab2;
+}
+
+.btn-tableProperties{
+    background-color: #9baab2;
+}
+
