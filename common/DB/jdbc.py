@@ -6,21 +6,15 @@ import pandas as pd
 import psycopg2
 def db_select(qry):    
     try :
-        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")    
-            
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")   
         result = td_context.execute(qry)   
-        
         data = result.fetchall()    
-        
         data = pd.DataFrame(data)    
-        
         data = data.fillna('NULL')
-        print(data.columns)
         print("===============================")
         print("Success")
         print("===============================")
         data = {'status' : 200, 'data' : data, 'type' : 'select'}
-    
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}

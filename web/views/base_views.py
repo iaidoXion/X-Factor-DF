@@ -51,7 +51,33 @@ def dataFabric_monitoring(request):
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
-    returnData = {'menuList': menuListDB, 'Customer': Customer,}
+    TERADATA = False
+    POSTGRES = False
+    qry = """
+        select UPPER(database_type) from xfactor.connect_tera  group by database_type;
+    """
+    qry2="""
+        select * from xfactor.connect_tera where database_type = 'TERADATA';
+    """
+    column = db_select(qry)
+    result = db_select(qry2)
+    if result['status'] == 200 :
+        result = result['data'].values.tolist()
+    
+    if column['status'] == 200 :
+        column = column['data'].values.tolist()
+        
+    for i in column :
+        if i == ['TERADATA'] :
+            TERADATA = True
+        elif i == ['POSTGRES'] :
+            POSTGRES = True
+    returnData = {'menuList': menuListDB, 
+                  'Customer': Customer, 
+                  'data' : result, 
+                  "TERADATA" : TERADATA,
+                  "POSTGRES" : POSTGRES}
+    print()
     return render(request, 'dataFabric/navigator_DF.html', returnData)
 
 def dataFabric_setting(request):
@@ -106,5 +132,36 @@ def settings_api(request) :
     result = connect(data_list)
     
     returnData = result
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def navigator_api(request) :
+    data = request.POST['name']
+    qry = """
+        select * from dbc.tables where databasename = '""" + data + """';
+    """
+    
+    result = db_select(qry)
+    returnData = {
+                'status' : result['status'],
+                'data' : result['data']['TableName'].values.tolist(),
+                'ddl' : result['data']['RequestText'].values.tolist()
+            }
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def property_api(request) :
+    data = request.POST['name']
+    
+    qry = """
+        select * from """ + data + """;
+    """
+    
+    result = db_select(qry)
+    returnData = {
+                'status' : result['status'],
+                'data' : result['data'].values.tolist(),
+                'column' : result['data'].columns.values.tolist()
+            }
     return JsonResponse(returnData)
     
