@@ -6,14 +6,14 @@
 <div id="content" class="app-content" style="padding: 1rem !important;">
     <div class="container d-flex justify-content-center d-flex">
         <div style="margin-right:50px;">
-            <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mt-3 mb-1 fs-12px p-0 w-200px text-white align-items-center justify-content-center">Database Navigator</div>
+            <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px text-white align-items-center justify-content-center">Database Navigator</div>
                 <div class="d-flex">
                     <div class="me-2">
                         <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 active text-white">Teradata</button>
                         <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">Postgres</button>
                         <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">ETC</button>
                     </div>
-                    <div class="form-control form-control-lg " style="width:270px; height:670px;">
+                    <div class="form-control form-control-lg w-270px h-837px">
                         <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
                             <div class="Navi-DF-menu1">
                                     <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">Teradata</i>
@@ -132,8 +132,8 @@
                 </div>
             </div>
 
-        <div>
-            <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mt-3 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">Table Properties</div>
+        <div class="ps-30px">
+            <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">Table Properties</div>
             <div>
                 <div class="d-flex">
                     <div class="me-2">
@@ -143,11 +143,10 @@
                         <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Procedure</button>
                         <button type="button" class="btn-tableProperties DDL-btn fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">DDL</button>
                     </div>
-                    <div class="form-control form-control-lg bg-white bg-opacity-10"style="width:640px; height:670px">
+                    <div class="form-control form-control-lg bg-white bg-opacity-10 h-837px w-640px">
                         <div class="DataFabric-scroll">
-
-                            <!--      START   properties-data             -->
-                            <table class="properties table TableProperties properties-Data table-striped">
+                            <!-- START properties-data -->
+                            <table class="properties table TableProperties properties-Data table-striped DataFabric-scroll">
                                 <thead class="table-hover-color">
                                     <tr class="table-dark">
                                         <th>#</th>
@@ -311,7 +310,7 @@
                             <!--      End   properties-data             -->
 
                             <!--      START   properties-column            -->
-                            <table class="properties table TableProperties properties-Column table-striped" style="display:none">
+                            <table class="properties table TableProperties properties-Column table-striped DataFabric-scroll" style="display:none">
                                 <thead class="table-hover-color">
                                     <tr class="table-dark">
                                         <th>#</th>
@@ -475,7 +474,7 @@
                             <!--      End   properties-column             -->
 
                             <!--      START   properties-view            -->
-                            <table class="properties table TableProperties properties-View table-striped" style="display:none">
+                            <table class="properties table TableProperties properties-View table-striped DataFabric-scroll" style="display:none">
                                 <thead class="table-hover-color">
                                     <tr class="table-dark">
                                         <th>#</th>
@@ -779,7 +778,7 @@
                             <!--      End   properties-view             -->
 
                             <!--      START   properties-precedure           -->
-                            <table class="properties table TableProperties properties-Procedure table-striped" style="display:none">
+                            <table class="properties table TableProperties properties-Procedure table-striped DataFabric-scroll" style="display:none">
                                 <thead class="table-hover-color">
                                     <tr class="table-dark">
                                         <th>#</th>
@@ -1081,7 +1080,7 @@
                             <!--      End   properties-precedure             -->
 
                             <!--      START   properties-ddl            -->
-                            <table class="properties table TableProperties properties-DDL table-striped" style="display:none">
+                            <table class="properties table TableProperties properties-DDL table-striped DataFabric-scroll" style="display:none">
                                 <thead class="table-hover-color">
                                     <tr class="table-dark">
                                         <th>#</th>
@@ -1380,8 +1379,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <!--      End   properties-ddl            -->
-
+                        <!--  End   properties-ddl -->
                         </div>
                     </div>
                 </div>
