@@ -9,28 +9,21 @@
             <div class="col-xl-10">
                 <div class="row">
                     <div class="query-container">
-                        <button type="button" value="button" class="btn btn-primary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="query();" id='query_start'><i class="fas fa-play pe-2"></i>실행</button>
-                        <button type="button" value="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="stop();" id='query_stop'><i class="fas fa-pause pe-2"></i>정지</button>
-                        <button type="button" value="button" class="btn btn-outline-white btn-sm w-100px h-35px queryBtn-outline fs-12px fw-700">+ Add Script</button>
+                        <button type="button" class="btn btn-primary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="query();" id='query_start'><i class="fas fa-play pe-2"></i>실행</button>
+                        <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="stop();" id='query_stop' style="display: none;"><i class="fas fa-pause pe-2"></i>정지</button>
+                        <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px" id = 'addScript'>+ Add Script</button>
                         <!--<button type="button" class="btn btn-outline-white btn-sm w-100px h-35px queryBtn-outline fs-12px">QueryGrid</button>-->
                         <div class="mt-sm-1">
                             <ul class="nav nav-tabs change-tabs query-tabs">
-                                <li class="nav-item me-1 w-100px text-center fs-12px queryBtn" id = 'copyBtn'><a href="#Query1" class="nav-link change-link active" data-bs-toggle="tab">Query1</a> </li>
-                                <li class="nav-item me-1 w-100px text-center fs-12px queryBtn"><a href="#Query2" class="nav-link change-link" data-bs-toggle="tab">Query2</a></li>
+                                <li class="nav-item me-1 w-100px text-center fs-12px" >
+                                    <a href="#Query1" class="nav-link change-link active queryBtn" data-bs-toggle="tab">Query1<i class="fas fa-times-circle ms-1 delScript" style="z-index:2;"></i></a>
+                                </li>
                             </ul>
-                            <div class="tab-content">
+                            <div class="tab-content query-tabContent">
                                 <div class="query-box tab-pane fade show active" id="Query1">
                                     <form>
-                                        <div style="position:relative; ">
-                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; color: rgba(255,255,255,0);"></textarea>
-                                            <div class="show_text"></div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="query-box tab-pane fade" id="Query2">
-                                    <form>
                                         <div style="position:relative;">
-                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; color: rgba(255,255,255,0);"></textarea>
+                                            <textarea class="query-input DataFabric-scroll" style="position:absolute;" id="query_text"></textarea>
                                             <div class="show_text"></div>
                                         </div>
                                     </form>
@@ -43,7 +36,6 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <ul class="nav nav-tabs change-tabs result-tabs">
                                     <li class="nav-item me-1 w-100px text-center fs-12px"><a href="#result1" class="nav-link change-link active" data-bs-toggle="tab">Result1</a></li>
-                                    <li class="nav-item me-1 w-100px text-center fs-12px"><a href="#result2" class="nav-link change-link" data-bs-toggle="tab">Result2</a></li>
                                 </ul>
                                 <div class="queryDownload-container">
                                     <div class="queryDownload-box d-flex">
@@ -54,38 +46,12 @@
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div class="result-box tab-pane fade show active DataFabric-scroll" style="white-space: nowra" id="result1">
-                                    <table id="query_table" class="table table-striped table-sm resultTable fs-12px text-nowrap" style="width:100%">
+                                <div class="result-box tab-pane fade show active DataFabric-scroll" style="white-space: nowrap" id="result1">
+                                    <table id="query_table" class="table table-striped queryTable-sm resultTable fs-12px text-nowrap" style="width:100%">
                                         <thead >
                                         <tr class="table-dark text-center w-100" id='query_thead'></tr>
                                         </thead>
                                         <tbody id='query_tbody'>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="result-box tab-pane fade" id="result2">
-                                    <table class="table table-striped table-sm resultTable fs-12px text-nowrap">
-                                        <thead>
-                                        <tr class="table-dark text-center">
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td class="text-start" title="os_Mac">os_Mac</td>
-                                            <td class="text-center">os</td>
-                                            <td class="text-center">Mac</td>
-                                            <td class="text-center">1</td>
-                                            <td class="text-center">2023-01-27</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td class="text-start" title="operating_system_Ubuntu 20.04.1">operating_system_Ubuntu 20.04.1</td>
-                                            <td class="text-center">os</td>
-                                            <td class="text-center">Ubuntu</td>
-                                            <td class="text-center">1</td>
-                                            <td class="text-center">2023-01-27</td>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
