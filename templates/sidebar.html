@@ -9,40 +9,33 @@
             <div class="menu-header"></div>
             {% for menu in menuList %}
             {% if menu.menuUse == '1' %}
-            {% if menu.menuName == "Web Query"%}
+
+            {% if request.get_full_path|cut:'/' == menu.menuUrl %}
             <div class="menu-item active">
-                <a href="../webQuery_DF" class="menu-link">
-                    <span class="menu-icon"><i class="bi bi-collection"></i></span>
-                    <span class="menu-text">{{ menu.menuName }}</span>
-                </a>
-            </div>
-            {% elif menu.menuName == "Navigator"%}
+            {% else %}
             <div class="menu-item">
-                <a href="../navigator_DF" class="menu-link">
-                    <span class="menu-icon"><i class="bi bi-collection"></i></span>
-                    <span class="menu-text">{{ menu.menuName }}</span>
-                </a>
-            </div>
-            {% elif menu.menuName == "Monitoring"%}
-            <div class="menu-item">
-                <a href="../monitoring_DF" class="menu-link">
-                    <span class="menu-icon"><i class="bi bi-collection"></i></span>
-                    <span class="menu-text">{{ menu.menuName }}</span>
-                </a>
-            </div>
-            {% elif menu.menuName == "Setting"%}
-            <div class="menu-item">
-                <a href="../setting_DF" class="menu-link">
-                    <span class="menu-icon"><i class="bi bi-gear"></i></span>
-                    <span class="menu-text">{{ menu.menuName }}</span>
-                </a>
-            </div>
             {% endif %}
+                <a href="../{{menu.menuUrl}}" class="menu-link">
+                    {% if menu.menuName == "Web Query" or menu.menuName == "Navigator" or menu.menuName == "Monitoring" %}
+                    <span class="menu-icon"><i class="bi bi-collection"></i></span>
+                    {% elif menu.menuName == "Setting" %}
+                    <span class="menu-icon"><i class="bi bi-gear"></i></span>
+                    {% else %}
+                    {% endif %}
+
+                    {% if menu.menuName == "Web Query" or menu.menuName == "Navigator" or menu.menuName == "Monitoring" or menu.menuName == "Setting" %}
+                    <span class="menu-text">{{ menu.menuName }}</span>
+                    {% else %}
+                    {% endif %}
+                </a>
+            </div>
+
             {% endif %}
             {% endfor %}
         </div>
         {% endif %}
         <!-- END menu -->
+        <!-- BEGIN user guide -->
         {% if Customer == 'Xfactor'%}
         <div class="p-3 px-4 mt-auto">
             <a href="../documentation_ug" class="btn d-block btn-outline-theme">
@@ -51,8 +44,7 @@
         </div>
         {% else %}
         {% endif %}
-
-        <!-- END scrollbar -->
+        <!-- END user guide -->
     </div>
 </div>
 <!-- BEGIN mobile-sidebar-backdrop -->
