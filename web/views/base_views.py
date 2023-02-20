@@ -151,17 +151,46 @@ def navigator_api(request) :
 
 @csrf_exempt
 def property_api(request) :
-    data = request.POST['name']
-    
+    database = request.POST['database']
+    table = request.POST['table']
+    data = str(database) +'.'+ str(table)
+    print("=====================")
+    print(data)
+    print("=====================")
     qry = """
         select * from """ + data + """;
     """
     
-    result = db_select(qry)
+    qry2= """
+    SELECT 
+        ColumnName, 
+        Nullable,
+        TRIM(CASE 
+        WHEN COLUMNTYPE='CF' THEN 'CHAR'
+        WHEN COLUMNTYPE='CV' THEN 'VARCHAR'
+        WHEN COLUMNTYPE='D'  THEN 'DECIMAL' 
+        WHEN COLUMNTYPE='TS' THEN 'TIMESTAMP'      
+        WHEN COLUMNTYPE='I'  THEN 'INTEGER'
+        WHEN COLUMNTYPE='I2' THEN 'SMALLINT'
+        WHEN COLUMNTYPE='DA' THEN 'DATE'  
+        END)||'('||TRIM(ColumnLength)||')' as ColumnType
+    FROM 
+        dbc."Columns" c 
+    WHERE 
+        DatabaseName ='"""+ database +"""' 
+        and 
+        TableName = '"""+ table +"""';
+    """
+    
+    data = db_select(qry)
+    columns = db_select(qry2)
+    
     returnData = {
-                'status' : result['status'],
-                'data' : result['data'].values.tolist(),
-                'column' : result['data'].columns.values.tolist()
+                'status' : data['status'],
+                'data' : data['data'].values.tolist(),
+                'data_column' : data['data'].columns.values.tolist(),
+                'columns' : columns['data'].values.tolist(),
+                'columns_column' : columns['data'].columns.values.tolist()
             }
     return JsonResponse(returnData)
     

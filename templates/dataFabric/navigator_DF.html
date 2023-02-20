@@ -29,36 +29,6 @@
                                         {% endfor%}
                                     {% endif%}
                                     <div class="Navi-DF-menu3" id="navigator_table">
-                                    {% comment %} <div class="Navi-DF-menu3">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon "><i class="bi bi-people ">localhost</i></i>
-                                        <div class="Navi-DF-menu4">
-                                            <i class="bi bi-caret-down-fill menu-list menu-list4 menu-icon"><i class="bi bi-folder2-open">Tables</i></i>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">menu</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">Statistics</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">test</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">user</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">daily</i></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Navi-DF-menu3 Navi-DF-menu3">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list3 menu-list3 menu-icon "><i class="bi bi-people ">User</i></i>
-                                        <div class="Navi-DF-menu4">
-                                            <i class="bi bi-caret-down-fill menu-list menu-list4 menu-icon"><i class="bi bi-folder2-open">Tables</i></i>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">group</i></i>
-                                            </div>
-                                        </div>
-                                    </div> {% endcomment %}
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +130,7 @@
                             <!--      START   properties-data             -->
                             <table class="properties table TableProperties properties-Data table-striped">
                                 <thead class="table-hover-color">
-                                    <tr class="table-dark" id="columns">
+                                    <tr class="table-dark" id="properties_columns">
                                     </tr>
                                 </thead>
                                 <tbody id ="properties_data">
@@ -172,15 +142,10 @@
                             <!--      START   properties-column            -->
                             <table class="properties table TableProperties properties-Column table-striped" style="display:none">
                                 <thead class="table-hover-color">
-                                    <tr class="table-dark">
-                                        <th>#</th>
-                                        <th>Columns</th>
-                                        <th>Data type</th>
-                                        <th>Not Null</th>
-                                        <th>Default</th>
+                                    <tr class="table-dark" id="columns_columns">
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id='columns_data'>
                                     <tr>
                                         <td>1</td>
                                         <td class="text-truncate">Name</td>
@@ -1257,18 +1222,16 @@
             'name' : String(f)
         };
         if ($(a).attr("class").includes('right-fill')){
-            console.log('hi');
             $.ajax({
                 type : "POST",
                 url : "navigator_api/",
                 data : params,
                 async : false,
                 success : function(res){
-                    console.log(res);
                     $('#navigator_table').empty()
                     var str = "";
                     $.each(res.data, function(i){
-                        str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + '.'+ String(res.data[i]) + `')"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
+                        str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `')"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
                     });
                     
                     $('#navigator_table').append(str)
@@ -1280,10 +1243,12 @@
         }
     }
 
-    function properties_view(f){
+    function properties_view(a, f){
+        console.log(a);
         console.log(f);
         params = {
-            'name' : f
+            'database' : a,
+            'table' : f
         }
         $.ajax({
                 type : "POST",
@@ -1291,16 +1256,22 @@
                 data : params,
                 async : false,
                 success : function(res){
+                    $('#properties_columns').empty()
+                    $('#properties_data').empty()
+                    $('#columns_columns').empty()
+                    $('#columns_data').empty()
+                    
+
                     console.log(res);
-                    $('#columns').empty()
                     var str = "";
-                    $.each(res.column, function(i){
-                        str += `<th>` + res.column[i] + `</th>`
+                    $.each(res.data_column, function(i){
+                        str += `<th>` + res.data_column[i] + `</th>`
                     });
                     
-                    $('#columns').append(str)
+                    $('#properties_columns').append(str)
 
-                     $('#properties_data').empty()
+
+
                     var str = "";
                     $.each(res.data, function(i){
                         str += `<tr>`
@@ -1312,6 +1283,36 @@
                     
                     $('#properties_data').append(str)
 
+
+
+                    var str = "";
+                    str += `<th>#</th>`
+                    $.each(res.columns_column, function(i){
+                        str += `<th>` + res.columns_column[i] + `</th>`
+                    });
+                    $('#columns_columns').append(str)
+
+                    var str = "";
+                    $.each(res.columns, function(i){
+                        str += `<tr>`
+                            str += `<td>` + i + `</td>`
+                            $.each(res.columns[i], function(j){
+                                if(j == 1){
+                                    if(res.columns[i][1].trim() == 'N'){
+                                        str += `<th>[V]</th>`
+                                    }else{
+                                        str += `<th>[ ]</th>`
+                                    }
+                                }else{
+                                    str += `<td>` + res.columns[i][j] + `</td>`
+                                }
+                            });
+                        str += `</tr>`
+                    });
+                    $('#columns_data').append(str)
+                },
+                beforeSend: function() {
+                    
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown){
                     alert('Error');
