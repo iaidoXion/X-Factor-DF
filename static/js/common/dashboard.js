@@ -381,6 +381,7 @@ $(document).ready(function () {
     }
     });
 
+    let QuoteOn = 0
    $('.query-input').on('input',function(event){
         let queryText = event.currentTarget.value
         let split_txt = queryText.split('\n');
@@ -395,7 +396,6 @@ $(document).ready(function () {
             }
             let text = spText.trim();
 
-//            숫자 구분 () 안에 들어간 숫자  0
             queryText = text.split(' ')
             if(text.startsWith('--')){
                 $(textHere).append('<span class = "text-comment">' + text + '</span>')
@@ -417,6 +417,15 @@ $(document).ready(function () {
                         defaultColor++
                     }
                   });
+                  if(qrText.startsWith('"') || QuoteOn === 1){
+                    $(textHere).append('<span class = "text-Quote">' + qrText + '</span>')
+                    defaultColor++
+                    QuoteOn = 1
+                  }
+                  if(qrText.endsWith('"')){
+                    QuoteOn = 0
+
+                  }
                   if(qrText == ''){
                     $(textHere).append('<span> </span>')
                   }
@@ -431,6 +440,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 
 

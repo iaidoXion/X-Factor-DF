@@ -2,7 +2,6 @@
 {% block content %}
 {% load static %}
 
-
 <div id="content" class="app-content" style="padding: 1rem !important;">
     <div class="container">
         <div class="row justify-content-center">
@@ -19,18 +18,17 @@
                             <div class="modal-content">
                               <div class="modal-header">
                                   <h5 class="modal-title">
-                                      <i class="bi bi-exclamation-triangle-fill"></i>
-                                      <span> </span>
-                                      <i class="bi bi-exclamation-triangle-fill"></i></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal">
-                                    <i class="bi bi-x-lg" style="font-size: 1.3rem;"></i>
-                                </button>
+                                      <i class="bi bi-exclamation-triangle-fill" style="color:#ff9f0c;"></i>
+                                      <span>경고 </span>
+                                      <i class="bi bi-exclamation-triangle-fill" style="color:#ff9f0c;"></i>
+                                  </h5>
                               </div>
                               <div class="modal-body">
                                 <p>쿼리 창은 최대 10개까지 만들 수 있습니다.</p>
                               </div>
                             </div>
                           </div>
+                            <p style="text-align: center;">클릭 시 자동으로 탭이 닫힙니다.</p>
                         </div>
                         <!-- END alert -->
                         <div class="mt-sm-1">
@@ -45,7 +43,7 @@
                                 <div class="query-box tab-pane fade show active" id="Query1">
                                     <form>
                                         <div style="position:relative;">
-                                            <textarea class="query-input DataFabric-scroll" style="position:absolute;" id="query_text"></textarea>
+                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; z-index:2; " id="query_text"></textarea>
                                             <div class="show_text"></div>
                                         </div>
                                     </form>
@@ -70,9 +68,9 @@
                             <div class="tab-content">
                                 <div class="result-box tab-pane fade show active queryTable-padding" style="white-space: nowrap" id="result1">
                                     <div class="DataFabric-scroll">
-                                        <table id="query_table" class="table table-striped queryTable-sm resultTable fs-12px text-nowrap w-auto">
+                                        <table id="query_table" class="table table-striped queryTable-sm resultTable fs-12px text-nowrap">
                                             <thead>
-                                            <tr class="table-dark text-center w-100" id='query_thead'></tr>
+                                            <tr class="table-dark text-center" id='query_thead'></tr>
                                             </thead>
                                             <tbody id='query_tbody'>
                                             </tbody>
@@ -110,7 +108,7 @@
                     if (res.type == 'select'){
                         if (res.status==200){
                             var str = "";
-                            str += '<th>No.</th>'
+                            str += '<th style="border:1px solid rgba(255, 255, 255, .2);">No.</th>'
                             $.each(res.column, function(i){
                                 str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
                             });
@@ -122,7 +120,7 @@
                                 str += '<TR>'
                                 str += '<td class="text-center" style="border:1px solid rgba(255, 255, 255, .2);">'+ i +'</td>'
                                 for(var j = 0; j < res.data[i].length; j++){
-                                    str += '<td style="border:1px solid rgba(255, 255, 255, .2); padding-left : 50px;">' + res.data[i][j] +'</td>'
+                                    str += '<td style="border:1px solid rgba(255, 255, 255, .2); padding-left : 5px;">' + res.data[i][j] +'</td>'
                                 }
                                 str += '</TR>'
                             });
