@@ -418,10 +418,10 @@ $(document).ready(function () {
                     }
                   });
                   if(qrText == ''){
-                    $(textHere).append('<span>​</span>')
+                    $(textHere).append('<span> </span>')
                   }
                   if (defaultColor == 0 && noComment == 0){
-                    $(textHere).append('<span>' + qrText + '</span>')
+                    $(textHere).append('<span>' + qrText + ' </span>')
                   }
 
                 });
