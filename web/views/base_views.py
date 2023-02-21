@@ -163,7 +163,7 @@ def property_api(request) :
     
     data = str(database) +'.'+ str(table)
     print("=====================")
-    print(data)
+    #print(data)
     print("=====================")
     
     qry = """
