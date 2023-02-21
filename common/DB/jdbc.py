@@ -20,9 +20,10 @@ UserTNM = SETTING['DB']['UserTNM']
 Login_Method = SETTING['PROJECT']['LOGIN']
 
 def db_select(qry):
+    qry=qry.lower()
     dbname = DBName
     dbtype = DBType
-    table = ''
+    table = ' '
     web_user = 'admin'#나중에 세션값
     db_user = DBUser
     db_query = qry
@@ -67,6 +68,7 @@ def db_select(qry):
     return  data
 
 def db_create(qry):
+    qry = qry.lower()
     dbname = DBName
     dbtype = DBType
     table = ''
@@ -151,7 +153,6 @@ def connect(data):
         'password': data['user_id'],
         'port': data['db_port']
     }
-    print(result)
     return result
 
 def setting_insert(data): #파라미터값 web_user 추가
@@ -168,9 +169,7 @@ def setting_insert(data): #파라미터값 web_user 추가
         values
         ('"""+data['db_name']+"""','"""+data['db']+"""','"""+data['db_host']+"""','"""+data['db_port']+"""','"""+web_user+"""','"""+data['user_id']+"""','"""+data['user_pwd']+"""')
         """
-    print(qry)
     result = td_context.execute(qry)
-    print(result)
 
 def connect_DBList():
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
@@ -197,12 +196,12 @@ def history_insert(data):
     dbtable=data['history'][2]
     webuser=data['history'][3]
     dbuser=data['history'][4]
-    dbquery=data['history'][5]
+    dbquery=data['history'][5].replace('\'','"')
     dbresult=data['history'][6]
 
     qry="""
         insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
-        values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now())
+        values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now());
     """
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
     result = td_context.execute(qry)
@@ -236,9 +235,9 @@ def history_select():
 
             DFL.append([num, dbname, dbtype, dbtable, web_user, db_user, db_query, db_result, commit_time])
             DFC = ['num', 'dbname', 'dbtype', 'dbtable', 'web_user', 'db_user', 'db_query', 'db_result', 'commit_time']
-        DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="num", ascending=True).reset_index(drop=True)
+        DF = pd.DataFrame(DFL, columns=DFC).sort_values(by='commit_time', ascending=False).reset_index(drop=True)
         DC = DF.to_dict('records')
-        print(DC)
+
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
@@ -267,7 +266,7 @@ def database_traffic():
             DFC = ['dbname', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
         DC = DF.to_dict('records')
-        print(DC)
+        #print(DC)
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
@@ -296,7 +295,7 @@ def user_traffic ():
             DFC = ['db_user', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
         DC = DF.to_dict('records')
-        print(DC)
+        #print(DC)
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
