@@ -152,6 +152,114 @@
                             });
                             $("#query_thead").html(str);
                         }
+                    }else if (res.type == 'insert'){
+                        $("#query_thead").empty();
+                        if (res.status==200){
+                            document.getElementById("query_thead").style.fontSize = "15px";
+                            var str = "";
+                            str += '</br>'
+                            $.each(res.data, function(i){
+                                str +=res.data[i] + '</br></br>'
+                            });
+
+                            $("#query_thead").html(str);
+                        }else if (res.status==400){
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
+                    }else if (res.type == 'update'){
+                        $("#query_thead").empty();
+                        if (res.status==200){
+                            document.getElementById("query_thead").style.fontSize = "15px";
+                            var str = "";
+                            str += '</br>'
+                            $.each(res.data, function(i){
+                                str +=res.data[i] + '</br></br>'
+                            });
+
+                            $("#query_thead").html(str);
+                        }else if (res.status==400){
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
+                    }else if (res.type == 'delete'){
+                        $("#query_thead").empty();
+                        if (res.status==200){
+                            document.getElementById("query_thead").style.fontSize = "15px";
+                            var str = "";
+                            str += '</br>'
+                            $.each(res.data, function(i){
+                                str +=res.data[i] + '</br></br>'
+                            });
+
+                            $("#query_thead").html(str);
+                        }else if (res.status==400){
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
+                    }else if (res.type == 'drop'){
+                        $("#query_thead").empty();
+                        if (res.status==200){
+                            document.getElementById("query_thead").style.fontSize = "15px";
+                            var str = "";
+                            str += '</br>'
+                            $.each(res.data, function(i){
+                                str +=res.data[i] + '</br></br>'
+                            });
+
+                            $("#query_thead").html(str);
+                        }else if (res.status==400){
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
+                    }else if (res.type == 'rename'){
+                        $("#query_thead").empty();
+                        if (res.status==200){
+                            document.getElementById("query_thead").style.fontSize = "15px";
+                            var str = "";
+                            str += '</br>'
+                            $.each(res.data, function(i){
+                                str +=res.data[i] + '</br></br>'
+                            });
+
+                            $("#query_thead").html(str);
+                        }else if (res.status==400){
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
+                    }else if (res.type == 'alter'){
+                        $("#query_thead").empty();
+                        if (res.status==200){
+                            document.getElementById("query_thead").style.fontSize = "15px";
+                            var str = "";
+                            str += '</br>'
+                            $.each(res.data, function(i){
+                                str +=res.data[i] + '</br></br>'
+                            });
+
+                            $("#query_thead").html(str);
+                        }else if (res.status==400){
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
                     }
                 },
 
