@@ -30521,7 +30521,7 @@ body .note-modal-backdrop {
 
 .change-link {
   font-weight: bold;
-  color: var(--bs-white) !important;
+  color: var(--bs-black) !important;
   border: 1px solid #798e98 !important;
   background-color: #9baab2 !important;
   border-radius: var(--bs-border-radius) !important;
@@ -30529,13 +30529,14 @@ body .note-modal-backdrop {
 
 .change-link:hover {
   font-weight: bold;
-  color: var(--bs-white) !important;
+  color: var(--bs-black) !important;
   border: 1px solid #ff9f0c !important;
-    background-color: #ff9f0c !important;
+  background-color: #ff9f0c !important;
 }
 
 .change-link.active {
-  color: var(--bs-white) !important;
+  font-weight: bold;
+  color: var(--bs-black) !important;
   border-color: var(--bs-warning) !important;
   background-color: var(--bs-warning) !important;
 }
@@ -30557,13 +30558,13 @@ body .note-modal-backdrop {
 
 .query-container .query-box,.result-container .result-box {
     width: 100%;
-    height: 372px;
+    height: 357px;
     background-color: rgba(255, 255, 255, .2);
 }
 
 .query-container .query-box .query-input {
     width: 100%;
-    height: 372px;
+    height: 357px;
     color: rgba(255, 255, 255,0);
     background-color: rgba(255, 255, 255, 0);
     border: 1px solid rgba(255, 255, 255, .2);
@@ -30621,31 +30622,22 @@ body .note-modal-backdrop {
 }
 
 .result-container .result-box {
+    width: 100%;
     border: 1px solid rgba(255, 255, 255, .2);
     border-radius: var(--bs-border-radius);
+    padding: 0.5rem 1rem;
 }
 
-.result-container .result-box .resultTable {
+.result-container .result-box .queryTable {
    width: 100%;
    margin: 0 auto;
-   background-color: rgba(255, 255, 255, .2);
-}
-
-
-.resultTable thead tr th{
-    font-size: 12px;
-    font-weight: lighter;
-    position: sticky;
-    top: 0px;
+   table-layout: auto !important;
 }
 
 .queryTable-sm>:not(caption)>*>* {
     padding: 0.1rem
 }
 
-.queryTable-padding{
-    padding: 0.5rem 1rem;
-}
 /* Monitoring web-page */
 
 .monitoring-table tbody tr, .monitoring-table tbody tr td, .monitoring-table thead tr th{
@@ -30840,7 +30832,7 @@ body .note-modal-backdrop {
 .show_text{
     position: absolute;
     width:100%;
-    height:372px;
+    height:357px;
     font-weight:400;
     background-color: rgba(255, 255, 255, .5);
     color: black;

@@ -6,7 +6,8 @@
   <script src="{% static 'js/jquery/jquery-3.6.0.min.js' %}"></script>
   <script src="{% static 'js/jquery/ajax.jquery.min.js' %}"></script>
   <script src="{% static 'assets/plugins/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-  
+  <script src="{% static 'assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
   <title>X-Factor</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -72,7 +73,7 @@
   <!-- ================== BEGIN page-css ================== -->
   <link href="{% static 'assets/plugins/jvectormap-next/jquery-jvectormap.css' %}" rel="stylesheet" />
   <!-- ================== END page-css ================== -->
-  
+
 </head>
 
 <body class="theme-orange">
@@ -98,8 +99,6 @@
     <!-- 기본 템플릿 안에 삽입될 내용 End -->
     </div>
   <!-- END #app -->
-  <!-- Bootstrap JS -->
-  
 
   <!-- ================== BEGIN core-js ================== -->
   <script src="{% static 'assets/js/vendor.min.js' %}"></script>
@@ -129,42 +128,44 @@
   <!-- ================== END dashboard-js ================== -->
 
   <!-- ================== documentation_chart ================== -->
-    {% if request.path == '/dashboard_chart_ug/' %}
-    <script src="{% static 'js/documentationJS/documentation_charts.js' %}"></script>
-    <!-- ================== dataFabric chart  ================ -->
-    {% elif request.path == '/monitoring_DF/' %}
-    <script src="{% static 'js/dataFabricJS/datafabric.js' %}"></script>
-    {% else %}{% endif %}
-    <!-- ================== END Chart-js ================== -->
+  {% if request.path == '/dashboard_chart_ug/' %}
+  <script src="{% static 'js/documentationJS/documentation_charts.js' %}"></script>
+
+  <!-- ================== dataFabric chart  ================ -->
+  {% elif request.path == '/monitoring_DF/' %}
+  <script src="{% static 'js/dataFabricJS/datafabric.js' %}"></script>
+  {% else %}
+  {% endif %}
+  <!-- ================== END dataFabric-js ================== -->
 
   <!-- ================== BEGIN TABLE-js ================== -->
   <script src="{% static 'assets/plugins/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap/dist/js/ColReorderWithResize.js' %}"></script>
   <script src="{% static 'assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/moment/min/moment.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+  <script src="{% static 'assets/js/demo/table-plugins.demo.js' %}"></script>
+  <!-- ================== END TABLE-js ================== -->
 
-<script src="{% static 'assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js' %}"></script>
-<script src="{% static 'assets/plugins/moment/min/moment.min.js' %}"></script>
-<script src="{% static 'assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
-<script src="{% static 'assets/plugins/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
-<script src="{% static 'assets/js/demo/table-plugins.demo.js' %}"></script>
-<!-- ================== END TABLE-js ================== -->
+  <script src="{% static 'js/common/nav.js' %}"></script>
+  <script src="{% static 'js/chart/network.js' %}"></script>
 
-<script src="{% static 'js/common/nav.js' %}"></script>
-<script src="{% static 'js/chart/network.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/d3/d3.v3.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/d3/d3v4.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/d3/queue.v1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/common/topojson.v1.min.js' %}"></script>
 
-<script type="text/javascript" src="{% static 'js/d3/d3.v3.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/d3/d3v4.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/d3/queue.v1.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/common/topojson.v1.min.js' %}"></script>
-
-<script src="{% static 'js/jquery/colResizable-1.6.js' %}"></script>
-<script src="{% static 'js/jquery/colResizable-1.6.min.js' %}"></script>
+<!--  <script src="{% static 'js/jquery/colResizable-1.6.js' %}"></script>
+  <script src="{% static 'js/jquery/colResizable-1.6.min.js' %}"></script>-->
   <script>
   $(function(){
          $(".cardBox").sortable({
