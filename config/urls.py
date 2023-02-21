@@ -21,5 +21,4 @@ urlpatterns = [
     path('navigator_DF/navigator_api/', base_views.navigator_api, name='navigator_api'),
     path('navigator_DF/property_api/', base_views.property_api, name='property_api'),
     path('navigator_DF/postgres_navigator_api/', base_views.postgres_navigator_api, name='postgres_navigator_api')
-    
 ]
