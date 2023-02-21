@@ -1,24 +1,9 @@
 import teradataml
-import sqlite3
 from sqlalchemy import *
 from teradataml import *
 from pprint import pprint
 import pandas as pd
 import psycopg2
-
-with open("setting.json", encoding="UTF-8") as f:
-    SETTING = json.loads(f.read())
-DataLoadingType = SETTING['MODULE']['DataLoadingType']
-DBType = SETTING['DB']['DBType']
-DBHost = SETTING['DB']['DBHost']
-DBPort = SETTING['DB']['DBPort']
-DBName = SETTING['DB']['DBName']
-DBUser = SETTING['DB']['DBUser']
-DBPwd = SETTING['DB']['DBPwd']
-HistoryTNM = SETTING['DB']['HistoryTNM']
-UserTNM = SETTING['DB']['UserTNM']
-Login_Method = SETTING['PROJECT']['LOGIN']
-
 def db_select(qry):
     qry=qry.lower()
     dbname = DBName
@@ -28,27 +13,21 @@ def db_select(qry):
     db_user = DBUser
     db_query = qry
     db_result = ''
+
     try :
-        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
         result = td_context.execute(qry)
         data = result.fetchall()
         data = pd.DataFrame(data)
-        table = qry.split('from ')[1].split(' ')[0]
-        db_result = "Success SELECT Table Rows "+table
-
         data = data.fillna('NULL')
-        #print(data.columns)
-        remove_context()
         print("===============================")
         print("Success")
         print("===============================")
-        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
-        data = {'status' : 200, 'data' : data, 'type' : 'select', 'history': history}
+        data = {'status' : 200, 'data' : data, 'type' : 'select'}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
-        
+
         else :
             if '[Error' in str(e) :
                 err_index = str(e).find('[Error')
@@ -61,10 +40,8 @@ def db_select(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            db_result = "Fail SELECT Table "
-            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
-            data = {'status' : 400, 'data' : error_list, 'type' : 'select','history': history}
-    history_insert(data)
+            data = {'status' : 400, 'data' : error_list, 'type' : 'select'}
+
     return  data
 
 def db_create(qry):
@@ -76,20 +53,17 @@ def db_create(qry):
     db_user = DBUser
     db_query = qry
     db_result = ''
+
     try :
-        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
 
-        result = td_context.execute(qry)    
+        result = td_context.execute(qry)
         data = result.fetchall()
-        table = qry.split('from ')[1].split(' ')[0]
-        db_result = "Success CREATE Table Rows " + table
-        remove_context()
+
         print("===============================")
         print("Success")
         print("===============================")
-        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
-        data = {'status' : 200, 'data' : qry.splitlines(), 'type' : 'create','history': history}
+        data = {'status' : 200, 'data' : qry.splitlines(), 'type' : 'create'}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage'}
@@ -105,18 +79,187 @@ def db_create(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            db_result = "Fail CREATE Table "
-            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
-            data = {'status' : 400, 'data' : error_list, 'type' : 'create' ,'history': history}
-    history_insert(data)
+            data = {'status' : 400, 'data' : error_list, 'type' : 'create'}
+    return data
+def db_insert(qry):
+    try:
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+        result = td_context.execute(qry)
+        data = result.fetchall()
+
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+    except Exception as e:
+        if 'Failed to connect to Teradata Vantage' in str(e):
+            data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
+        else:
+            if '[Error' in str(e):
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0: err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)):
+                    if i == 0:
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status': 400, 'data': error_list, 'type': 'create'}
     return data
 
+def db_update(qry):
+    try:
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+        result = td_context.execute(qry)
+        data = result.fetchall()
+
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+    except Exception as e:
+        if 'Failed to connect to Teradata Vantage' in str(e):
+            data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
+        else:
+            if '[Error' in str(e):
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0: err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)):
+                    if i == 0:
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status': 400, 'data': error_list, 'type': 'create'}
+    return data
+
+def db_delete(qry):
+    try:
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+        result = td_context.execute(qry)
+        data = result.fetchall()
+
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+    except Exception as e:
+        if 'Failed to connect to Teradata Vantage' in str(e):
+            data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
+        else:
+            if '[Error' in str(e):
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0: err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)):
+                    if i == 0:
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status': 400, 'data': error_list, 'type': 'create'}
+    return data
+
+def db_drop(qry):
+    try:
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+        result = td_context.execute(qry)
+        data = result.fetchall()
+
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+    except Exception as e:
+        if 'Failed to connect to Teradata Vantage' in str(e):
+            data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
+        else:
+            if '[Error' in str(e):
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0: err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)):
+                    if i == 0:
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status': 400, 'data': error_list, 'type': 'create'}
+    return data
+
+def db_rename(qry):
+    try:
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+        result = td_context.execute(qry)
+        data = result.fetchall()
+
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+    except Exception as e:
+        if 'Failed to connect to Teradata Vantage' in str(e):
+            data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
+        else:
+            if '[Error' in str(e):
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0: err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)):
+                    if i == 0:
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status': 400, 'data': error_list, 'type': 'create'}
+    return data
+
+def db_alter(qry):
+    try:
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+        result = td_context.execute(qry)
+        data = result.fetchall()
+
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+    except Exception as e:
+        if 'Failed to connect to Teradata Vantage' in str(e):
+            data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
+        else:
+            if '[Error' in str(e):
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0: err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)):
+                    if i == 0:
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status': 400, 'data': error_list, 'type': 'create'}
+    return data
 def connect(data):
     if data['db'] == 'Teradata' :
         try :
             db = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
-                                        username = data['user_id'], 
-                                        password = data['user_pwd'], 
+                                        username = data['user_id'],
+                                        password = data['user_pwd'],
                                         logmech="TD2")
             status = 200
             setting_insert(data)
@@ -129,7 +272,7 @@ def connect(data):
             useraddress = str(db)
     elif data['db'] == 'Postgres' :
         try :
-            db = psycopg2.connect(host=data['db_host'], 
+            db = psycopg2.connect(host=data['db_host'],
                                 dbname = data['user_id'],
                                 user = data['user_id'],
                                 password = data['user_id'],
@@ -143,7 +286,7 @@ def connect(data):
             print("==================")
             status = 400
             useraddress = str(e)
-            
+
     result = {
         'status': status,
         'data': useraddress,
@@ -299,3 +442,4 @@ def user_traffic ():
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
+

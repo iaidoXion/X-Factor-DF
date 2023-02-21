@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, connect, history_select, database_traffic, user_traffic, connect_DBList
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList
 import json
 import math
 
@@ -49,10 +49,7 @@ def dataFabric_webQuery(request):
     return render(request, 'dataFabric/webQuery_DF.html', returnData)
 
 def dataFabric_monitoring(request):
-    historyDB = history_select()
-    db_trafficDB = database_traffic()
-    user_trafficDB = user_traffic()
-    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic' : db_trafficDB, 'user_traffic' : user_trafficDB}
+    returnData = {'menuList': menuListDB, 'Customer': Customer,}
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
@@ -117,6 +114,77 @@ def dataFabric_api(request) :
                 'type' : result['type']
             }
         elif result['status'] == 400 :
+            returnData = result
+    elif data.lower().startswith('insert'):
+        result = db_insert(data)
+
+        if result['status'] == 200:
+            returnData = {
+                'status': result['status'],
+                'data': result['data'],
+                'type': result['type']
+            }
+        elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('update'):
+        result = db_insert(data)
+
+        if result['status'] == 200:
+            returnData = {
+                'status': result['status'],
+                'data': result['data'],
+                'type': result['type']
+            }
+        elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('delete'):
+        result = db_delete(data)
+
+        if result['status'] == 200:
+            returnData = {
+                'status': result['status'],
+                'data': result['data'],
+                'type': result['type']
+            }
+        elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('drop'):
+        result = db_drop(data)
+
+        if result['status'] == 200:
+            returnData = {
+                'status': result['status'],
+                'data': result['data'],
+                'type': result['type']
+            }
+        elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('rename'):
+        result = db_rename(data)
+
+        if result['status'] == 200:
+            returnData = {
+                'status': result['status'],
+                'data': result['data'],
+                'type': result['type']
+            }
+        elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('alter'):
+        result = db_alter(data)
+
+        if result['status'] == 200:
+            returnData = {
+                'status': result['status'],
+                'data': result['data'],
+                'type': result['type']
+            }
+        elif result['status'] == 400:
             returnData = result
     return JsonResponse(returnData)
 
