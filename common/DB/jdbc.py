@@ -4,6 +4,21 @@ from teradataml import *
 from pprint import pprint
 import pandas as pd
 import psycopg2
+import json
+
+with open("setting.json", encoding="UTF-8") as f:
+    SETTING = json.loads(f.read())
+DataLoadingType = SETTING['MODULE']['DataLoadingType']
+DBType = SETTING['DB']['DBType']
+DBHost = SETTING['DB']['DBHost']
+DBPort = SETTING['DB']['DBPort']
+DBName = SETTING['DB']['DBName']
+DBUser = SETTING['DB']['DBUser']
+DBPwd = SETTING['DB']['DBPwd']
+HistoryTNM = SETTING['DB']['HistoryTNM']
+UserTNM = SETTING['DB']['UserTNM']
+Login_Method = SETTING['PROJECT']['LOGIN']
+
 def db_select(qry):
     qry=qry.lower()
     dbname = DBName
