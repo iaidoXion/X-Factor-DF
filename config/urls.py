@@ -17,5 +17,8 @@ urlpatterns = [
     path('navigator_DF/', base_views.dataFabric_navigator, name='navigator_DF'),
     path('setting_DF/', base_views.dataFabric_setting, name='setting_DF'),
     path('webQuery_DF/query_content/', base_views.dataFabric_api, name='DF_api'),
-    path('setting_DF/setting_api/', base_views.settings_api, name='setting_api')
+    path('Settings_DF/setting_api/', base_views.settings_api, name='setting_api'),
+    path('navigator_DF/navigator_api/', base_views.navigator_api, name='navigator_api'),
+    path('navigator_DF/property_api/', base_views.property_api, name='property_api'),
+    path('navigator_DF/postgres_navigator_api/', base_views.postgres_navigator_api, name='postgres_navigator_api')
 ]

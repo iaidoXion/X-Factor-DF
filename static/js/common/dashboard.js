@@ -258,14 +258,14 @@ $(document).ready(function () {
         }
         else if($(this).is('.menu-list2')){
             var mother = $(this).closest('.Navi-DF-menu2')
-            if($(this).is('.bi-caret-right-fill')){
-                $(this).removeClass("bi-caret-right-fill")
-                $(this).addClass("bi-caret-down-fill")
+            if($(this).is('.bi-caret-down-fill')){
+                $(this).removeClass("bi-caret-down-fill");
+                $(this).addClass("bi-caret-right-fill");
+                mother.children(".Navi-DF-menu3").css("display", "none");
+            } else if($(this).is('.bi-caret-right-fill')) {
+                $(this).removeClass("bi-caret-right-fill");
+                $(this).addClass("bi-caret-down-fill");
                 mother.children(".Navi-DF-menu3").css("display",'block');
-            } else if($(this).is('.bi-caret-down-fill')) {
-                $(this).removeClass("bi-caret-down-fill")
-                $(this).addClass("bi-caret-right-fill")
-                mother.children(".Navi-DF-menu3").css("display",'none');
             }
         }
         else if($(this).is('.menu-list3')){

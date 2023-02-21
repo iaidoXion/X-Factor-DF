@@ -53,7 +53,33 @@ def dataFabric_monitoring(request):
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
-    returnData = {'menuList': menuListDB, 'Customer': Customer,}
+    TERADATA = False
+    POSTGRES = False
+    qry = """
+        select UPPER(database_type) from xfactor.connect_tera  group by database_type;
+    """
+    qry2="""
+        select * from xfactor.connect_tera where database_type = 'TERADATA';
+    """
+    column = db_select(qry)
+    result = db_select(qry2)
+    if result['status'] == 200 :
+        result = result['data'].values.tolist()
+    
+    if column['status'] == 200 :
+        column = column['data'].values.tolist()
+        
+    for i in column :
+        if i == ['TERADATA'] :
+            TERADATA = True
+        elif i == ['POSTGRES'] :
+            POSTGRES = True
+    returnData = {'menuList': menuListDB, 
+                  'Customer': Customer, 
+                  'data' : result, 
+                  "TERADATA" : TERADATA,
+                  "POSTGRES" : POSTGRES}
+    print()
     return render(request, 'dataFabric/navigator_DF.html', returnData)
 
 def dataFabric_setting(request):
@@ -110,6 +136,88 @@ def settings_api(request) :
     returnData = result
     return JsonResponse(returnData)
 
+
+@csrf_exempt
+def navigator_api(request) :
+    data = request.POST['name']
+    qry = """
+        select * from dbc.tables where databasename = '""" + data + """';
+    """
+    
+    result = db_select(qry)
+    returnData = {
+                'status' : result['status'],
+                'data' : result['data']['TableName'].values.tolist(),
+                'ddl' : result['data']['RequestText'].values.tolist()
+            }
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def property_api(request) :
+    database = request.POST['database']
+    table = request.POST['table']
+    ddl = request.POST['ddl']
+    
+    data = str(database) +'.'+ str(table)
+    print("=====================")
+    print(data)
+    print("=====================")
+    
+    qry = """
+        select * from """ + data + """;
+    """
+    
+    qry2= """
+    SELECT 
+        ColumnName, 
+        Nullable,
+        TRIM(CASE 
+        WHEN COLUMNTYPE='CF' THEN 'CHAR'
+        WHEN COLUMNTYPE='CV' THEN 'VARCHAR'
+        WHEN COLUMNTYPE='D'  THEN 'DECIMAL' 
+        WHEN COLUMNTYPE='TS' THEN 'TIMESTAMP'      
+        WHEN COLUMNTYPE='I'  THEN 'INTEGER'
+        WHEN COLUMNTYPE='I2' THEN 'SMALLINT'
+        WHEN COLUMNTYPE='DA' THEN 'DATE'  
+        END)||'('||TRIM(ColumnLength)||')' as ColumnType
+    FROM 
+        dbc."Columns" c 
+    WHERE 
+        DatabaseName ='"""+ database +"""' 
+        and 
+        TableName = '"""+ table +"""';
+    """
+    
+    data = db_select(qry)
+    columns = db_select(qry2)
+    ddl = ddl.replace('<hr>', "'")
+    
+    returnData = {
+                'status' : data['status'],
+                'data' : data['data'].values.tolist(),
+                'data_column' : data['data'].columns.values.tolist(),
+                'columns' : columns['data'].values.tolist(),
+                'columns_column' : columns['data'].columns.values.tolist(),
+                'ddl' : ddl
+            }
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def postgres_navigator_api(request) :
+    data = request.POST['name']
+    qry = """
+        select * from dbc.tables where databasename = '""" + data + """';
+    """
+    
+    result = db_select(qry)
+    returnData = {
+                'status' : result['status'],
+                'data' : result['data']['TableName'].values.tolist(),
+                'ddl' : result['data']['RequestText'].values.tolist()
+            }
+    return JsonResponse(returnData)
+    
+
 def connect_DBList():
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
     qry = """
@@ -127,3 +235,4 @@ def connect_DBList():
     dict = a.to_dict('records')
 
     return dict
+
