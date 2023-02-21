@@ -2722,7 +2722,7 @@ progress {
     min-height: calc(1.5em + 1rem + 2px);
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    border-radius: 8px
+    border-radius: 4px
 }
 
 .form-control-lg::-webkit-file-upload-button {
@@ -19117,6 +19117,10 @@ fieldset:disabled .btn {
     height: 284px !important
 }
 
+.h-295px {
+    height: 295px !important
+}
+
 .h-300px {
     height: 300px !important
 }
@@ -30558,7 +30562,6 @@ body .note-modal-backdrop {
 
 .query-container .query-box,.result-container .result-box {
     width: 100%;
-
     height: 369px;
     background-color: rgba(255, 255, 255, .2);
 }
@@ -30566,6 +30569,7 @@ body .note-modal-backdrop {
 .query-container .query-box .query-input {
     width: 100%;
     height: 369px;
+    color: rgba(255, 255, 255,0);
     background-color: rgba(255, 255, 255, .5);
     border: 1px solid rgba(255, 255, 255, .2);
     outline: none;
@@ -30622,7 +30626,6 @@ body .note-modal-backdrop {
 }
 
 .result-container .result-box {
-    padding: 0;
     border: 1px solid rgba(255, 255, 255, .2);
     border-radius: var(--bs-border-radius);
 }
@@ -30631,51 +30634,40 @@ body .note-modal-backdrop {
    width: 99%;
    margin: 0 auto;
    background-color: rgba(255, 255, 255, .2);
-   padding: 0 !important;
 }
 
-.noUse{
-    cursor:not-allowed;
+
+.resultTable thead tr th{
+    font-size: 12px;
+    font-weight: lighter;
+    position: sticky;
+    top: 0px;
 
 }
 
+.queryTable-sm>:not(caption)>*>* {
+    padding: 0.1rem
+}
+
+.queryTable-padding{
+    padding: 0.5rem 1rem;
+}
 /* Monitoring web-page */
-.Query-History-card{
-    height: 295px;
-}
 
-.monitoring-table{
-    overflow: auto;
-    height: 261px
+.monitoring-table tbody tr, .monitoring-table tbody tr td, .monitoring-table thead tr th{
+     border: 1px solid rgba(255, 255, 255, 0.3);
+     vertical-align: middle;
 }
 
 .Query-History-table{
     text-align: center;
     width: 99%;
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .Query-History-table thead tr th{
     font-weight: lighter;
     position: sticky;
     top: 0px;
-}
-
-.Query-History-table thead tr th:nth-child(1),
-.Query-History-table thead tr th:nth-child(7){
-    width: 15%;
-}
-
-.Query-History-table thead tr th:nth-child(3),
-.Query-History-table thead tr th:nth-child(4),
-.Query-History-table thead tr th:nth-child(5),
-.Query-History-table thead tr th:nth-child(2){
-    width: 10%;
-}
-
-.Query-History-table thead tr th:nth-child(6){
-    width: 30%;
 }
 
 /* Navigator web-page */
@@ -30706,7 +30698,7 @@ body .note-modal-backdrop {
 
 .properties tbody tr, .properties tbody tr td, .properties thead tr th{
      border: 1px solid rgba(255, 255, 255, 0.3);
-     vertical-align: middle
+     vertical-align: middle;
 }
 
 
@@ -30721,7 +30713,6 @@ body .note-modal-backdrop {
     position: sticky;
     height:30px;
     top: 0;
-    background-color: #f39c12;
     border:none;
 }
 
@@ -30742,14 +30733,6 @@ body .note-modal-backdrop {
     font-size:12px;
 }
 
-.properties-View thead tr th:nth-child(2){
-    width: 30%;
-}
-
-.properties-View tr th:nth-child(3){
-    width: 60%;
-}
-
 .properties-View table{
     table-layout:fixed;
 }
@@ -30764,16 +30747,15 @@ body .note-modal-backdrop {
 }
 
 /* setting web-page */
-.setting-table{
-    overflow: auto;
-    height: 100%
+.setting-table tbody tr, .setting-table tbody tr td, .setting-table thead tr th{
+     border: 1px solid rgba(255, 255, 255, 0.3);
+     vertical-align: middle;
 }
+
 
 .database-connected-table{
     text-align: center;
-    width: 100%;
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    width: 99%;
 }
 
 .database-connected-table thead tr th{
@@ -30781,34 +30763,6 @@ body .note-modal-backdrop {
     position: sticky;
     top: 0px;
 }
-
-.database-connected-table thead tr th:nth-child(1){
-    width: 5%;
-}
-
-.database-connected-table thead tr th:nth-child(2){
-    width: 20%;
-}
-
-.database-connected-table thead tr th:nth-child(3){
-    width: 17%;
-}
-
-.database-connected-table thead tr th:nth-child(4){
-    width: 16%;
-}
-
-.database-connected-table thead tr th:nth-child(6){
-    width: 10%
-}
-
-.database-connected-table thead tr th:nth-child(5){
-    width: 18%;
-}
-
-.database-connected-table thead tr th:nth-child(7){
-    width: 10%;
- }
 
  .database-table-icon:hover{
     cursor : pointer;
