@@ -320,31 +320,53 @@ $(document).ready(function () {
 
     let qTab = $('.query-tabs').children().last()
     let cTab = $('.query-tabContent').children().last()
-    let number = qTab.text().match(/\d+/g)[0]
+    let delBtn = qTab.children().children().last()
+    let number = 1
     $("#addScript").on('click',function(){
+        let qHasClass = 0;
+        let cHasClass = 0;
         if (number < 10){
-            cTab.removeClass('active')
-            cTab.removeClass('show')
-            cTab.removeClass('active')
-            qTab.children().last().removeClass('active')
-//            let delBtn = qTab.children().children()
-
+            if(cTab.hasClass("active") === true) {
+                cTab.removeClass('active')
+                cTab.removeClass('show')
+                cTab.removeClass('active')
+                cHasClass++
+            }
+            if(qTab.children().hasClass("active") === true) {
+                qTab.children().last().removeClass('active')
+                qHasClass++
+            }
+            delBtn = qTab.children().children().last().clone(true)
             qTab = $('.query-tabs').children().last().clone(true)
             cTab = $('.query-tabContent').children().last().clone(true)
 
-            cTab.addClass('active')
-            cTab.addClass('show')
-            cTab.addClass('active')
-            qTab.children().last().addClass('active')
+            if(cHasClass === 1){
+                cTab.addClass('active')
+                cTab.addClass('show')
+                cTab.addClass('active')
+            }
+
+            if(qHasClass === 1){
+                qTab.children().last().addClass('active')
+
+            }
 
             qTab.appendTo( $('.query-tabs') )
             cTab.appendTo( $('.query-tabContent') )
-//            delBtn.appendTo(qTab.children())
+
             number++;
+
             cTab.attr('id','Query'+ number)
-            qTab.children().last().text('Query' + number)
+            cTab.children().children().children().text("")
+            qTab.children().last().text('Query')
             qTab.children().last().attr('href', '#Query' + number)
-          }
+            delBtn.appendTo($('.query-tabs').children().last().children())
+
+              }
+        else{
+              $('#alertQueryNot').modal('show')
+
+            }
     });
 
     $(".delScript").on('click',function(){
@@ -362,19 +384,21 @@ $(document).ready(function () {
    $('.query-input').on('input',function(event){
         let queryText = event.currentTarget.value
         let split_txt = queryText.split('\n');
+        let textHere = $(this).next()
         let i = 0
-        $(".show_text").text("");
+        console.log(queryText)
+        $(textHere).text("");
         split_txt.forEach(function(spText){
             let noComment = 0
             if (i >= 1){
-                $(".show_text").append('<br>')
+                $(textHere).append('<br>')
             }
             let text = spText.trim();
 
 //            숫자 구분 () 안에 들어간 숫자  0
             queryText = text.split(' ')
             if(text.startsWith('--')){
-                $(".show_text").append('<span class = "text-comment">' + text + '</span>')
+                $(textHere).append('<span class = "text-comment">' + text + '</span>')
                 noComment++
             }
                queryText.forEach(function(qrText){
@@ -383,21 +407,21 @@ $(document).ready(function () {
                   let uppText = qrText.toUpperCase();
                   blueText.forEach(function(bText){
                     if (uppText === bText.toUpperCase()){
-                        $(".show_text").append('<span class = "text-queryBlue">' + qrText + ' </span>')
+                        $(textHere).append('<span class = "text-queryBlue">' + qrText + ' </span>')
                         defaultColor++
                     }
                   });
                   yellowText.forEach(function(yText){
                      if (uppText === yText.toUpperCase()){
-                       $(".show_text").append('<span class = "text-queryYellow">' + qrText + ' </span>')
+                       $(textHere).append('<span class = "text-queryYellow">' + qrText + ' </span>')
                         defaultColor++
                     }
                   });
                   if(qrText == ''){
-                    $(".show_text").append('<span>​</span>')
+                    $(textHere).append('<span> </span>')
                   }
                   if (defaultColor == 0 && noComment == 0){
-                    $(".show_text").append('<span>' + qrText + ' </span>')
+                    $(textHere).append('<span>' + qrText + ' </span>')
                   }
 
                 });
