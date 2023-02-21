@@ -46,14 +46,16 @@
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div class="result-box tab-pane fade show active DataFabric-scroll" style="white-space: nowrap" id="result1">
-                                    <table id="query_table" class="table table-striped queryTable-sm resultTable fs-12px text-nowrap" style="width:100%">
-                                        <thead >
-                                        <tr class="table-dark text-center w-100" id='query_thead'></tr>
-                                        </thead>
-                                        <tbody id='query_tbody'>
-                                        </tbody>
-                                    </table>
+                                <div class="result-box tab-pane fade show active queryTable-padding" style="white-space: nowrap" id="result1">
+                                    <div class="DataFabric-scroll">
+                                        <table id="query_table" class="table table-striped queryTable-sm resultTable fs-12px text-nowrap w-auto">
+                                            <thead>
+                                            <tr class="table-dark text-center w-100" id='query_thead'></tr>
+                                            </thead>
+                                            <tbody id='query_tbody'>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +90,7 @@
                             var str = "";
                             str += '<th>No.</th>'
                             $.each(res.column, function(i){
-                                str += '<Th style="display: sticky; border:1px solid;"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
+                                str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
                             });
                             console.log(str)
                             $("#query_thead").append(str);
@@ -96,9 +98,9 @@
                             var str = "";
                             $.each(res.data, function(i){
                                 str += '<TR>'
-                                str += '<td class="text-center" style="border:1px solid;">'+ i +'</td>'
+                                str += '<td class="text-center" style="border:1px solid rgba(255, 255, 255, .2);">'+ i +'</td>'
                                 for(var j = 0; j < res.data[i].length; j++){
-                                    str += '<td style="border:1px solid; padding-left : 50px;">' + res.data[i][j] +'</td>'
+                                    str += '<td style="border:1px solid rgba(255, 255, 255, .2); padding-left : 50px;">' + res.data[i][j] +'</td>'
                                 }
                                 str += '</TR>'
                             });

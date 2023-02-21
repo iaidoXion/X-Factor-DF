@@ -79,7 +79,7 @@ var handleRenderDataFabricApexChart = function () {
     },
   };
 
-// BEGIN databaseConnectChart
+// BEGIN databaseConnect-ColumChart
   var DatabaseConnectChartOptions = {
     chart: {
       height: 190,
@@ -152,11 +152,11 @@ var handleRenderDataFabricApexChart = function () {
       DatabaseConnectChartOptions
     );
     databaseConnectChart.render();
-  // END databaseConnectChart
+  // END databaseConnect-ColumChart
 //--------------------------------------------------------------------------
   // BEGIN UserConnectChart
   var UserConnectChartOptions = {
-//   BEGIN UserConnect_ColumChart
+//   BEGIN UserConnect-ColumChart
 //    chart: {
 //      height: 190,
 //      type: 'bar',
@@ -221,9 +221,9 @@ var handleRenderDataFabricApexChart = function () {
 //        formatter: (value) => { return '' + value },
 //      }
 //    }
-  // END UserConnect_ColumChart
+  // END UserConnect-ColumChart
 // ============================================================================
-  // BEGIN UserConnect_BarChart
+  // BEGIN UserConnect-BarChart
 //    chart: {
 //      height: 190,
 //      type: 'bar',
@@ -289,9 +289,9 @@ var handleRenderDataFabricApexChart = function () {
 //            formatter: (value) => { return '' + value },
 //      }
 //    }
-  // END UserConnect_BarChart
+  // END UserConnect-BarChart
 // ============================================================================
-//   BEGIN UserConnect_DonutChart
+//   BEGIN UserConnect-DonutChart
       chart: {
         height: 170,
         type: 'donut',
@@ -338,16 +338,16 @@ var handleRenderDataFabricApexChart = function () {
         formatter: (value) => { return '' + value },
       }
     }
-//   END UserConnect_DonutChart
+//   END UserConnect-DonutChart
   }
     var UserConnectChart = new ApexCharts(
       document.querySelector("#UserConnectChart"),
       UserConnectChartOptions
     );
     UserConnectChart.render();
-  // END UserConnect_Chart
+  // END UserConnect-Chart
 //--------------------------------------------------------------------------
-  // BEGIN montoring_LineChart
+  // BEGIN monitoring-LineChart
   var CpuUsageChartOptions = {
     series: [{
       name: "Teradata",
@@ -439,7 +439,7 @@ var handleRenderDataFabricApexChart = function () {
     CpuUsageChartOptions
   );
   CpuUsageChart.render();
-  // END monitoring_LineChart
+  // END monitoring-LineChart
 };
 /* Controller
 ------------------------------------------------ */
