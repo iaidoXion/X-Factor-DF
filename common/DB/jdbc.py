@@ -5,6 +5,15 @@ from pprint import pprint
 import pandas as pd
 import psycopg2
 def db_select(qry):
+    qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ' '
+    web_user = 'admin'#나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
+
     try :
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
         result = td_context.execute(qry)
@@ -36,6 +45,15 @@ def db_select(qry):
     return  data
 
 def db_create(qry):
+    qry = qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin' #나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
+
     try :
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
 
@@ -278,7 +296,6 @@ def connect(data):
         'password': data['user_id'],
         'port': data['db_port']
     }
-    print(result)
     return result
 
 def setting_insert(data): #파라미터값 web_user 추가
@@ -295,9 +312,7 @@ def setting_insert(data): #파라미터값 web_user 추가
         values
         ('"""+data['db_name']+"""','"""+data['db']+"""','"""+data['db_host']+"""','"""+data['db_port']+"""','"""+web_user+"""','"""+data['user_id']+"""','"""+data['user_pwd']+"""')
         """
-    print(qry)
     result = td_context.execute(qry)
-    print(result)
 
 def connect_DBList():
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
@@ -316,3 +331,115 @@ def connect_DBList():
     dict = a.to_dict('records')
 
     return dict
+
+
+def history_insert(data):
+    dbname=data['history'][0]
+    dbtype=data['history'][1]
+    dbtable=data['history'][2]
+    webuser=data['history'][3]
+    dbuser=data['history'][4]
+    dbquery=data['history'][5].replace('\'','"')
+    dbresult=data['history'][6]
+
+    qry="""
+        insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
+        values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now());
+    """
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+    result = td_context.execute(qry)
+    remove_context()
+
+
+def history_select():
+    try:
+        td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
+        query = """
+            select 
+                *
+            from
+                """ + DBName + """.""" + HistoryTNM + """
+
+            """
+
+        result = td_context.execute(query)
+        RS = result.fetchall()
+        DFL = []
+        for d in RS:
+            num = d[0]
+            dbname = d[1]
+            dbtype = d[2]
+            dbtable = d[3]
+            web_user = d[4]
+            db_user = d[5]
+            db_query = d[6]
+            db_result = d[7]
+            commit_time = d[8]
+
+            DFL.append([num, dbname, dbtype, dbtable, web_user, db_user, db_query, db_result, commit_time])
+            DFC = ['num', 'dbname', 'dbtype', 'dbtable', 'web_user', 'db_user', 'db_query', 'db_result', 'commit_time']
+        DF = pd.DataFrame(DFL, columns=DFC).sort_values(by='commit_time', ascending=False).reset_index(drop=True)
+        DC = DF.to_dict('records')
+
+        return DC
+    except:
+        print(HistoryTNM + ' History Table connection(Select) Failure')
+
+
+def database_traffic():
+    try:
+        td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
+        query = """
+               select 
+                   database_name, count(*)
+               from
+                   """ + DBName + """.""" + HistoryTNM + """
+                group by database_name;
+
+               """
+
+        result = td_context.execute(query)
+        RS = result.fetchall()
+        DFL = []
+        for d in RS:
+            dbname = d[0]
+            count = d[1]
+
+            DFL.append([dbname, count])
+            DFC = ['dbname', 'count']
+        DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
+        DC = DF.to_dict('records')
+        #print(DC)
+        return DC
+    except:
+        print(HistoryTNM + ' History Table connection(Select) Failure')
+
+def user_traffic ():
+    try:
+        td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
+        query = """
+               select 
+                   db_user, count(*)
+               from
+                   """ + DBName + """.""" + HistoryTNM + """
+                group by db_user;
+
+               """
+
+        result = td_context.execute(query)
+        RS = result.fetchall()
+        DFL = []
+        for d in RS:
+            db_user = d[0]
+            count = d[1]
+
+
+            DFL.append([db_user, count])
+            DFC = ['db_user', 'count']
+        DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
+        DC = DF.to_dict('records')
+        #print(DC)
+        return DC
+    except:
+        print(HistoryTNM + ' History Table connection(Select) Failure')
+

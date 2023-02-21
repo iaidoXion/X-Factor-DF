@@ -83,9 +83,10 @@ var handleRenderDataFabricApexChart = function () {
 
 var dbtraffic_Name = []
 var dbtraffic_Value = []
-for (var i = 0; i < a.pieChartDataList.length; i++){
-    pieValue.push(a.pieChartDataList[i]['value']);
-    pieName.push(a.pieChartDataList[i]['name']);
+
+for (var i = 0; i < db_traffic.length; i++){
+    dbtraffic_Name.push(db_traffic[i]['dbname']);
+    dbtraffic_Value.push(db_traffic[i]['count']);
 };
 
 
