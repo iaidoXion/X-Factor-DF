@@ -51,6 +51,7 @@
     "DataLoadingType" : "DB"
   },
   "DB" : {
+    "DBType" : "TERADATA",
     "DBHost" : "1.223.168.93",
     "DBPort" : "44240",
     "DBName" : "xfactor",
@@ -58,7 +59,7 @@
     "DBPwd" : "dbc",
     "DBSelectTime" : 5,
     "AssetTNM" : "daily_asset",
-    "StatisticsTNM" : "daily_statistics",
+    "HistoryTNM" : "history_tera",
     "MenuTNM": "menusetting_tera",
     "UserTNM": "user_tera"
   },

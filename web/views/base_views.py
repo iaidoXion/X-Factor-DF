@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, connect , setting_insert, connect_DBList
+from common.DB.jdbc import db_select, db_create, connect, history_select, database_traffic, user_traffic
 import json
 import math
 
@@ -49,7 +49,10 @@ def dataFabric_webQuery(request):
     return render(request, 'dataFabric/webQuery_DF.html', returnData)
 
 def dataFabric_monitoring(request):
-    returnData = {'menuList': menuListDB, 'Customer': Customer,}
+    historyDB = history_select()
+    db_trafficDB = database_traffic()
+    user_trafficDB = user_traffic()
+    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic' : db_trafficDB, 'user_traffic' : user_trafficDB}
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
