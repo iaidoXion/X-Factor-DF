@@ -14,7 +14,7 @@
                         <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 active text-white">Teradata</button>
                         {%endif%}
                         {%if POSTGRES%}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">Postgres</button>
+                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white" onclick="postgres()">Postgres</button>
                         {%endif%}
                         <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">ETC</button>
                     </div>
@@ -33,82 +33,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="Navi-DF Navi-DF-Postgres-menu Navi-DF-scroll" style="display:none">
-                            <div class="Navi-DF-menu1">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">Teradata</i>
-                                <div class="Navi-DF-menu2">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list2 menu-icon"><i class="bi bi-file-earmark-text">Databases</i></i>
-                                    <div class="Navi-DF-menu3">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon "><i class="bi bi-people ">localhost</i></i>
-                                        <div class="Navi-DF-menu4">
-                                            <i class="bi bi-caret-down-fill menu-list menu-list4 menu-icon"><i class="bi bi-folder2-open">Tables</i></i>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">menu</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">Statistics</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">test</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">user</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">daily</i></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Navi-DF-menu3 Navi-DF-menu3">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list3 menu-list3 menu-icon "><i class="bi bi-people ">User</i></i>
-                                        <div class="Navi-DF-menu4">
-                                            <i class="bi bi-caret-down-fill menu-list menu-list4 menu-icon"><i class="bi bi-folder2-open">Tables</i></i>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">group</i></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Navi-DF Navi-DF-ETC-menu Navi-DF-scroll" style="display:none">
-                            <div class="Navi-DF-menu1">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">Teradata</i>
-                                <div class="Navi-DF-menu2">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list2 menu-icon"><i class="bi bi-file-earmark-text">Databases</i></i>
-                                    <div class="Navi-DF-menu3">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon "><i class="bi bi-people ">localhost</i></i>
-                                        <div class="Navi-DF-menu4">
-                                            <i class="bi bi-caret-down-fill menu-list menu-list4 menu-icon"><i class="bi bi-folder2-open">Tables</i></i>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">menu</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">Statistics</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">test</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">user</i></i>
-                                            </div>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">daily</i></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Navi-DF-menu3 Navi-DF-menu3">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list3 menu-list3 menu-icon "><i class="bi bi-people ">User</i></i>
-                                        <div class="Navi-DF-menu4">
-                                            <i class="bi bi-caret-down-fill menu-list menu-list4 menu-icon"><i class="bi bi-folder2-open">Tables</i></i>
-                                            <div class="Navi-DF-menu5">
-                                                <i class="bi bi-caret-right-fill menu-list menu-list5 menu-icon"><i class="bi bi-folder">group</i></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -120,8 +44,6 @@
                     <div class="me-2">
                         <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active">Data</button>
                         <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Column</button>
-                        <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">View</button>
-                        <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Procedure</button>
                         <button type="button" class="btn-tableProperties DDL-btn fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">DDL</button>
                     </div>
                     <div class="form-control form-control-lg bg-white bg-opacity-10"style="height:670px">
@@ -146,1062 +68,20 @@
                                     </tr>
                                 </thead>
                                 <tbody id='columns_data'>
-                                    <tr>
-                                        <td>1</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate">Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate">Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate">Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate">Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>13</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>14</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>15</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>16</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate">Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>17</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>18</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>19</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate">Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>20</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>21</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td class="text-truncate" >Varchar2</td>
-                                        <td>[v]</td>
-                                        <td></td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                             <!--      End   properties-column             -->
 
-                            <!--      START   properties-view            -->
-                            <table class="properties table TableProperties properties-View table-striped" style="display:none">
-                                <thead class="table-hover-color">
-                                    <tr class="table-dark">
-                                        <th>#</th>
-                                        <th>View Name</th>
-                                        <th>View Query</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td class="text-truncate">AccountLog</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>13</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>14</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>15</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>16</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>17</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!--      End   properties-view             -->
-
-                            <!--      START   properties-precedure           -->
-                            <table class="properties table TableProperties properties-Procedure table-striped" style="display:none">
-                                <thead class="table-hover-color">
-                                    <tr class="table-dark">
-                                        <th>#</th>
-                                        <th>Procedure Name</th>
-                                        <th>Procedure Query</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td class="text-truncate">Logging</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE PROCEDURE  Logging()<br>
-                                                SELECT employee_num, job_code<br>
-                                                BEGIN SELECT * FROM member<br>
-                                                END<br>
-                                                CREATE PROCEDURE  Logging()<br>
-                                                SELECT employee_num, job_code<br>
-                                                BEGIN SELECT * FROM member<br>
-                                                END<br>
-                                            </div>
-                                        </td>
-
-                                    <tr>
-                                        <td>2</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>13</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>14</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>15</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>16</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>17</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!--      End   properties-precedure             -->
-
                             <!--      START   properties-ddl            -->
                             <table class="properties table TableProperties properties-DDL table-striped" style="display:none">
                                 <thead class="table-hover-color">
-                                    <tr class="table-dark">
+                                    <tr class="table-dark" id="ddl_column">
                                         <th>#</th>
                                         <th>Query Name</th>
                                         <th>Query</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td class="text-truncate">Logging</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE PROCEDURE  Logging()<br>
-                                                SELECT employee_num, job_code<br>
-                                                BEGIN SELECT * FROM member<br>
-                                                END<br>
-                                                CREATE PROCEDURE  Logging()<br>
-                                                SELECT employee_num, job_code<br>
-                                                BEGIN SELECT * FROM member<br>
-                                                END<br>
-                                            </div>
-                                        </td>
-
-                                    <tr>
-                                        <td>2</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>13</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>14</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>15</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>16</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>17</td>
-                                        <td class="text-truncate">Name</td>
-                                        <td>
-                                            <div class="table-textBox">
-                                                CREATE VIEW AccountLog (employee, job)<br>
-                                                SELECT employee_num, job_code<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                                FROM member;<br>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tbody id="ddl_data">
                                 </tbody>
                             </table>
                             <!--      End   properties-ddl            -->
@@ -1215,6 +95,33 @@
 </div>
 <script>
     console.log({{data|safe}});
+
+    function postgres(){
+        $('#properties_columns').empty()
+        $('#properties_data').empty()
+        $('#columns_columns').empty()
+        $('#columns_data').empty()
+        $('#ddl_data').empty()
+        $.ajax({
+            type : "POST",
+            url : "postgres_navigator_api/",
+            data : params,
+            async : false,
+            success : function(res){
+                $('#navigator_table').empty()
+                var str = "";
+                $.each(res.data, function(i){
+                    var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
+                    str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
+                });
+                
+                $('#navigator_table').append(str)
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown){
+                alert('Error');
+            }
+        });
+    };
 
     function execute(f, a) {
         console.log(f);
@@ -1231,7 +138,8 @@
                     $('#navigator_table').empty()
                     var str = "";
                     $.each(res.data, function(i){
-                        str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `')"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
+                        var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
+                        str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
                     });
                     
                     $('#navigator_table').append(str)
@@ -1243,12 +151,13 @@
         }
     }
 
-    function properties_view(a, f){
+    function properties_view(a, f, ddl){
         console.log(a);
         console.log(f);
         params = {
             'database' : a,
-            'table' : f
+            'table' : f,
+            'ddl' : ddl
         }
         $.ajax({
                 type : "POST",
@@ -1256,11 +165,12 @@
                 data : params,
                 async : false,
                 success : function(res){
+                    console.log(res);
                     $('#properties_columns').empty()
                     $('#properties_data').empty()
                     $('#columns_columns').empty()
                     $('#columns_data').empty()
-                    
+                    $('#ddl_data').empty()
 
                     console.log(res);
                     var str = "";
@@ -1310,6 +220,17 @@
                         str += `</tr>`
                     });
                     $('#columns_data').append(str)
+                    
+                    var str = "";
+                    str += `<tr>`
+                            str += `<td>1</td>`
+                            str +=  `<td class="text-truncate">CREATE</td>`
+                            str +=      `<td>`
+                            str +=              res.ddl
+                            str +=       `</td>`
+                            str +=  `</td>`
+                    str += `</tr>`
+                    $('#ddl_data').append(str)
                 },
                 beforeSend: function() {
                     

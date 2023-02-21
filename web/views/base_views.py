@@ -153,10 +153,13 @@ def navigator_api(request) :
 def property_api(request) :
     database = request.POST['database']
     table = request.POST['table']
+    ddl = request.POST['ddl']
+    
     data = str(database) +'.'+ str(table)
     print("=====================")
     print(data)
     print("=====================")
+    
     qry = """
         select * from """ + data + """;
     """
@@ -184,13 +187,30 @@ def property_api(request) :
     
     data = db_select(qry)
     columns = db_select(qry2)
+    ddl = ddl.replace('<hr>', "'")
     
     returnData = {
                 'status' : data['status'],
                 'data' : data['data'].values.tolist(),
                 'data_column' : data['data'].columns.values.tolist(),
                 'columns' : columns['data'].values.tolist(),
-                'columns_column' : columns['data'].columns.values.tolist()
+                'columns_column' : columns['data'].columns.values.tolist(),
+                'ddl' : ddl
+            }
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def postgres_navigator_api(request) :
+    data = request.POST['name']
+    qry = """
+        select * from dbc.tables where databasename = '""" + data + """';
+    """
+    
+    result = db_select(qry)
+    returnData = {
+                'status' : result['status'],
+                'data' : result['data']['TableName'].values.tolist(),
+                'ddl' : result['data']['RequestText'].values.tolist()
             }
     return JsonResponse(returnData)
     

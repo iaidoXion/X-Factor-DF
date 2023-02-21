@@ -30703,7 +30703,7 @@ body .note-modal-backdrop {
      vertical-align: middle
 }
 
-.properties thead tr th:nth-child(1){
+/* .properties thead tr th:nth-child(1){
     width: 10%;
 }
 
@@ -30715,7 +30715,7 @@ body .note-modal-backdrop {
 .properties thead tr th:nth-child(4),
 .properties thead tr th:nth-child(5){
     width: 20%;
-}
+} */
 
 .properties-View tbody tr td:nth-child(3),
 .properties-Procedure tbody tr td:nth-child(3),
