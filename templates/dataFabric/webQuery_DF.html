@@ -10,30 +10,30 @@
                     <div class="query-container">
                         <button type="button" class="btn btn-primary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="query();" id='query_start'><i class="fas fa-play pe-2"></i>실행</button>
                         <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="stop();" id='query_stop' style="display: none;"><i class="fas fa-pause pe-2"></i>정지</button>
-                        <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px" id = 'addScript'>+ Add Script</button>
+                        <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px" id='addScript'>+ Add Script</button>
                         <!--<button type="button" class="btn btn-outline-white btn-sm w-100px h-35px queryBtn-outline fs-12px">QueryGrid</button>-->
                         <!-- BEGIN alert -->
                         <div class="modal" id="alertQueryNot">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title">
-                                      <i class="bi bi-exclamation-triangle-fill" style="color:#ff9f0c;"></i>
-                                      <span>경고 </span>
-                                      <i class="bi bi-exclamation-triangle-fill" style="color:#ff9f0c;"></i>
-                                  </h5>
-                              </div>
-                              <div class="modal-body">
-                                <p>쿼리 창은 최대 10개까지 만들 수 있습니다.</p>
-                              </div>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            <i class="bi bi-exclamation-triangle-fill" style="color:#ff9f0c;"></i>
+                                            <span>경고 </span>
+                                            <i class="bi bi-exclamation-triangle-fill" style="color:#ff9f0c;"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>쿼리 창은 최대 10개까지 만들 수 있습니다.</p>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                             <p style="text-align: center;">클릭 시 자동으로 탭이 닫힙니다.</p>
                         </div>
                         <!-- END alert -->
                         <div class="mt-sm-1">
                             <ul class="nav nav-tabs change-tabs query-tabs">
-                                <li class="nav-item me-1 w-100px text-center fs-12px" >
+                                <li class="nav-item me-1 w-100px text-center fs-12px">
                                     <a href="#Query1" class="nav-link change-link active queryBtn" data-bs-toggle="tab">Query
                                         <i class="fas fa-times-circle ms-1 delScript" style="z-index:2;"></i>
                                     </a>
@@ -66,13 +66,26 @@
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div class="result-box tab-pane fade show active queryTable-padding" style="white-space: nowrap" id="result1">
+                                <div class="result-box tab-pane fade show active" style="white-space: nowrap" id="result1">
                                     <div class="DataFabric-scroll">
-                                        <table id="query_table" class="table table-striped queryTable-sm resultTable fs-12px text-nowrap">
+                                        <table id="webQuery_table" class="table table-striped queryTable-sm queryTable fs-12px text-nowrap">
                                             <thead>
-                                            <tr class="table-dark text-center" id='query_thead'></tr>
+                                            <tr class="table-dark">
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                            </tr>
                                             </thead>
-                                            <tbody id='query_tbody'>
+                                            <tbody>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -85,95 +98,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function query() {
-        var a = document.getElementById('query_text');
-        var params = {
-            'data' : String(a.value)
-        }
-
-        $.ajax({
-                type : "POST",
-                url : "query_content/",
-                data : params,
-                async : false,
-                success : function(res){
-                    console.log(res);
-                    $("#query_thead").empty();
-                    $("#query_tbody").empty();
-                    document.getElementById("query_stop").style.display = "none";
-                    document.getElementById("query_start").style.display = "inline";
-                    document.getElementById("query_thead").style.fontSize = "10px";
-                    if (res.type == 'select'){
-                        if (res.status==200){
-                            var str = "";
-                            str += '<th style="border:1px solid rgba(255, 255, 255, .2);">No.</th>'
-                            $.each(res.column, function(i){
-                                str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
-                            });
-                            console.log(str)
-                            $("#query_thead").append(str);
-
-                            var str = "";
-                            $.each(res.data, function(i){
-                                str += '<TR>'
-                                str += '<td class="text-center" style="border:1px solid rgba(255, 255, 255, .2);">'+ i +'</td>'
-                                for(var j = 0; j < res.data[i].length; j++){
-                                    str += '<td style="border:1px solid rgba(255, 255, 255, .2); padding-left : 5px;">' + res.data[i][j] +'</td>'
-                                }
-                                str += '</TR>'
-                            });
-                            $("#query_tbody").html(str);
-
-                        }else if (res.status==400){
-                            $("#query_thead").empty();
-                            var str = "";
-                            $.each(res.data, function(i){
-                                str +=  res.data[i] + '</br>'
-                            });
-                            $("#query_thead").html(str);
-                        }
-                    }else if (res.type == 'create'){
-                        $("#query_thead").empty();
-                        if (res.status==200){
-                            document.getElementById("query_thead").style.fontSize = "15px";
-                            var str = "";
-                            str += '</br>'
-                            $.each(res.data, function(i){
-                                str +=res.data[i] + '</br></br>'
-                            });
-
-                            $("#query_thead").html(str);
-                        }else if (res.status==400){
-                            var str = "";
-                            $.each(res.data, function(i){
-                                str +=  res.data[i] + '</br>'
-                            });
-                            $("#query_thead").html(str);
-                        }
-                    }
-                },
-
-                beforeSend: function() {
-                    document.getElementById("query_stop").style.display = "inline";
-                    document.getElementById("query_start").style.display = "none";
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown){
-                    console.log(textStatus);
-                    console.log(XMLHttpRequest);
-                    console.log(errorThrown);
-                    alert("에러");
-                    document.getElementById("query_stop").style.display = "none";
-                    document.getElementById("query_start").style.display = "inline";
-                    var str = "";
-                    str += '<TR>'
-                    str += '<td> 쿼리를 제대로 입력해주세요 </td>'
-                    str += '</TR>'
-                    $("#query_tbody").html(str);
-                }
-            });
-    }
-</script>
 <!-- END content -->
 {% endblock %}
