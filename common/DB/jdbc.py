@@ -6,21 +6,15 @@ import pandas as pd
 import psycopg2
 def db_select(qry):    
     try :
-        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")    
-            
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")   
         result = td_context.execute(qry)   
-        
         data = result.fetchall()    
-        
         data = pd.DataFrame(data)    
-        
         data = data.fillna('NULL')
-        print(data.columns)
         print("===============================")
         print("Success")
         print("===============================")
         data = {'status' : 200, 'data' : data, 'type' : 'select'}
-    
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
@@ -73,16 +67,19 @@ def db_create(qry):
 def connect(data):
     if data['db'] == 'Teradata' :
         try :
-            td_context = create_context(host="{}:{}".format(data['db_host'], data['db_port']), 
+            db = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
                                         username = data['user_id'], 
                                         password = data['user_pwd'], 
                                         logmech="TD2")
+            status = 200
+            setting_insert(data)
+            useraddress = str(db)
         except Exception as e :
             print("==================")
             print('연결실패')
             print("==================")
             status = 400
-            data = str(db)
+            useraddress = str(db)
     elif data['db'] == 'Postgres' :
         try :
             db = psycopg2.connect(host=data['db_host'], 
@@ -91,16 +88,59 @@ def connect(data):
                                 password = data['user_id'],
                                 port = data['db_port'])
             status = 200
-            data = str(db)
+            setting_insert(data)
+            useraddress = str(db)
         except Exception as e :
             print("==================")
             print('연결실패')
             print("==================")
             status = 400
-            data = str(e)
+            useraddress = str(e)
             
     result = {
-        'status' : status,
-        'data' : data
+        'status': status,
+        'data': useraddress,
+        'host': data['db_host'],
+        'dbname': data['user_id'],
+        'user': data['user_id'],
+        'password': data['user_id'],
+        'port': data['db_port']
     }
+    print(result)
     return result
+
+def setting_insert(data): #파라미터값 web_user 추가
+    web_user = 'admin'
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+    # td_context = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
+    #                database=data['db_name'],
+    #                username=data['user_id'],
+    #                password=data['user_pwd'],
+    #                logmech="TD2")
+    qry = """
+        INSERT INTO xfactor.connect_tera2
+            (database_name, database_type, "host", port, web_user, db_user, db_pw)
+        values
+        ('"""+data['db_name']+"""','"""+data['db']+"""','"""+data['db_host']+"""','"""+data['db_port']+"""','"""+web_user+"""','"""+data['user_id']+"""','"""+data['user_pwd']+"""')
+        """
+    print(qry)
+    result = td_context.execute(qry)
+    print(result)
+
+def connect_DBList():
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+    qry = """
+        select 
+            *
+        from
+            xfactor.connect_tera2
+        """
+    result = td_context.execute(qry)
+    a = result.fetchall()
+
+    a = pd.DataFrame(a).reset_index()
+    a['index'] = a['index'].add(1)
+    #print(a)
+    dict = a.to_dict('records')
+
+    return dict

@@ -25,8 +25,8 @@
                                         <div class="row justify-content-center">
                                         <!-- BEGIN col-xl-10 -->
                                             <div class="col-xl-5 mb-4 d-flex">
-                                                <span>Database :
-                                                    <select class="w-200px h-28px text-center settinginput" name="db" >
+                                                <span class="ps-5px">Database :
+                                                    <select class="w-200px h-23px text-center settinginput" name="db" >
                                                         <option class="setting-select">Teradata</option>
                                                         <option class="setting-select">Postgres</option>
                                                         <option class="setting-select">ETC1</option>
@@ -37,7 +37,7 @@
                                             </div>
                                             <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5 mb-4 d-flex">
-                                              <span class="ps-5px">DB Name : <input class="w-200px settinginput" name="name" type="text"></span>
+                                                <span class="ps-4px">DB Name : <input class="w-200px settinginput" name="name" type="text"></span>
                                             </div>
                                         <!-- END col-xl-5 -->
                                         <!-- END col-xl-10 -->
@@ -48,7 +48,7 @@
                                         <!-- END col-xl-5 -->
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5">
-                                              <span class="ps-42px">Port :</span> <input class="w-200px settinginput" name="port"  type="text">
+                                              <span style="padding-left:37px">Port :</span> <input class="w-200px settinginput" name="port"  type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         </div>
@@ -63,7 +63,7 @@
                                         <div class="row justify-content-center">
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5">
-                                              <span class="ps-60px">ID : </span> <input class="w-200px settinginput" name="id" type="text">
+                                              <span class="ps-56px">ID : </span> <input class="w-200px settinginput" name="id" type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         <!-- BEGIN col-xl-5 -->
@@ -96,7 +96,7 @@
                         <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
                             Database Connected
                         </div>
-                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-423px">
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-435px">
                             <!-- BEGIN setting-table -->
                             <div class="DataFabric-scroll">
                                 <table class="table setting-table table-striped database-connected-table fs-12px">
@@ -111,142 +111,21 @@
                                             <th>Modify</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id = 'connetTalbe'>
+                                    {% if connect_DBList %}
+                                        {% for connectList in connect_DBList %}
                                         <tr>
-                                            <td>1</td>
-                                            <td></td>
-                                            <td>Postgres</td>
-                                            <td>127.0.0.1</td>
-                                            <td>5432</td>
-                                            <td>hostname</td>
+                                            <td>{{ connectList.index }}</td>
+                                            <td>{{ connectList.database_name }}</td>
+                                            <td>{{ connectList.database_type }}</td>
+                                            <td>{{ connectList.host }}</td>
+                                            <td>{{ connectList.port }}</td>
+                                            <td>{{ connectList.web_user }}</td>
                                             <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
                                         </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td></td>
-                                            <td>ETC1</td>
-                                            <td>192.168.0.0</td>
-                                            <td>1234</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td></td>
-                                            <td>ETC2</td>
-                                            <td>localhost</td>
-                                            <td>9999</td>
-                                            <td>admin</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td></td>
-                                            <td>ETC3</td>
-                                            <td>localhost</td>
-                                            <td>5678</td>
-                                            <td>admin</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>6</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>7</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>8</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>9</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>10</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>11</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>12</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>13</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>14</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td>15</td>
-                                            <td></td>
-                                            <td>Teradata</td>
-                                            <td>localhost</td>
-                                            <td>1025</td>
-                                            <td>Username</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+
                                     </tbody>
                                 </table>
                             </div>
@@ -269,7 +148,7 @@
         var port = form.port.value;
         var id = form.id.value;
         var pwd = form.pwd.value;
-        
+
         if(!name){
             alert('DB Name을 입력해주세요');
             return false;
@@ -286,7 +165,7 @@
             alert('Password를 입력해주세요');
             return false;
         };
-        
+
         var params = {
             'db' : db,
             'name' : name,
@@ -302,10 +181,13 @@
                 async : false,
                 success : function(res){
                     console.log(res);
+                    $("#connetTalbe").empty();
                     alert('Database Connection is Successd');
+
+
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown){
-                    alert('hi');
+                    alert('올바른 Connection정보를 입력 해주세요');
                 }
             });
     }
