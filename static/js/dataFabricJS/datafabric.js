@@ -79,7 +79,16 @@ var handleRenderDataFabricApexChart = function () {
     },
   };
 
-// BEGIN databaseConnect-ColumChart
+// BEGIN databaseConnectChart
+
+var dbtraffic_Name = []
+var dbtraffic_Value = []
+for (var i = 0; i < a.pieChartDataList.length; i++){
+    pieValue.push(a.pieChartDataList[i]['value']);
+    pieName.push(a.pieChartDataList[i]['name']);
+};
+
+
   var DatabaseConnectChartOptions = {
     chart: {
       height: 190,
