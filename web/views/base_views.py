@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, connect, history_select, database_traffic, user_traffic
+from common.DB.jdbc import db_select, db_create, connect, history_select, database_traffic, user_traffic, connect_DBList
 import json
 import math
 
