@@ -34,6 +34,7 @@ def db_select(qry):
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
         result = td_context.execute(qry)
         data = result.fetchall()
+        
         data = pd.DataFrame(data)
         data = data.fillna('NULL')
         print("===============================")
@@ -96,6 +97,7 @@ def db_create(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status' : 400, 'data' : error_list, 'type' : 'create'}
+    remove_context()
     return data
 def db_insert(qry):
     try:
@@ -124,6 +126,7 @@ def db_insert(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status': 400, 'data': error_list, 'type': 'create'}
+    remove_context()
     return data
 
 def db_update(qry):
@@ -153,6 +156,7 @@ def db_update(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status': 400, 'data': error_list, 'type': 'create'}
+    remove_context()
     return data
 
 def db_delete(qry):
@@ -182,6 +186,7 @@ def db_delete(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status': 400, 'data': error_list, 'type': 'create'}
+    remove_context()
     return data
 
 def db_drop(qry):
@@ -211,6 +216,7 @@ def db_drop(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status': 400, 'data': error_list, 'type': 'create'}
+    remove_context()
     return data
 
 def db_rename(qry):
@@ -240,6 +246,7 @@ def db_rename(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status': 400, 'data': error_list, 'type': 'create'}
+    remove_context()
     return data
 
 def db_alter(qry):
@@ -253,6 +260,7 @@ def db_alter(qry):
         print("Success")
         print("===============================")
         data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+        print(data)
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -269,6 +277,7 @@ def db_alter(qry):
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
             data = {'status': 400, 'data': error_list, 'type': 'create'}
+    remove_context()
     return data
 def db_show(qry):
     qry=qry.lower()
@@ -334,6 +343,8 @@ def connect(data):
             status = 400
             useraddress = str(e)
 
+    remove_context()
+    
     result = {
         'status': status,
         'data': useraddress,

@@ -57,33 +57,30 @@ def dataFabric_monitoring(request):
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
-    TERADATA = False
-    POSTGRES = False
+    
+    # -=============================================================
     qry = """
         select UPPER(database_type) from xfactor.connect_tera  group by database_type;
     """
-    qry2="""
-        select * from xfactor.connect_tera where database_type = 'TERADATA';
-    """
+    
     column = db_select(qry)
-    result = db_select(qry2)
-    if result['status'] == 200 :
-        result = result['data'].values.tolist()
     
     if column['status'] == 200 :
         column = column['data'].values.tolist()
+    # =======================================================
+    qry="""
+        select * from xfactor.connect_tera where database_type = '"""+ str(column[0][0])+"""';
+    """
+    result = db_select(qry)
         
-    for i in column :
-        if i == ['TERADATA'] :
-            TERADATA = True
-        elif i == ['POSTGRES'] :
-            POSTGRES = True
+    if result['status'] == 200 :
+        result = result['data'].values.tolist()
+    
     returnData = {'menuList': menuListDB, 
                   'Customer': Customer, 
                   'data' : result, 
-                  "TERADATA" : TERADATA,
-                  "POSTGRES" : POSTGRES}
-    print()
+                  'column' : column}
+    
     return render(request, 'dataFabric/navigator_DF.html', returnData)
 
 def dataFabric_setting(request):
@@ -93,7 +90,7 @@ def dataFabric_setting(request):
 #################################### api ############################################
 @csrf_exempt
 def dataFabric_api(request) :
-    data = str(request.POST['data'])
+    data = request.POST['data']
     if data.lower().startswith('select') :
         result = db_select(data)
         
@@ -231,7 +228,13 @@ def settings_api(request) :
 def navigator_api(request) :
     data = request.POST['name']
     qry = """
-        select * from dbc.tables where databasename = '""" + data + """';
+        SELECT 
+            TableName,
+            RequestText
+        FROM 
+            dbc.tables 
+        WHERE 
+            databasename = '""" + data + """';
     """
     
     result = db_select(qry)
@@ -254,7 +257,8 @@ def property_api(request) :
     print("=====================")
     
     qry = """
-        select * from """ + data + """;
+        SELECT * 
+        FROM """ + data + """;
     """
     
     qry2= """
@@ -293,18 +297,25 @@ def property_api(request) :
     return JsonResponse(returnData)
 
 @csrf_exempt
-def postgres_navigator_api(request) :
+def navigator_database_api(request) :
     data = request.POST['name']
     qry = """
-        select * from dbc.tables where databasename = '""" + data + """';
+        SELECT 
+            database_name
+        FROM 
+            xfactor.connect_tera 
+        WHERE 
+            database_type = '""" + data + """';
     """
-    
     result = db_select(qry)
+    
+    database = result['data'].values.tolist()
+    
     returnData = {
-                'status' : result['status'],
-                'data' : result['data']['TableName'].values.tolist(),
-                'ddl' : result['data']['RequestText'].values.tolist()
+                'status' : str(result['status']),
+                'data' : database
             }
+    
     return JsonResponse(returnData)
     
 
