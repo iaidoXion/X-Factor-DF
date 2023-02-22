@@ -12,27 +12,30 @@
                     <div class="col-xl-4">
                       <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px text-white align-items-center justify-content-center">Database Navigator</div>
                         {% csrf_token %}
-                    <div class="d-flex">
-                      <div>
-                        {% for item in column%}
-                            {%if forloop.first%}
-                            <button type="button" class="btn-dataNavi fs-12 w-100px active btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 deactive text-white" onclick="{{item.0}}('{{item.0}}');">{{item.0}}</button>
-                            {% else%}
-                            <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 deactive text-white" onclick="{{item.0}}('{{item.0}}');">{{item.0}}</button>
-                            {%endif%}
-                        {%endfor%}
-                    </div>
-                    <div class="form-control form-control-lg bg-white bg-opacity-10 w-270px h-810px">
-                        <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
-                            <div class="Navi-DF-menu1">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">{{column.0.0}}</i>
-                                <div class="Navi-DF-menu2" id="database_table">
-                                        {% for item in data%}
+                        <div class="d-flex">
+                          <div>
+                            {% for item in column%}
+                                {%if forloop.first%}
+                                <button type="button" class="btn-dataNavi fs-12 w-100px active btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 deactive text-white" onclick="{{item.0}}('{{item.0}}');">{{item.0}}</button>
+                                {% else%}
+                                <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 deactive text-white" onclick="{{item.0}}('{{item.0}}');">{{item.0}}</button>
+                                {%endif%}
+                            {%endfor%}
+                        </div>
+                            <div class="form-control form-control-lg bg-white bg-opacity-10 w-270px h-810px">
+                                <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
+                                    <div class="Navi-DF-menu1">
+                                        <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">{{column.0.0}}</i>
+                                        <div class="Navi-DF-menu2" id="database_table">
+                                            {% for item in data%}
                                             <i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('{{item.1|safe}}', this);"><i class="bi bi-file-earmark-text">{{item.1}}</i></i></br>
-                                        {% endfor%}
-                                    <div class="Navi-DF-menu3" id="navigator_table">
+                                            {% endfor%}
+                                            <div class="Navi-DF-menu3" id="navigator_table">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
 
@@ -42,12 +45,12 @@
                             <div class="d-flex">
                                 <div>
                                     <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active">Data</button>
-                                    <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Column</button>
-                                    <button type="button" class="btn-tableProperties DDL-btn fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">DDL</button>
+                                    <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Column</button>
+                                    <button type="button" class="btn-tableProperties DDL-btn fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">DDL</button>
                                 </div>
 
-                                <div class="form-control form-control-lg bg-white bg-opacity-10 h-810px w-100 col-xl-8">
-                                    <table id="properties_Table" class="properties table TableProperties table-bordered">
+                                <div class="form-control form-control-lg bg-white bg-opacity-10 h-810px col-xl-8">
+                                    <table id="properties_Table" class="table TableProperties table-bordered dataFabricTable-sm">
                                         <thead>
                                             <tr class="table-dark">
                                                 <th>1</th>
@@ -62,7 +65,6 @@
                                                 <th>1</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
                                             <tr>
                                                 <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
@@ -76,476 +78,7 @@
                                                 <td>2</td>
                                                 <td>2</td>
                                             </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2aaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
-                                            <tr>
-                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                            </tr>
                                         </tbody>
-
                                     </table>
                                 </div>
                             </div>

@@ -708,7 +708,7 @@ var handleRenderWebQueryTableData = function () {
 		searching: false,
 		autoWidth: false,
 		ordering: false,
-		scrollX: 200,
+		scrollX: 300,
 		scrollY: 300,
 		scrollCollapse: true,
 		paging: false,
@@ -745,7 +745,6 @@ var handleRenderWebQueryTableData = function () {
 			"infoPostFix": "",
 		},
 	});
-	webQueryTable.columns.adjust().draw();
 };
 
 var handleRenderpropertiesTableData = function () {
@@ -772,9 +771,9 @@ var handleRenderQueryHistoryTableData = function () {
 		dom: "<'row'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end 'fB>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>",
 		lengthMenu: [10, 20, 30, 40, 50],
         scrollY: 240,
-        scrollX: 200,
+        scrollX: true,
         scrollCollapse: true,
-        responsive: true,
+        responsive: false,
 		destroy : true,
 		details: false,
 		searching: false,
@@ -820,10 +819,10 @@ var handleRenderDbConnectedTableData = function () {
 	var DbConnectedTable = $('#DbConnectedTable').DataTable({
 		dom: "<'row'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end 'fB>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>",
 		lengthMenu: [10, 20, 30, 40, 50],
-        scrollY: 400,
+        scrollY: 380,
         scrollX: true,
         scrollCollapse: true,
-        responsive: true,
+        responsive: false,
 		destroy : true,
 		details: false,
 		searching: false,
@@ -915,7 +914,9 @@ $(document).ready(function () {
 	}else if($("#webQuery_table").length > 0){
 
 	    handleRenderWebQueryTableData();
+	}else if($("#properties_Table").length > 0){
 
+	    handleRenderpropertiesTableData();
 	}else if($("#queryHistoryTable").length > 0){
 
 	    handleRenderQueryHistoryTableData();
@@ -923,5 +924,4 @@ $(document).ready(function () {
 
 	    handleRenderDbConnectedTableData();
 	};
-
 });

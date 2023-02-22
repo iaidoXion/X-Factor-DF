@@ -42,8 +42,8 @@
                             <div class="tab-content query-tabContent">
                                 <div class="query-box tab-pane fade show active" id="Query1">
                                     <form class="position-relative">
-                                            <textarea class="query-input position-absolute" id="query_text" onkeydown="KeyDown(event)"></textarea>
-                                            <div class="show_text"></div>
+                                        <textarea class="query-input position-absolute" id="query_text" onkeydown="KeyDown(event)"></textarea>
+                                        <div class="show_text"></div>
                                     </form>
                                 </div>
                             </div>
@@ -66,8 +66,7 @@
                             <div class="tab-content">
                                 <div class="result-box tab-pane fade show active" style="white-space: nowrap" id="result1">
                                     <div class="DataFabric-scroll">
-                                        <table id="webQuery_table" class="table table-striped queryTable-sm queryTable fs-12px text-nowrap">
-
+                                        <table id="webQuery_table" class="table table-bordered dataFabricTable-sm queryTable fs-12px text-nowrap">
                                             <thead>
                                             <tr class="table-dark" id='query_thead'>
                                                 <th>1</th>
@@ -83,7 +82,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -96,7 +94,6 @@
 
 
 <script>
-    
     function KeyDown(e){
         if(e.ctrlKey) {
             if (e.key === 'Enter') {
@@ -115,15 +112,15 @@
 
         /*=====================문단의 첫문자==================*/
         let startIndex = txtValue.lastIndexOf(';', selectPos);
-        
+
         /*=====================문단의 마지막 문자==================*/
         let lastIndex = txtValue.indexOf(';', selectPos);
-        
+
         /*=====================결과값==================*/
         let resultTxt = txtValue.substring(startIndex + 1, lastIndex);
         console.log(resultTxt);
-        
-        
+
+
 
         var params = {
             'data' : resultTxt.trimStart()
@@ -342,7 +339,7 @@
                     $("#query_tbody").html(str);
                 }
             });
-            
+
     }
 </script>
 

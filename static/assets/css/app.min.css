@@ -4135,23 +4135,6 @@ fieldset:disabled .btn {
     --bs-gradient: none
 }
 
-.btn-outline-naviDF {
-    --bs-btn-color: #ff9f0c;
-    --bs-btn-border-color: #798e98;
-    --bs-btn-hover-color: #000000;
-    --bs-btn-hover-bg: #ff9f0c;
-    --bs-btn-hover-border-color: #ff9f0c;
-    --bs-btn-focus-shadow-rgb: #ff9f0c;
-    --bs-btn-active-color: #000000;
-    --bs-btn-active-bg: #ff9f0c;
-    --bs-btn-active-border-color: #ff9f0c;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #3cd2a5;
-    --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #ff9f0c;
-    --bs-gradient: none;
-}
-
 .btn-outline-theme {
     --bs-btn-color: #ff9f0c;
     --bs-btn-border-color: #ff9f0c;
@@ -30538,6 +30521,11 @@ body .note-modal-backdrop {
 }
 
 /* BEGIN Data Fabric css */
+
+/* 공통 */
+.dataFabricTable-sm>:not(caption)>*>* {
+    padding: 0.1rem
+}
 /* Query web-page */
 .change-tabs {
   border: 0 !important;
@@ -30649,10 +30637,6 @@ body .note-modal-backdrop {
     height: 18px;
 }
 
-.result-container .result-box .queryTable-sm>:not(caption)>*>* {
-    padding: 0.1rem
-}
-
 .result-container .result-box .queryTable thead tr th,
 .result-container .result-box .queryTable tbody tr td {
     font-weight: lighter;
@@ -30674,6 +30658,24 @@ body .note-modal-backdrop {
     overflow: hidden;
 }
 /* Navigator web-page */
+.btn-outline-naviDF {
+    --bs-btn-color: #ff9f0c;
+    background-color: #9baab2;
+    --bs-btn-border-color: #798e98;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #ff9f0c;
+    --bs-btn-hover-border-color: #ff9f0c;
+    --bs-btn-focus-shadow-rgb: #ff9f0c;
+    --bs-btn-active-color: #000000;
+    --bs-btn-active-bg: #ff9f0c;
+    --bs-btn-active-border-color: #ff9f0c;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #3cd2a5;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #ff9f0c;
+    --bs-gradient: none;
+}
+
 .TableProperties{
     text-align: center;
     width: 100%;
