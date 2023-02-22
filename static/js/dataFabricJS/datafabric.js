@@ -117,13 +117,13 @@ for (var i = 0; i < db_traffic.length; i++){
     },
     colors: ["#f39c12", "#fdb43f", "#ffc365", "#c58a2e"],
     series: [{
-      data: [41, 28, 36, 22]
+      data: dbtraffic_Value,
     }],
     grid: {
         show: true
     },
     xaxis: {
-      categories: ['Teradata', 'Postgres', 'ETC1', 'ETC2',],
+      categories: dbtraffic_Name,
       labels: {
         show: true,
         style: {
@@ -165,6 +165,16 @@ for (var i = 0; i < db_traffic.length; i++){
   // END databaseConnect-ColumChart
 //--------------------------------------------------------------------------
   // BEGIN UserConnectChart
+
+
+var usertraffic_Name = []
+var usertraffic_Value = []
+
+for (var i = 0; i < user_traffic.length; i++){
+    usertraffic_Name.push(user_traffic[i]['db_user']);
+    usertraffic_Value.push(user_traffic[i]['count']);
+};
+
   var UserConnectChartOptions = {
 //   BEGIN UserConnect-ColumChart
 //    chart: {
@@ -332,8 +342,8 @@ for (var i = 0; i < db_traffic.length; i++){
       show: false
     },
     colors: ["#934903", "#b76306", "#db7f08", "#ff9f0c", "#ffbe48", "#ffd16d", "#ffe49d", "#fff3ce"],
-    labels: ["User1","Admin","Guest","Manager"],
-    series: [4, 11, 8, 18],
+    labels: usertraffic_Name,
+    series: usertraffic_Value,
     tooltip: {
       theme: 'dark',
       x: {
