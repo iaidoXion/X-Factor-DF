@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, db_show, setting_insert, connect_DBList
 import json
 import math
 
@@ -185,6 +185,21 @@ def dataFabric_api(request) :
                 'type': result['type']
             }
         elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('show') :
+        result = db_show(data)
+
+        if result['status'] == 200 :
+            column = result['data'].columns.values.tolist()
+            data = result['data'].values.tolist()
+            returnData = {
+                'status' : result['status'],
+                'column' : column,
+                'data' : data,
+                'type' : result['type']
+            }
+        elif result['status'] == 400 :
             returnData = result
     return JsonResponse(returnData)
 
