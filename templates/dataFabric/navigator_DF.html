@@ -10,24 +10,22 @@
                 {% csrf_token %}
                 <div class="d-flex">
                     <div>
-                        {% if TERADATA %}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 active text-white">Teradata</button>
-                        {%endif%}
-                        {%if POSTGRES%}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white" onclick="postgres()">Postgres</button>
-                        {%endif%}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">ETC</button>
+                        {% for item in column%}
+                            {%if forloop.first%}
+                            <button type="button" class="btn-dataNavi fs-12 w-100px active btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 deactive text-white" onclick="{{item.0}}('{{item.0}}');">{{item.0}}</button>
+                            {% else%}
+                            <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 deactive text-white" onclick="{{item.0}}('{{item.0}}');">{{item.0}}</button>
+                            {%endif%}
+                        {%endfor%}
                     </div>
                     <div class="form-control form-control-lg bg-white bg-opacity-10 w-270px h-837px">
                         <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
                             <div class="Navi-DF-menu1">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">Teradata</i>
-                                <div class="Navi-DF-menu2">
-                                    {% if TERADATA %}
+                                    <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">{{column.0.0}}</i>
+                                <div class="Navi-DF-menu2" id="database_table">
                                         {% for item in data%}
                                             <i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('{{item.1|safe}}', this);"><i class="bi bi-file-earmark-text">{{item.1}}</i></i></br>
                                         {% endfor%}
-                                    {% endif%}
                                     <div class="Navi-DF-menu3" id="navigator_table">
                                     </div>
                                 </div>
@@ -94,40 +92,49 @@
 </div>
 <script>
     console.log({{data|safe}});
+    console.log({{column|safe}});
 
-    function postgres(){
-        $('#properties_columns').empty()
-        $('#properties_data').empty()
-        $('#columns_columns').empty()
-        $('#columns_data').empty()
-        $('#ddl_data').empty()
-        $.ajax({
-            type : "POST",
-            url : "postgres_navigator_api/",
-            data : params,
-            async : false,
-            success : function(res){
-                $('#navigator_table').empty()
-                var str = "";
-                $.each(res.data, function(i){
-                    var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
-                    str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
-                });
-                
-                $('#navigator_table').append(str)
-            },
-            error : function(XMLHttpRequest, textStatus, errorThrown){
-                alert('Error');
-            }
-        });
-    };
+    column_list = {{column|safe}};
 
-    function execute(f, a) {
-        console.log(f);
+    for(let i = 0; i < column_list.length; i++){
+        window[column_list[i][0]] = function(name){
+            $.ajax({
+                type : "POST",
+                url : "navigator_database_api/",
+                data : {
+                    'name' : name
+                },
+                async : false,
+                success : function(res){
+                    $('#database_table').empty()
+                    var str = "";
+                                            
+                    $.each(res.data, function(i){
+                        str += `<i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('` + res.data[i] +`', this);" id='` + res.data[i] +`'><i class="bi bi-file-earmark-text">` + res.data[i] +`</i></i></br>`
+                    });
+                    str += `<div class="Navi-DF-menu3" id="navigator_table">`
+                    str += `</div>`
+                    $('#database_table').append(str)
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown){
+                    alert('Error');
+                }
+            });
+        }
+    }
+    
+
+    function execute(f, class_property) {
+        if($(class_property).attr("class").includes('down-fill')){
+            $(class_property).attr('class', 'bi bi-caret-right-fill menu-list menu-list3 menu-icon ');
+            $('#navigator_table').empty()
+        }else {
         params = {
             'name' : String(f)
         };
-        if ($(a).attr("class").includes('right-fill')){
+        console.log(class_property);
+        var data_name =  $(class_property).attr("id");
+        if ($(class_property).attr("class").includes('right-fill')){
             $.ajax({
                 type : "POST",
                 url : "navigator_api/",
@@ -140,19 +147,18 @@
                         var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
                         str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
                     });
-                    
+                    $(class_property).attr('class', 'bi bi-caret-down-fill menu-list menu-list3 menu-icon ');
                     $('#navigator_table').append(str)
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown){
-                    alert('Error');
+                    alert('데이터 테이블의 값이 없습니다');
                 }
             });
+        }
         }
     }
 
     function properties_view(a, f, ddl){
-        console.log(a);
-        console.log(f);
         params = {
             'database' : a,
             'table' : f,
@@ -164,7 +170,6 @@
                 data : params,
                 async : false,
                 success : function(res){
-                    console.log(res);
                     $('#properties_columns').empty()
                     $('#properties_data').empty()
                     $('#columns_columns').empty()
@@ -204,7 +209,7 @@
                     var str = "";
                     $.each(res.columns, function(i){
                         str += `<tr>`
-                            str += `<td>` + i + `</td>`
+                            str += `<td>` + (i+1) + `</td>`
                             $.each(res.columns[i], function(j){
                                 if(j == 1){
                                     if(res.columns[i][1].trim() == 'N'){

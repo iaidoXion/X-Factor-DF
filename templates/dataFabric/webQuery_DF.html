@@ -8,7 +8,7 @@
             <div class="col-xl-10">
                 <div class="row">
                     <div class="query-container">
-                        <button type="button" class="btn btn-primary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="query();" id='query_start'><i class="fas fa-play pe-2"></i>실행</button>
+                        <button type="button" class="btn btn-primary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="query('query_start');" id='query_start'><i class="fas fa-play pe-2"></i>실행</button>
                         <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px fw-700" onclick="stop();" id='query_stop' style="display: none;"><i class="fas fa-pause pe-2"></i>정지</button>
                         <button type="button" class="btn btn-secondary btn-sm w-100px h-35px queryBtn fs-12px" id='addScript'>+ Add Script</button>
                         <!--<button type="button" class="btn btn-outline-white btn-sm w-100px h-35px queryBtn-outline fs-12px">QueryGrid</button>-->
@@ -43,7 +43,7 @@
                                 <div class="query-box tab-pane fade show active" id="Query1">
                                     <form>
                                         <div style="position:relative;">
-                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; z-index:2; " id="query_text"></textarea>
+                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; z-index:2; " id="query_text" onkeydown="KeyDown(event)"></textarea>
                                             <div class="show_text"></div>
                                         </div>
                                     </form>
@@ -69,7 +69,7 @@
                                 <div class="result-box tab-pane fade show active" style="white-space: nowrap" id="result1">
                                     <div class="DataFabric-scroll">
                                         <table id="webQuery_table" class="table table-striped queryTable-sm queryTable fs-12px text-nowrap">
-                                            <thead>
+                                            <thead id="query_thead">
                                             <tr class="table-dark">
                                                 <th>1</th>
                                                 <th>1</th>
@@ -78,7 +78,7 @@
                                                 <th>1</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="query_tbody">
                                             <tr>
                                                 <td>2</td>
                                                 <td>2</td>
@@ -100,11 +100,39 @@
 </div>
 
 <script>
-    function query() {
-        var a = document.getElementById('query_text');
-        var params = {
-            'data' : String(a.value)
+    
+    function KeyDown(e){
+        if(e.ctrlKey) {
+            if (e.key === 'Enter') {
+                query()
+            }
         }
+    }
+
+    function query() {
+
+        let txtArea = document.getElementById('query_text');
+        let txtValue = txtArea.value.trim();
+
+        /*=====================커서 위치 지정==================*/
+        let selectPos = txtArea.selectionStart;
+
+        /*=====================문단의 첫문자==================*/
+        let startIndex = txtValue.lastIndexOf(';', selectPos);
+        
+        /*=====================문단의 마지막 문자==================*/
+        let lastIndex = txtValue.indexOf(';', selectPos);
+        
+        /*=====================결과값==================*/
+        let resultTxt = txtValue.substring(startIndex + 1, lastIndex);
+        console.log(resultTxt);
+        
+        
+
+        var params = {
+            'data' : resultTxt.trimStart()
+        }
+        console.log(params);
 
         $.ajax({
                 type : "POST",
@@ -112,7 +140,6 @@
                 data : params,
                 async : false,
                 success : function(res){
-                    console.log(res);
                     $("#query_thead").empty();
                     $("#query_tbody").empty();
                     document.getElementById("query_stop").style.display = "none";
@@ -125,7 +152,6 @@
                             $.each(res.column, function(i){
                                 str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
                             });
-                            console.log(str)
                             $("#query_thead").append(str);
 
                             var str = "";
@@ -281,10 +307,7 @@
                     document.getElementById("query_start").style.display = "none";
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown){
-                    console.log(textStatus);
-                    console.log(XMLHttpRequest);
-                    console.log(errorThrown);
-                    alert("에러");
+                    alert("쿼리를 제대로 입력해주세요");
                     document.getElementById("query_stop").style.display = "none";
                     document.getElementById("query_start").style.display = "inline";
                     var str = "";
@@ -294,6 +317,7 @@
                     $("#query_tbody").html(str);
                 }
             });
+            
     }
 </script>
 <!-- END content -->
