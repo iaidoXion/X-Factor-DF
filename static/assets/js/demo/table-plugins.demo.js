@@ -748,6 +748,25 @@ var handleRenderWebQueryTableData = function () {
 	webQueryTable.columns.adjust().draw();
 };
 
+var handleRenderpropertiesTableData = function () {
+	var propertiesTable = $('#properties_Table').DataTable({
+	    dom: "<>t",
+		responsive: false,
+		destroy : true,
+		searching: false,
+		autoWidth: false,
+		info: false,
+		ordering: false,
+		paging: false,
+		scrollY: '750px',
+		scrollX: true,
+		scrollCollapse: true,
+		colReorder: {
+		          allowReorder: true
+		          },
+	});
+};
+
 /* Controller weakBoxs
 ------------------------------------------------ */
 $(document).ready(function () {
@@ -798,5 +817,8 @@ $(document).ready(function () {
 	}else if($("#webQuery_table").length > 0){
 
 	    handleRenderWebQueryTableData();
-	};
+	}else if($("#properties_Table").length > 0){
+
+	    handleRenderpropertiesTableData();
+	}
 });

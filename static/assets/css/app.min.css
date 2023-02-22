@@ -19205,6 +19205,10 @@ fieldset:disabled .btn {
     height: 600px !important
 }
 
+.h-810px {
+    height: 810px !important
+}
+
 .h-837px {
     height: 837px !important
 }
@@ -30658,9 +30662,15 @@ body .note-modal-backdrop {
 /* Navigator web-page */
 .TableProperties{
     text-align: center;
-    width: 99%;
+    width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 12px;
+}
+
+.TableProperties thead tr th, .TableProperties tbody tr td{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 
 .DataFabric-scroll{
@@ -30681,25 +30691,7 @@ body .note-modal-backdrop {
     border: 2px solid transparent;
 }
 
-.properties tbody tr, .properties tbody tr td, .properties thead tr th{
-     border: 1px solid rgba(255, 255, 255, 0.3);
-     vertical-align: middle;
-}
 
-
-.properties-View tbody tr td:nth-child(3),
-.properties-Procedure tbody tr td:nth-child(3),
-.properties-DDL tbody tr td:nth-child(3){
-    text-align:left;
-}
-
-.properties thead{
-    sposition: -webkit-sticky;
-    position: sticky;
-    height:30px;
-    top: 0;
-    border:none;
-}
 
 .menu-list{
     color: white;
@@ -30718,9 +30710,6 @@ body .note-modal-backdrop {
     font-size:12px;
 }
 
-.properties-View table{
-    table-layout:fixed;
-}
 
 .table-textBox{
     height: 90px;
@@ -30874,7 +30863,4 @@ body .note-modal-backdrop {
     background-color: #9baab2;
 }
 
-.btn-tableProperties{
-    background-color: #9baab2;
-}
 
