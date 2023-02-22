@@ -17813,6 +17813,14 @@ fieldset:disabled .btn {
     padding-right: 30px !important
 }
 
+.pe-31px {
+    padding-right: 31px !important
+}
+
+.pe-32px {
+    padding-right: 32px !important
+}
+
 .pe-35px {
     padding-right: 35px !important
 }
@@ -17971,6 +17979,10 @@ fieldset:disabled .btn {
 
 .ps-30px {
     padding-left: 30px !important
+}
+
+.ps-32px {
+    padding-left: 32px !important
 }
 
 .ps-35px {
@@ -18843,6 +18855,10 @@ fieldset:disabled .btn {
     width: 200px !important
 }
 
+.w-210px {
+    width: 210px !important
+}
+
 .w-250px {
     width: 250px !important
 }
@@ -19175,6 +19191,10 @@ fieldset:disabled .btn {
 
 .h-437px {
     height: 437px !important
+}
+
+.h-448px {
+    height: 448px !important
 }
 
 .h-450px {
@@ -30642,23 +30662,17 @@ body .note-modal-backdrop {
 }
 
 /* Monitoring web-page */
-
-.monitoring-table tbody tr, .monitoring-table tbody tr td, .monitoring-table thead tr th{
-     border: 1px solid rgba(255, 255, 255, 0.3);
-     vertical-align: middle;
-}
-
-.Query-History-table{
+.QueryHistoryTable{
     text-align: center;
-    width: 99%;
 }
 
-.Query-History-table thead tr th{
+.QueryHistoryTable thead tr th,
+.QueryHistoryTable tbody tr td{
     font-weight: lighter;
-    position: sticky;
-    top: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
-
 /* Navigator web-page */
 .TableProperties{
     text-align: center;
@@ -30721,31 +30735,31 @@ body .note-modal-backdrop {
 }
 
 /* setting web-page */
-.setting-table tbody tr, .setting-table tbody tr td, .setting-table thead tr th{
-     border: 1px solid rgba(255, 255, 255, 0.3);
-     vertical-align: middle;
-}
-
-
-.database-connected-table{
+.DatabaseConnectedTable{
     text-align: center;
-    width: 99%;
 }
 
-.database-connected-table thead tr th{
+.DatabaseConnectedTable thead tr th,
+.DatabaseConnectedTable tbody tr td{
     font-weight: lighter;
-    position: sticky;
-    top: 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
- .database-table-icon:hover{
+{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.database-table-icon:hover{
     cursor : pointer;
 }
 
 .setting-save-btn{
     border-radius: 4px;
 }
-
 
 /* END BEGIN Data Fabric css */
 
@@ -30864,3 +30878,23 @@ body .note-modal-backdrop {
 }
 
 
+/* datatable scroll css */
+.dataTables_scrollBody::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-corner {
+    border-radius: 2px;
+    background-color: #777;
+}
+
+.dataTables_scrollBody::-webkit-scrollbar-thumb {
+    background-color: #777;
+    border-radius: 4px;
+}
