@@ -20,5 +20,6 @@ urlpatterns = [
     path('Settings_DF/setting_api/', base_views.settings_api, name='setting_api'),
     path('navigator_DF/navigator_api/', base_views.navigator_api, name='navigator_api'),
     path('navigator_DF/navigator_database_api/', base_views.navigator_database_api, name='navigator_database_api'),
+    path('monitoring_DF/history_api/', base_views.hisotry_api, name='history_api'),
     path('navigator_DF/property_api/', base_views.property_api, name='property_api')
 ]

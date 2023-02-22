@@ -5,6 +5,7 @@ from pprint import pprint
 import pandas as pd
 import psycopg2
 import json
+import unicodedata
 
 with open("setting.json", encoding="UTF-8") as f:
     SETTING = json.loads(f.read())
@@ -278,6 +279,37 @@ def db_alter(qry):
             data = {'status': 400, 'data': error_list, 'type': 'create'}
     remove_context()
     return data
+def db_show(qry):
+    qry=qry.lower()
+    try :
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+        result = td_context.execute(qry)
+        data = result.fetchall()
+        data = pd.DataFrame(data)
+        data = data.fillna('NULL')
+        print("===============================")
+        print("Success")
+        print("===============================")
+        data = {'status' : 200, 'data' : data, 'type' : 'select'}
+    except Exception as e :
+        if 'Failed to connect to Teradata Vantage' in str(e) :
+            data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
+
+        else :
+            if '[Error' in str(e) :
+                err_index = str(e).find('[Error')
+                err_index = str(e).index(']', err_index)
+                error = str(e)[0 : err_index]
+                error_list = str(e).strip(error).split('at ')
+                for i in range(len(error_list)) :
+                    if i == 0 :
+                        error_list[i] = 'S' + error_list[i]
+                        continue
+                    error_list[i] = 'at ' + error_list[i]
+                error_list.insert(0, error + ']')
+            data = {'status' : 400, 'data' : error_list, 'type' : 'select'}
+
+    return  data
 def connect(data):
     if data['db'] == 'Teradata' :
         try :
@@ -360,28 +392,30 @@ def connect_DBList():
 
 
 def history_insert(data):
-    dbname=data['history'][0]
-    dbtype=data['history'][1]
-    dbtable=data['history'][2]
-    webuser=data['history'][3]
-    dbuser=data['history'][4]
-    dbquery=data['history'][5].replace('\'','"')
-    dbresult=data['history'][6]
+    try:
+        dbname=data['history'][0]
+        dbtype=data['history'][1]
+        dbtable=data['history'][2]
+        webuser=data['history'][3]
+        dbuser=data['history'][4]
+        dbquery=data['history'][5].replace('\'','"')
+        dbresult=data['history'][6]
 
-    qry="""
-        insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
-        values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now());
-    """
-    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-    result = td_context.execute(qry)
-    remove_context()
-
+        qry="""
+            insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
+            values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now());
+        """
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+        result = td_context.execute(qry)
+        remove_context()
+    except:
+        print(HistoryTNM + ' History Table connection(Select) Failure')
 
 def history_select():
     try:
         td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
         query = """
-            select 
+            select
                 *
             from
                 """ + DBName + """.""" + HistoryTNM + """
@@ -406,7 +440,7 @@ def history_select():
             DFC = ['num', 'dbname', 'dbtype', 'dbtable', 'web_user', 'db_user', 'db_query', 'db_result', 'commit_time']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by='commit_time', ascending=False).reset_index(drop=True)
         DC = DF.to_dict('records')
-
+        remove_context()
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
@@ -415,15 +449,16 @@ def history_select():
 def database_traffic():
     try:
         td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
-        query = """
-               select 
-                   database_name, count(*)
+        query ="""
+               select top 5
+                    database_name, count(*)
                from
-                   """ + DBName + """.""" + HistoryTNM + """
-                group by database_name;
-
+                    """ + DBName + """.""" + HistoryTNM + """
+               group by 
+                    database_name
+               order by
+                    count(*) desc;
                """
-
         result = td_context.execute(query)
         RS = result.fetchall()
         DFL = []
@@ -435,7 +470,7 @@ def database_traffic():
             DFC = ['dbname', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
         DC = DF.to_dict('records')
-        #print(DC)
+        remove_context()
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
@@ -444,12 +479,14 @@ def user_traffic ():
     try:
         td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
         query = """
-               select 
+               select top 5
                    db_user, count(*)
                from
                    """ + DBName + """.""" + HistoryTNM + """
-                group by db_user;
-
+                group by 
+                    db_user
+                order by
+                    count(*) desc;
                """
 
         result = td_context.execute(query)
@@ -464,7 +501,7 @@ def user_traffic ():
             DFC = ['db_user', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
         DC = DF.to_dict('records')
-        #print(DC)
+        remove_context()
         return DC
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')

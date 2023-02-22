@@ -238,6 +238,8 @@ $(document).ready(function () {
              if(btnText === element){
                 $('.properties').css("display","none");
                 $(".properties-" + element).css("display","table");
+
+                $(".TableProperties").css("display","table");
              }
          });
          textBoxHover()

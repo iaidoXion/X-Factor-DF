@@ -21,11 +21,11 @@
                                 <!-- BEGIN col-xl-9 -->
                                 <div class="col-xl-9">
                                     <span>Server</span>
-                                    <div class="mb-4 settingConnection h-auto">
+                                    <div class="mb-4 mt-5px settingConnection h-auto">
                                         <div class="row justify-content-center">
                                         <!-- BEGIN col-xl-10 -->
                                             <div class="col-xl-5 mb-4 d-flex">
-                                                <span class="ps-5px">Database :
+                                                <span>Database :
                                                     <select class="w-200px h-23px text-center settinginput" name="db" >
                                                         <option class="setting-select">Teradata</option>
                                                         <option class="setting-select">Postgres</option>
@@ -36,19 +36,19 @@
                                                 </span>
                                             </div>
                                             <!-- BEGIN col-xl-5 -->
-                                            <div class="col-xl-5 mb-4 d-flex">
-                                                <span class="ps-4px">DB Name : <input class="w-200px settinginput" name="name" type="text"></span>
+                                            <div class="col-xl-5 mb-4">
+                                                <span class="ps-3px">DB Name</span> : <input class="w-200px settinginput" name="name" type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         <!-- END col-xl-10 -->
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5 ">
-                                              <span class="ps-39px">Host : </span> <input class="w-200px settinginput" name="host"  type="text">
+                                              <span class="ps-30px">Host</span> : <input class="w-200px settinginput" name="host"  type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5">
-                                              <span style="padding-left:37px">Port :</span> <input class="w-200px settinginput" name="port"  type="text">
+                                              <span class="ps-32px">Port</span> : <input class="w-200px settinginput" name="port"  type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         </div>
@@ -56,19 +56,19 @@
                                 </div>
                                 <!-- END col-xl-9 -->
 
-                                <!-- BEGIN col-xl-10 -->
+                                <!-- BEGIN col-xl-9 -->
                                 <div class="col-xl-9">
                                     <span>Users</span>
-                                    <div class="mb-4 settingConnection h-auto">
+                                    <div class="mb-4 mt-5px settingConnection h-auto">
                                         <div class="row justify-content-center">
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5">
-                                              <span class="ps-56px">ID : </span> <input class="w-200px settinginput" name="id" type="text">
+                                              <span class="ps-45px">ID</span> : <input class="w-200px settinginput" name="id" type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5">
-                                              <span>Password :</span> <input class="w-200px settinginput" name="pwd"  type="text">
+                                              <span>Password</span> : <input class="w-200px settinginput" name="pwd"  type="text">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         </div>
@@ -96,39 +96,36 @@
                         <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
                             Database Connected
                         </div>
-                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-458px">
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 h-448px">
                             <!-- BEGIN setting-table -->
-                            <div class="DataFabric-scroll">
-                                <table class="table setting-table table-striped database-connected-table fs-12px queryTable-sm">
-                                    <thead>
-                                        <tr class="table-dark">
-                                            <th>NO</th>
-                                            <th>DB Name</th>
-                                            <th>Database</th>
-                                            <th>Host</th>
-                                            <th>Port</th>
-                                            <th>Username</th>
-                                            <th>Modify</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id = 'connetTalbe'>
-                                    {% if connect_DBList %}
-                                        {% for connectList in connect_DBList %}
-                                        <tr>
-                                            <td>{{ connectList.index }}</td>
-                                            <td>{{ connectList.database_name }}</td>
-                                            <td>{{ connectList.database_type }}</td>
-                                            <td>{{ connectList.host }}</td>
-                                            <td>{{ connectList.port }}</td>
-                                            <td>{{ connectList.web_user }}</td>
-                                            <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
-                                        </tr>
-                                        {% endfor %}
-                                    {% endif %}
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table id="DbConnectedTable" class="table table-bordered DatabaseConnectedTable fs-12px queryTable-sm">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>NO</th>
+                                        <th>DB Name</th>
+                                        <th>Database</th>
+                                        <th>Host</th>
+                                        <th>Port</th>
+                                        <th>Username</th>
+                                        <th>Modify</th>
+                                    </tr>
+                                </thead>
+                                <tbody id = 'connetTalbe'>
+                                {% if connect_DBList %}
+                                    {% for connectList in connect_DBList %}
+                                    <tr>
+                                        <td>{{ connectList.index }}</td>
+                                        <td>{{ connectList.database_name }}</td>
+                                        <td>{{ connectList.database_type }}</td>
+                                        <td>{{ connectList.host }}</td>
+                                        <td>{{ connectList.port }}</td>
+                                        <td>{{ connectList.web_user }}</td>
+                                        <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
                             <!-- END setting-table -->
                         </div>
                     </div>

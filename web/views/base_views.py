@@ -8,7 +8,8 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic
+
 import json
 import math
 
@@ -49,7 +50,10 @@ def dataFabric_webQuery(request):
     return render(request, 'dataFabric/webQuery_DF.html', returnData)
 
 def dataFabric_monitoring(request):
-    returnData = {'menuList': menuListDB, 'Customer': Customer,}
+    historyDB = history_select()
+    db_trafficDB = database_traffic()
+    user_trafficDB = user_traffic()
+    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic': db_trafficDB, 'user_traffic': user_trafficDB}
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
@@ -182,6 +186,21 @@ def dataFabric_api(request) :
                 'type': result['type']
             }
         elif result['status'] == 400:
+            returnData = result
+
+    elif data.lower().startswith('show') :
+        result = db_show(data)
+
+        if result['status'] == 200 :
+            column = result['data'].columns.values.tolist()
+            data = result['data'].values.tolist()
+            returnData = {
+                'status' : result['status'],
+                'column' : column,
+                'data' : data,
+                'type' : result['type']
+            }
+        elif result['status'] == 400 :
             returnData = result
     return JsonResponse(returnData)
 
@@ -318,3 +337,23 @@ def connect_DBList():
 
     return dict
 
+
+@csrf_exempt
+def hisotry_api():
+    qry = """
+        select * from xfactor.history_tera ;
+    """
+    result = db_select(qry)
+    print(result)
+    returnData = {
+        'tera_history_num': result['tera_history_num'],
+        'database_name': result['database_name'],
+        'database_type': result['database_type'],
+        'db_table': result['db_table'],
+        'web_user': result['web_user'],
+        'db_user': result['db_user'],
+        'db_query': result['db_query'],
+        'db_result': result['db_result'],
+        'commit_time': result['commit_time'],
+    }
+    return JsonResponse(returnData)
