@@ -40,7 +40,6 @@
                             <div id="CpuUsageChart" class="mt-n3 mb-n2"></div>
                         </div>
                     </div>
-
                     <!-- END col-xl-12 -->
 
                     <!-- END col-xl-12 -->
@@ -49,41 +48,31 @@
                             Query History
                         </div>
                         <div class="form-control form-control-lg bg-white bg-opacity-10 h-295px">
-                            <!-- BEGIN monitoring-table -->
-                            <div class="DataFabric-scroll">
-                                <table class="table monitoring-table table-striped queryTable-sm Query-History-table fs-12px" style="white-space: nowrap;">
-                                    <thead>
-                                        <tr class="table-dark">
-                                            <th>Timestamp</th>
-                                            <th>DB Name</th>
-                                            <th>Database</th>
-                                            <th>Table</th>
-                                            <th>User</th>
-                                            <th>Query</th>
-                                            <th>Result</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                        <!-- BEGIN monitoring-table -->
+                            <table id="queryHistoryTable" class="table table-bordered queryTable-sm QueryHistoryTable fs-12px">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>Timestamp</th>
+                                        <th>DB Name</th>
+                                        <th>Database</th>
+                                        <th>Table</th>
+                                        <th>User</th>
+                                        <th>Query</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     {% for historydata in history %}
-                                        <tr>
-                                            <td>{{historydata.commit_time}}</td>
-                                            <td>{{historydata.dbname}}</td>
-                                            <td>{{historydata.dbtype}}</td>
-                                            <td>{{historydata.dbtable}}</td>
-                                            <td>{{historydata.db_user}}</td>
-                                            <td class="text-truncate">{{historydata.db_query}}</td>
-                                            <td class="text-truncate">{{historydata.db_result}}</td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{historydata.commit_time}}</td>
+                                        <td>{{historydata.dbname}}</td>
+                                        <td>{{historydata.dbtype}}</td>
+                                        <td>{{historydata.dbtable}}</td>
+                                        <td>{{historydata.db_user}}</td>
+                                        <td>{{historydata.db_query}}</td>
+                                        <td>{{historydata.db_result}}</td>
+                                    </tr>
                                     {% endfor %}
-<!--                                        <tr>-->
-<!--                                            <td>2023-01-27 14:35:13</td>-->
-<!--                                            <td></td>-->
-<!--                                            <td>Postgres</td>-->
-<!--                                            <td>Statistics</td>-->
-<!--                                            <td>Guest</td>-->
-<!--                                            <td>CREATE TABLE Statistic</td>-->
-<!--                                            <td>SUCCES ROWS</td>-->
-<!--                                        </tr>-->
 <!--                                        <tr>-->
 <!--                                            <td>2023-01-27 14:20:22</td>-->
 <!--                                            <td></td>-->
@@ -93,10 +82,9 @@
 <!--                                            <td>DROP TABLE Statistic</td>-->
 <!--                                            <td>SUCCES ROWS</td>-->
 <!--                                        </tr>-->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- END monitoring-table -->
+                                </tbody>
+                            </table>
+                        <!-- END monitoring-table -->
                         </div>
                     </div>
                     <!-- END col-xl-12 -->
