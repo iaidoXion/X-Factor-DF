@@ -699,13 +699,23 @@ var alarmCasehandleRenderDashboardPopupTableData = function () {
 
 var handleRenderWebQueryTableData = function () {
 	var webQueryTable = $('#webQuery_table').DataTable({
-		dom: "<'row mb-3'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end'fB>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>",
-		lengthMenu: [10, 20, 30, 40, 50],
-		responsive: true,
+		dom: "<'row'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end 'fB>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>",
 		destroy : true,
-		searching: true,
+		lengthMenu: [10, 20, 30, 40, 50],
+		lengthChange: false,
+		info: false,
+		details: false,
+		searching: false,
 		autoWidth: false,
 		ordering: false,
+		scrollX: 200,
+		scrollY: 300,
+		scrollCollapse: true,
+		paging: false,
+		responsive: false,
+		colReorder: {
+            allowReorder: true,
+        },
 		/*columnDefs: [
             { width: "2%", target: [0] },
             { width: "4%", target: [1] },
@@ -734,6 +744,26 @@ var handleRenderWebQueryTableData = function () {
 			"infoFiltered": "(전체 _MAX_ 건 중 검색결과)",
 			"infoPostFix": "",
 		},
+	});
+	webQueryTable.columns.adjust().draw();
+};
+
+var handleRenderpropertiesTableData = function () {
+	var propertiesTable = $('#properties_Table').DataTable({
+	    dom: "<>t",
+		responsive: false,
+		destroy : true,
+		searching: false,
+		autoWidth: false,
+		info: false,
+		ordering: false,
+		paging: false,
+		scrollY: '750px',
+		scrollX: true,
+		scrollCollapse: true,
+		colReorder: {
+		          allowReorder: true
+		          },
 	});
 };
 
@@ -885,6 +915,7 @@ $(document).ready(function () {
 	}else if($("#webQuery_table").length > 0){
 
 	    handleRenderWebQueryTableData();
+
 	}else if($("#queryHistoryTable").length > 0){
 
 	    handleRenderQueryHistoryTableData();
@@ -892,4 +923,5 @@ $(document).ready(function () {
 
 	    handleRenderDbConnectedTableData();
 	};
+
 });

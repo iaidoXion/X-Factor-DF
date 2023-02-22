@@ -4,87 +4,555 @@
 {% load static %}
 
 <div id="content" class="app-content" style="padding: 1rem !important;">
-    <div class="container d-flex justify-content-center d-flex">
-        <div style="margin-right:50px;">
-            <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px text-white align-items-center justify-content-center">Database Navigator</div>
-                {% csrf_token %}
-                <div class="d-flex">
-                    <div>
-                        {% if TERADATA %}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 active text-white">Teradata</button>
-                        {%endif%}
-                        {%if POSTGRES%}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white" onclick="postgres()">Postgres</button>
-                        {%endif%}
-                        <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">ETC</button>
-                    </div>
-                    <div class="form-control form-control-lg bg-white bg-opacity-10 w-270px h-837px">
-                        <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
-                            <div class="Navi-DF-menu1">
-                                    <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">Teradata</i>
-                                <div class="Navi-DF-menu2">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px text-white align-items-center justify-content-center">Database Navigator</div>
+                            {% csrf_token %}
+                        <div class="d-flex">
+                            <div>
                                     {% if TERADATA %}
-                                        {% for item in data%}
-                                            <i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('{{item.1|safe}}', this);"><i class="bi bi-file-earmark-text">{{item.1}}</i></i></br>
-                                        {% endfor%}
-                                    {% endif%}
-                                    <div class="Navi-DF-menu3" id="navigator_table">
+                                    <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 active text-white">Teradata</button>
+                                    {%endif%}
+                                    {%if POSTGRES%}
+                                    <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white" onclick="postgres()">Postgres</button>
+                                    {%endif%}
+                                    <button type="button" class="btn-dataNavi fs-12 w-100px btn btn-outline-naviDF d-block mb-1 me-0 h-30px p-0 text-white">ETC</button>
+                                </div>
+                            <div class="form-control form-control-lg bg-white bg-opacity-10 w-270px h-810px">
+                                    <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
+                                        <div class="Navi-DF-menu1">
+                                                <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">Teradata</i>
+                                            <div class="Navi-DF-menu2">
+                                                {% if TERADATA %}
+                                                    {% for item in data%}
+                                                        <i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('{{item.1|safe}}', this);"><i class="bi bi-file-earmark-text">{{item.1}}</i></i></br>
+                                                    {% endfor%}
+                                                {% endif%}
+                                                <div class="Navi-DF-menu3" id="navigator_table">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-        <div>
-            <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">Table Properties</div>
-            <div>
-                <div class="d-flex">
-                    <div>
-                        <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active">Data</button>
-                        <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Column</button>
-                        <button type="button" class="btn-tableProperties DDL-btn fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">DDL</button>
-                    </div>
-                    <div class="form-control form-control-lg bg-white bg-opacity-10 h-837px">
-                        <div class="DataFabric-scroll">
+                    <div class="col-xl-8">
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">Table Properties</div>
+                        <div class="w-100">
+                            <div class="d-flex">
+                                <div>
+                                    <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active">Data</button>
+                                    <button type="button" class="btn-tableProperties fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">Column</button>
+                                    <button type="button" class="btn-tableProperties DDL-btn fs-12 w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white">DDL</button>
+                                </div>
 
-                            <!--      START   properties-data             -->
-                            <table class="properties table TableProperties properties-Data table-striped">
-                                <thead class="table-hover-color">
-                                    <tr class="table-dark" id="properties_columns">
-                                    </tr>
-                                </thead>
-                                <tbody id ="properties_data">
+                                <div class="form-control form-control-lg bg-white bg-opacity-10 h-810px w-100 col-xl-8">
+                                    <table id="properties_Table" class="properties table TableProperties table-bordered">
+                                        <thead>
+                                            <tr class="table-dark">
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                                <th>1</th>
+                                            </tr>
+                                        </thead>
 
-                                </tbody>
-                            </table>
-                            <!--      End   properties-data             -->
+                                        <tbody>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2aaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td >2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                                <td>2aaaaaaaaaaaaaaaaaaa</td>
+                                                <td>2</td>
+                                                <td>2</td>
+                                            </tr>
+                                        </tbody>
 
-                            <!--      START   properties-column            -->
-                            <table class="properties table TableProperties properties-Column table-striped" style="display:none">
-                                <thead class="table-hover-color">
-                                    <tr class="table-dark" id="columns_columns">
-                                    </tr>
-                                </thead>
-                                <tbody id='columns_data'>
-                                </tbody>
-                            </table>
-                            <!--      End   properties-column             -->
-
-                            <!--      START   properties-ddl            -->
-                            <table class="properties table TableProperties properties-DDL table-striped" style="display:none">
-                                <thead class="table-hover-color">
-                                    <tr class="table-dark" id="ddl_column">
-                                        <th>#</th>
-                                        <th>Query Name</th>
-                                        <th>Query</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ddl_data">
-                                </tbody>
-                            </table>
-                            <!--      End   properties-ddl            -->
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,152 +560,5 @@
         </div>
     </div>
 </div>
-<script>
-    console.log({{data|safe}});
 
-    function postgres(){
-        $('#properties_columns').empty()
-        $('#properties_data').empty()
-        $('#columns_columns').empty()
-        $('#columns_data').empty()
-        $('#ddl_data').empty()
-        $.ajax({
-            type : "POST",
-            url : "postgres_navigator_api/",
-            data : params,
-            async : false,
-            success : function(res){
-                $('#navigator_table').empty()
-                var str = "";
-                $.each(res.data, function(i){
-                    var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
-                    str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
-                });
-                
-                $('#navigator_table').append(str)
-            },
-            error : function(XMLHttpRequest, textStatus, errorThrown){
-                alert('Error');
-            }
-        });
-    };
-
-    function execute(f, a) {
-        console.log(f);
-        params = {
-            'name' : String(f)
-        };
-        if ($(a).attr("class").includes('right-fill')){
-            $.ajax({
-                type : "POST",
-                url : "navigator_api/",
-                data : params,
-                async : false,
-                success : function(res){
-                    $('#navigator_table').empty()
-                    var str = "";
-                    $.each(res.data, function(i){
-                        var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
-                        str += `<i class="bi bi-caret-down-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
-                    });
-                    
-                    $('#navigator_table').append(str)
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown){
-                    alert('Error');
-                }
-            });
-        }
-    }
-
-    function properties_view(a, f, ddl){
-        console.log(a);
-        console.log(f);
-        params = {
-            'database' : a,
-            'table' : f,
-            'ddl' : ddl
-        }
-        $.ajax({
-                type : "POST",
-                url : "property_api/",
-                data : params,
-                async : false,
-                success : function(res){
-                    console.log(res);
-                    $('#properties_columns').empty()
-                    $('#properties_data').empty()
-                    $('#columns_columns').empty()
-                    $('#columns_data').empty()
-                    $('#ddl_data').empty()
-
-                    console.log(res);
-                    var str = "";
-                    $.each(res.data_column, function(i){
-                        str += `<th>` + res.data_column[i] + `</th>`
-                    });
-                    
-                    $('#properties_columns').append(str)
-
-
-
-                    var str = "";
-                    $.each(res.data, function(i){
-                        str += `<tr>`
-                            $.each(res.data[i], function(j){
-                                str += `<td>` + res.data[i][j] + `</td>`
-                            });
-                        str += `</tr>`
-                    });
-                    
-                    $('#properties_data').append(str)
-
-
-
-                    var str = "";
-                    str += `<th>#</th>`
-                    $.each(res.columns_column, function(i){
-                        str += `<th>` + res.columns_column[i] + `</th>`
-                    });
-                    $('#columns_columns').append(str)
-
-                    var str = "";
-                    $.each(res.columns, function(i){
-                        str += `<tr>`
-                            str += `<td>` + i + `</td>`
-                            $.each(res.columns[i], function(j){
-                                if(j == 1){
-                                    if(res.columns[i][1].trim() == 'N'){
-                                        str += `<th>[V]</th>`
-                                    }else{
-                                        str += `<th>[ ]</th>`
-                                    }
-                                }else{
-                                    str += `<td>` + res.columns[i][j] + `</td>`
-                                }
-                            });
-                        str += `</tr>`
-                    });
-                    $('#columns_data').append(str)
-                    
-                    var str = "";
-                    str += `<tr>`
-                            str += `<td>1</td>`
-                            str +=  `<td class="text-truncate">CREATE</td>`
-                            str +=      `<td>`
-                            str +=              res.ddl
-                            str +=       `</td>`
-                            str +=  `</td>`
-                    str += `</tr>`
-                    $('#ddl_data').append(str)
-                },
-                beforeSend: function() {
-                    
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown){
-                    alert('Error');
-                }
-            });
-    }
-</script>
 {% endblock %}

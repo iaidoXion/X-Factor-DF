@@ -41,11 +41,15 @@
                             </ul>
                             <div class="tab-content query-tabContent">
                                 <div class="query-box tab-pane fade show active" id="Query1">
-                                    <form>
-                                        <div style="position:relative;">
-                                            <textarea class="query-input DataFabric-scroll" style="position:absolute; z-index:2; " id="query_text"></textarea>
-                                            <div class="show_text"></div>
-                                        </div>
+                                    <!--                                    <form>
+                                                                            <div style="position:relative;">
+                                                                                <textarea class="query-input DataFabric-scroll" style="position:absolute; z-index:2;" id="query_text"></textarea>
+                                                                                <div class="show_text"></div>
+                                                                            </div>
+                                                                        </form>-->
+                                    <form class="position-relative">
+                                        <textarea class="query-input position-absolute" id="query_text"></textarea>
+                                        <div class="show_text"></div>
                                     </form>
                                 </div>
                             </div>
@@ -70,25 +74,16 @@
                                     <div class="DataFabric-scroll">
                                         <table id="webQuery_table" class="table table-striped queryTable-sm queryTable fs-12px text-nowrap">
                                             <thead>
-                                            <tr class="table-dark">
-                                                <th>1</th>
-                                                <th>1</th>
-                                                <th>1</th>
-                                                <th>1</th>
-                                                <th>1</th>
+                                            <tr class="table-dark" id='query_thead'>
                                             </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id='query_tbody'>
                                             <tr>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
-                                                <td>2</td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -98,6 +93,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     function query() {
@@ -273,6 +269,35 @@
                             });
                             $("#query_thead").html(str);
                         }
+                    }else if (res.type == 'show'){
+                        if (res.status==200){
+                            var str = "";
+                            str += '<th style="border:1px solid rgba(255, 255, 255, .2);">No.</th>'
+                            $.each(res.column, function(i){
+                                str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
+                            });
+                            console.log(str)
+                            $("#query_thead").append(str);
+
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str += '<TR>'
+                                str += '<td class="text-center" style="border:1px solid rgba(255, 255, 255, .2);">'+ i +'</td>'
+                                for(var j = 0; j < res.data[i].length; j++){
+                                    str += '<td style="border:1px solid rgba(255, 255, 255, .2); padding-left : 5px;">' + res.data[i][j] +'</td>'
+                                }
+                                str += '</TR>'
+                            });
+                            $("#query_tbody").html(str);
+
+                        }else if (res.status==400){
+                            $("#query_thead").empty();
+                            var str = "";
+                            $.each(res.data, function(i){
+                                str +=  res.data[i] + '</br>'
+                            });
+                            $("#query_thead").html(str);
+                        }
                     }
                 },
 
@@ -296,5 +321,6 @@
             });
     }
 </script>
+
 <!-- END content -->
 {% endblock %}
