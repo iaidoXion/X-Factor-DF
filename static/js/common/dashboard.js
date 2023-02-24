@@ -327,7 +327,7 @@ $(document).ready(function () {
     }
     });
 
-    let QuoteOn = 0
+
    $('.query-input').on('input',function(event){
         let queryText = event.currentTarget.value
         let split_txt = queryText.split('\n');
@@ -363,15 +363,6 @@ $(document).ready(function () {
                         defaultColor++
                     }
                   });
-                  if(qrText.startsWith('"') || QuoteOn === 1){
-                    $(textHere).append('<span class = "text-Quote">' + qrText + '</span>')
-                    defaultColor++
-                    QuoteOn = 1
-                  }
-                  if(qrText.endsWith('"')){
-                    QuoteOn = 0
-
-                  }
                   if(qrText == ''){
                     $(textHere).append('<span> </span>')
                   }

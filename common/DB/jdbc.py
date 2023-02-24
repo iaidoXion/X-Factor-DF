@@ -5,6 +5,9 @@ from pprint import pprint
 import pandas as pd
 import psycopg2
 import json
+import unicodedata
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 import binascii
 
 with open("setting.json", encoding="UTF-8") as f:
@@ -16,9 +19,11 @@ DBPort = SETTING['DB']['DBPort']
 DBName = SETTING['DB']['DBName']
 DBUser = SETTING['DB']['DBUser']
 DBPwd = SETTING['DB']['DBPwd']
+StatisticsTNM = SETTING['DB']['StatisticsTNM']
 HistoryTNM = SETTING['DB']['HistoryTNM']
 UserTNM = SETTING['DB']['UserTNM']
 Login_Method = SETTING['PROJECT']['LOGIN']
+monthDay = (datetime.today() - relativedelta(days=31)).strftime("%Y-%m-%d")
 
 def db_select(qry):
     qry=qry.lower()
@@ -29,15 +34,13 @@ def db_select(qry):
     db_user = DBUser
     db_query = qry
     db_result = ''
-
     try :
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
         result = td_context.execute(qry)
         data = result.fetchall()
-        
         data = pd.DataFrame(data)
         data = data.fillna('NULL')
-
         #print(data)
         #print(data['UserId'])
         #valid_png_header = data['UserId'][2]
@@ -55,10 +58,8 @@ def db_select(qry):
         #print(code)
         #code.decode("hex")
         #print(binascii.unhexlify(valid_png_header3))
-
         #print(valid_png_header.decode('hex'))
         #print(binascii.a2b_base64(valid_png_header))
-
         for key, value in data.iteritems():
             print(key)
             print(type(data[key][0]))
@@ -74,19 +75,19 @@ def db_select(qry):
                         pass
             else:
                  continue
-
                 # data['UserId'][key] = binascii.a2b_base64(valid_png_header)
                 # print(data['UserId'][key])
         #print(data['UserId'])
-
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status' : 200, 'data' : data, 'type' : 'select'}
+        table = qry.split('from ')[1].split(' ')[0]
+        db_result = "Success SELECT Table Rows "+table
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status' : 200, 'data' : data, 'type' : 'select', 'history': history}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
-
         else :
             if '[Error' in str(e) :
                 err_index = str(e).find('[Error')
@@ -99,8 +100,11 @@ def db_select(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status' : 400, 'data' : error_list, 'type' : 'select'}
-
+            db_result = "Fail SELECT Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status': 400, 'data': error_list, 'type': 'select', 'history': history}
+    remove_context()
+    history_insert(data)
     return  data
 
 def db_create(qry):
@@ -112,17 +116,18 @@ def db_create(qry):
     db_user = DBUser
     db_query = qry
     db_result = ''
-
     try :
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('table ')[1].split(' ')[0]
+        db_result = "Success CREATE Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status' : 200, 'data' : qry.splitlines(), 'type' : 'create'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create', 'history': history}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage'}
@@ -138,20 +143,33 @@ def db_create(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status' : 400, 'data' : error_list, 'type' : 'create'}
+            db_result = "Fail CREATE Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status': 400, 'data': error_list, 'type': 'create', 'history': history}
     remove_context()
+    history_insert(data)
     return data
 def db_insert(qry):
+    qry = qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin' #나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try:
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('into ')[1].split(' ')[0]
+        db_result = "Success INSERT Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create', 'history': history}
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -167,21 +185,34 @@ def db_insert(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status': 400, 'data': error_list, 'type': 'create'}
+            db_result = "Fail INSERT Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status': 400, 'data': error_list, 'type': 'create', 'history': history}
     remove_context()
+    history_insert(data)
     return data
 
 def db_update(qry):
+    qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin' #나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try:
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('update ')[1].split(' ')[0]
+        db_result = "Success UPDATE Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create', 'history': history}
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -197,21 +228,34 @@ def db_update(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status': 400, 'data': error_list, 'type': 'create'}
+            db_result = "Fail UPDATE Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status': 400, 'data': error_list, 'type': 'create', 'history': history}
     remove_context()
+    history_insert(data)
     return data
 
 def db_delete(qry):
+    qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin'#나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try:
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('from ')[1].split(' ')[0]
+        db_result = "Success DELETE Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create', 'history': history}
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -227,21 +271,34 @@ def db_delete(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status': 400, 'data': error_list, 'type': 'create'}
+            db_result = "Fail DELETE "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status' : 400, 'data' : error_list, 'type' : 'create','history': history}
     remove_context()
+    history_insert(data)
     return data
 
 def db_drop(qry):
+    qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin'  # 나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try:
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('table ')[1].split(' ')[0]
+        db_result = "Success DROP Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status' : 200, 'data' : qry.splitlines(), 'type' : 'create','history': history}
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -257,21 +314,34 @@ def db_drop(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status': 400, 'data': error_list, 'type': 'create'}
+            db_result = "Fail DROP Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status' : 400, 'data' : error_list, 'type' : 'create' ,'history': history}
     remove_context()
+    history_insert(data)
     return data
 
 def db_rename(qry):
+    qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin'  # 나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try:
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('table ')[1].split(' ')[0]
+        db_result = "Success RENAME Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status' : 200, 'data' : qry.splitlines(), 'type' : 'create','history': history}
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -287,22 +357,34 @@ def db_rename(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status': 400, 'data': error_list, 'type': 'create'}
+            db_result = "Fail RENAME Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status' : 400, 'data' : error_list, 'type' : 'create' ,'history': history}
     remove_context()
+    history_insert(data)
     return data
 
 def db_alter(qry):
+    qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin' #나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try:
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('table ')[1].split(' ')[0]
+        db_result = "Success ALTER Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create'}
-        print(data)
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status': 200, 'data': qry.splitlines(), 'type': 'create', 'history': history}
     except Exception as e:
         if 'Failed to connect to Teradata Vantage' in str(e):
             data = {'status': 404, 'data': 'Failed to connect to Teradata Vantage'}
@@ -318,25 +400,38 @@ def db_alter(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status': 400, 'data': error_list, 'type': 'create'}
+            db_result = "Fail ALTER Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status': 400, 'data': error_list, 'type': 'create', 'history': history}
     remove_context()
+    history_insert(data)
     return data
 def db_show(qry):
     qry=qry.lower()
+    dbname = DBName
+    dbtype = DBType
+    table = ''
+    web_user = 'admin' #나중에 세션값
+    db_user = DBUser
+    db_query = qry
+    db_result = ''
     try :
+        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
         result = td_context.execute(qry)
         data = result.fetchall()
         data = pd.DataFrame(data)
         data = data.fillna('NULL')
+        table = qry.split('table ')[1].split(' ')[0]
+        db_result = "Success SHOW Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status' : 200, 'data' : data, 'type' : 'show'}
+        history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+        data = {'status': 200, 'data': data, 'type': 'show', 'history': history}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'show'}
-
         else :
             if '[Error' in str(e) :
                 err_index = str(e).find('[Error')
@@ -349,8 +444,11 @@ def db_show(qry):
                         continue
                     error_list[i] = 'at ' + error_list[i]
                 error_list.insert(0, error + ']')
-            data = {'status' : 400, 'data' : error_list, 'type' : 'select'}
-
+            db_result = "Fail SHOW Table "
+            history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
+            data = {'status' : 400, 'data' : error_list, 'type' : 'select' ,'history': history}
+    remove_context()
+    history_insert(data)
     return  data
 def connect(data):
     if data['db'] == 'Teradata' :
@@ -424,12 +522,10 @@ def connect_DBList():
         """
     result = td_context.execute(qry)
     a = result.fetchall()
-
     a = pd.DataFrame(a).reset_index()
     a['index'] = a['index'].add(1)
     #print(a)
     dict = a.to_dict('records')
-
     return dict
 
 
@@ -442,7 +538,6 @@ def history_insert(data):
         dbuser=data['history'][4]
         dbquery=data['history'][5].replace('\'','"')
         dbresult=data['history'][6]
-
         qry="""
             insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
             values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now());
@@ -463,7 +558,6 @@ def history_select():
                 """ + DBName + """.""" + HistoryTNM + """
 
             """
-
         result = td_context.execute(query)
         RS = result.fetchall()
         DFL = []
@@ -477,7 +571,6 @@ def history_select():
             db_query = d[6]
             db_result = d[7]
             commit_time = d[8]
-
             DFL.append([num, dbname, dbtype, dbtable, web_user, db_user, db_query, db_result, commit_time])
             DFC = ['num', 'dbname', 'dbtype', 'dbtable', 'web_user', 'db_user', 'db_query', 'db_result', 'commit_time']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by='commit_time', ascending=False).reset_index(drop=True)
@@ -507,7 +600,6 @@ def database_traffic():
         for d in RS:
             dbname = d[0]
             count = d[1]
-
             DFL.append([dbname, count])
             DFC = ['dbname', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
@@ -537,8 +629,6 @@ def user_traffic ():
         for d in RS:
             db_user = d[0]
             count = d[1]
-
-
             DFL.append([db_user, count])
             DFC = ['db_user', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
@@ -548,3 +638,48 @@ def user_traffic ():
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
 
+
+def cpu_traffic():
+    try:
+        td_context = create_context(host=DBHost + ":" + DBPort, username=DBUser, password=DBPwd)
+        query = """
+               select 
+                    item, 
+                    item_count, 
+                    statistics_collection_date
+               from
+                   """ + DBName + """.""" + StatisticsTNM + """
+               where 
+                    to_char(statistics_collection_date, 'YYYY-MM-DD') > '""" + monthDay + """' 
+                and
+                    classification = 'CPU_USAGE'
+                 order by
+                    statistics_collection_date ASC;
+               """
+        result = td_context.execute(query)
+        RS = result.fetchall()
+        DFL = []
+        for d in RS:
+            item = d[0]
+            item_count = d[1]
+            statistics_collection_data = d[2]
+            DFL.append([item, item_count ,statistics_collection_data])
+            DFC = ['item', 'item_count', 'statistics_collection_data']
+        DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="item", ascending=False).reset_index(drop=True)
+        #print(DF)
+        remove_context()
+        #return DF
+        T_count = []
+        date_list = []
+        P_count = []
+        for i in range(len(DF)):
+            if DF['item'][i] == 'teradata':
+                T_count.append(DF['item_count'][i])
+            else:
+                P_count.append(DF['item_count'][i])
+                date_list.append(str(DF['statistics_collection_data'][i]).split(' ')[0])
+        ChartDataList = [{"data": [{"name": "TERADATA", "data": T_count}, {"name": "POSTGRES", "data": P_count}], "date": date_list}]
+        #print(ChartDataList)
+        return ChartDataList
+    except:
+        print(HistoryTNM + ' History Table connection(Select) Failure')

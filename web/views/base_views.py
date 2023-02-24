@@ -1,6 +1,5 @@
 from datetime import timedelta, datetime
 from pprint import pprint
-
 import requests
 from teradataml import *
 from django.core.paginator import Paginator
@@ -8,14 +7,12 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, db_show, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic
-
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, cpu_traffic
 import json
 import math
 
 menuListDB = MenuSetting()
 connect_DBList = connect_DBList()
-
 
 with open("setting.json", encoding="UTF-8") as f:
     SETTING = json.loads(f.read())
@@ -53,18 +50,16 @@ def dataFabric_monitoring(request):
     historyDB = history_select()
     db_trafficDB = database_traffic()
     user_trafficDB = user_traffic()
-    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic': db_trafficDB, 'user_traffic': user_trafficDB}
+    cpu_trafficDB = cpu_traffic()
+    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic': db_trafficDB, 'user_traffic': user_trafficDB, 'cpu_traffic' : cpu_trafficDB }
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
-    
     # -=============================================================
     qry = """
         select UPPER(database_type) from xfactor.connect_tera  group by database_type;
     """
-    
     column = db_select(qry)
-    
     if column['status'] == 200 :
         column = column['data'].values.tolist()
     # =======================================================
@@ -80,20 +75,17 @@ def dataFabric_navigator(request):
                   'Customer': Customer, 
                   'data' : result, 
                   'column' : column}
-    
     return render(request, 'dataFabric/navigator_DF.html', returnData)
 
 def dataFabric_setting(request):
     returnData = {'menuList': menuListDB, 'Customer': Customer, 'connect_DBList': connect_DBList}
     return render(request, 'dataFabric/setting_DF.html', returnData)
-
 #################################### api ############################################
 @csrf_exempt
 def dataFabric_api(request) :
     data = request.POST['data']
     if data.lower().startswith('select') :
         result = db_select(data)
-        
         if result['status'] == 200 :
             column = result['data'].columns.values.tolist()
             data = result['data'].values.tolist()
@@ -107,7 +99,6 @@ def dataFabric_api(request) :
             returnData = result
     elif data.lower().startswith('create') :
         result = db_create(data)
-        
         if result['status'] == 200 :
             returnData = {
                 'status' : result['status'],
@@ -118,7 +109,6 @@ def dataFabric_api(request) :
             returnData = result
     elif data.lower().startswith('insert'):
         result = db_insert(data)
-
         if result['status'] == 200:
             returnData = {
                 'status': result['status'],
@@ -127,10 +117,8 @@ def dataFabric_api(request) :
             }
         elif result['status'] == 400:
             returnData = result
-
     elif data.lower().startswith('update'):
         result = db_insert(data)
-
         if result['status'] == 200:
             returnData = {
                 'status': result['status'],
@@ -139,10 +127,8 @@ def dataFabric_api(request) :
             }
         elif result['status'] == 400:
             returnData = result
-
     elif data.lower().startswith('delete'):
         result = db_delete(data)
-
         if result['status'] == 200:
             returnData = {
                 'status': result['status'],
@@ -151,7 +137,6 @@ def dataFabric_api(request) :
             }
         elif result['status'] == 400:
             returnData = result
-
     elif data.lower().startswith('drop'):
         result = db_drop(data)
 
@@ -166,7 +151,6 @@ def dataFabric_api(request) :
 
     elif data.lower().startswith('rename'):
         result = db_rename(data)
-
         if result['status'] == 200:
             returnData = {
                 'status': result['status'],
@@ -175,10 +159,8 @@ def dataFabric_api(request) :
             }
         elif result['status'] == 400:
             returnData = result
-
     elif data.lower().startswith('alter'):
         result = db_alter(data)
-
         if result['status'] == 200:
             returnData = {
                 'status': result['status'],
@@ -187,10 +169,8 @@ def dataFabric_api(request) :
             }
         elif result['status'] == 400:
             returnData = result
-
     elif data.lower().startswith('show') :
         result = db_show(data)
-
         if result['status'] == 200 :
             column = result['data'].columns.values.tolist()
             data = result['data'].values.tolist()
@@ -208,7 +188,6 @@ def dataFabric_api(request) :
 def settings_api(request) :
     print('success')
     data = request.POST
-    
     data_list ={
         'db' : data['db'],
         'db_name' : data['name'],
@@ -217,9 +196,7 @@ def settings_api(request) :
         'user_id' : data['id'],
         'user_pwd' : data['pwd'],
     }
-    
     result = connect(data_list)
-    
     returnData = result
     return JsonResponse(returnData)
 
@@ -236,7 +213,6 @@ def navigator_api(request) :
         WHERE 
             databasename = '""" + data + """';
     """
-    
     result = db_select(qry)
     returnData = {
                 'status' : result['status'],
@@ -250,17 +226,14 @@ def property_api(request) :
     database = request.POST['database']
     table = request.POST['table']
     ddl = request.POST['ddl']
-    
     data = str(database) +'.'+ str(table)
     print("=====================")
     #print(data)
     print("=====================")
-    
     qry = """
         SELECT * 
         FROM """ + data + """;
     """
-    
     qry2= """
     SELECT 
         ColumnName, 
@@ -281,11 +254,9 @@ def property_api(request) :
         and 
         TableName = '"""+ table +"""';
     """
-    
     data = db_select(qry)
     columns = db_select(qry2)
     ddl = ddl.replace('<hr>', "'")
-    
     returnData = {
                 'status' : data['status'],
                 'data' : data['data'].values.tolist(),
@@ -308,14 +279,11 @@ def navigator_database_api(request) :
             database_type = '""" + data + """';
     """
     result = db_select(qry)
-    
     database = result['data'].values.tolist()
-    
     returnData = {
                 'status' : str(result['status']),
                 'data' : database
             }
-    
     return JsonResponse(returnData)
     
 
@@ -329,12 +297,10 @@ def connect_DBList():
         """
     result = td_context.execute(qry)
     a = result.fetchall()
-
     a = pd.DataFrame(a).reset_index()
     a['index'] = a['index'].add(1)
     # print(a)
     dict = a.to_dict('records')
-
     return dict
 
 

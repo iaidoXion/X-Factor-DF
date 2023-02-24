@@ -368,23 +368,37 @@ for (var i = 0; i < user_traffic.length; i++){
   // END UserConnect-Chart
 //--------------------------------------------------------------------------
   // BEGIN monitoring-LineChart
+//var T_cputraffic_data = []
+//var P_cputraffic_data = []
+//
+//var cputraffic_date = cpu_traffic[0]['data'][i]['date']
+//for (var i = 0; i < cpu_traffic.length; i++){
+//    T_cputraffic_data.push(cpu_traffic[0]['data'][i]['data']);
+//    P_cputraffic_data.push(cpu_traffic[0]['data'][i]['data']);
+//};
+//console.log("=====================");
+//console.log(cpu_traffic[0]['data']);
+//console.log(cpu_traffic[0]['date']);
+//console.log("=====================");
+
   var CpuUsageChartOptions = {
-    series: [{
-      name: "Teradata",
-      data: [80, 90, 100, 70, 32, 60, 78]
-    },
-    {
-      name: "Postgres",
-      data: [69, 79, 85, 92, 83, 74, 99]
-    },
-    {
-      name: "ETC1",
-      data: [41, 62, 20, 50, 72, 69, 82]
-    },
-    {
-      name: "ETC2",
-      data: [85, 98, 69, 47, 87, 92, 100]
-    }],
+//    series: [{
+//      name: "Teradata",
+//      data: T_cputraffic_data
+//    },
+//    {
+//      name: "Postgres",
+//      data: P_cputraffic_data
+//    },
+//    {
+//      name: "ETC1",
+//      data: [41, 62, 20, 50, 72, 69, 82]
+//    },
+//    {
+//      name: "ETC2",
+//      data: [85, 98, 69, 47, 87, 92, 100]
+//    }
+//    ],
     chart: {
       height: 240,
       type: 'line',
@@ -420,16 +434,15 @@ for (var i = 0; i < user_traffic.length; i++){
     markers: {
       size: 1
     },
+    series : cpu_traffic[0]['data'],
     xaxis: {
+      categories: cpu_traffic[0]['date'],
+      labels: {
+        show: true,
+      },
       tooltip: {
         enabled: false,
       },
-      labels: {
-        show: true,
-        formatter: function (val) {
-          return 'Jan ' + Math.round(val) + 'st';
-        }
-      }
     },
     yaxis: {
       forceNiceScale: false,
