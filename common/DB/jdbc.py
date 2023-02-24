@@ -5,7 +5,7 @@ from pprint import pprint
 import pandas as pd
 import psycopg2
 import json
-import unicodedata
+import binascii
 
 with open("setting.json", encoding="UTF-8") as f:
     SETTING = json.loads(f.read())
@@ -37,6 +37,48 @@ def db_select(qry):
         
         data = pd.DataFrame(data)
         data = data.fillna('NULL')
+
+        #print(data)
+        #print(data['UserId'])
+        #valid_png_header = data['UserId'][2]
+        #print(valid_png_header)
+        #print(type(valid_png_header))
+        #encoding = sys.getdefaultencoding()
+        #s = valid_png_header.decode(encoding)
+        #print(s)
+        #print(valid_png_header.decode('utf-16'))
+        #print(binascii.hexlify(valid_png_header))
+        #valid_png_header2 = binascii.hexlify(valid_png_header)
+        #valid_png_header3 = str(valid_png_header2, 'cp949')
+        #print(str(valid_png_header2, 'cp949'))
+        #code = (valid_png_header2, 'cp949')
+        #print(code)
+        #code.decode("hex")
+        #print(binascii.unhexlify(valid_png_header3))
+
+        #print(valid_png_header.decode('hex'))
+        #print(binascii.a2b_base64(valid_png_header))
+
+        for key, value in data.iteritems():
+            print(key)
+            print(type(data[key][0]))
+            if type(data[key][0]) == type(bytes(1)):
+                for key2, value2 in data[key].iteritems():
+                    print(data[key][key2])
+                    valid_png_header = data[key][key2]
+                    #valid_png_header2 = str(data['UserId'][key], 'utf-8')
+                    #print(valid_png_header)
+                    try:
+                        data[key][key2] = valid_png_header.decode('utf-16')
+                    except:
+                        pass
+            else:
+                 continue
+
+                # data['UserId'][key] = binascii.a2b_base64(valid_png_header)
+                # print(data['UserId'][key])
+        #print(data['UserId'])
+
         print("===============================")
         print("Success")
         print("===============================")
@@ -290,10 +332,10 @@ def db_show(qry):
         print("===============================")
         print("Success")
         print("===============================")
-        data = {'status' : 200, 'data' : data, 'type' : 'select'}
+        data = {'status' : 200, 'data' : data, 'type' : 'show'}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
-            data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
+            data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'show'}
 
         else :
             if '[Error' in str(e) :
@@ -365,7 +407,7 @@ def setting_insert(data): #파라미터값 web_user 추가
     #                password=data['user_pwd'],
     #                logmech="TD2")
     qry = """
-        INSERT INTO xfactor.connect_tera2
+        INSERT INTO xfactor.connect_tera
             (database_name, database_type, "host", port, web_user, db_user, db_pw)
         values
         ('"""+data['db_name']+"""','"""+data['db']+"""','"""+data['db_host']+"""','"""+data['db_port']+"""','"""+web_user+"""','"""+data['user_id']+"""','"""+data['user_pwd']+"""')
@@ -378,7 +420,7 @@ def connect_DBList():
         select 
             *
         from
-            xfactor.connect_tera2
+            xfactor.connect_tera
         """
     result = td_context.execute(qry)
     a = result.fetchall()

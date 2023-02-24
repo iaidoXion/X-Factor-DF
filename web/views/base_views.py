@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, db_show, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic
 
 import json
 import math
@@ -325,7 +325,7 @@ def connect_DBList():
         select 
             *
         from
-            xfactor.connect_tera2
+            xfactor.connect_tera
         """
     result = td_context.execute(qry)
     a = result.fetchall()
