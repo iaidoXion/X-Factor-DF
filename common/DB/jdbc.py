@@ -306,7 +306,8 @@ def db_rename(qry):
 
         result = td_context.execute(qry)
         data = result.fetchall()
-
+        table = qry.split('table ')[1].split(' ')[0]
+        db_result = "Success RENAME Table Rows " + table
         print("===============================")
         print("Success")
         print("===============================")
