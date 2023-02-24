@@ -58,7 +58,7 @@
     "DBUser" : "dbc",
     "DBPwd" : "dbc",
     "DBSelectTime" : 5,
-    "AssetTNM" : "daily_asset",
+    "StatisticsTNM" : "statistics_tera",
     "HistoryTNM" : "history_tera",
     "MenuTNM": "menusetting_tera",
     "UserTNM": "user_tera"

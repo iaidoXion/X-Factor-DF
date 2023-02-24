@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, cpu_traffic
 
 import json
 import math
@@ -53,7 +53,8 @@ def dataFabric_monitoring(request):
     historyDB = history_select()
     db_trafficDB = database_traffic()
     user_trafficDB = user_traffic()
-    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic': db_trafficDB, 'user_traffic': user_trafficDB}
+    cpu_trafficDB = cpu_traffic()
+    returnData = {'menuList': menuListDB, 'Customer': Customer, 'history': historyDB, 'db_traffic': db_trafficDB, 'user_traffic': user_trafficDB, 'cpu_traffic' : cpu_trafficDB }
     return render(request, 'dataFabric/monitoring_DF.html', returnData)
 
 def dataFabric_navigator(request):
