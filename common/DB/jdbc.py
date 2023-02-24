@@ -8,6 +8,7 @@ import json
 import unicodedata
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+import binascii
 
 with open("setting.json", encoding="UTF-8") as f:
     SETTING = json.loads(f.read())
@@ -33,7 +34,6 @@ def db_select(qry):
     db_user = DBUser
     db_query = qry
     db_result = ''
-
     try :
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
@@ -41,6 +41,43 @@ def db_select(qry):
         data = result.fetchall()
         data = pd.DataFrame(data)
         data = data.fillna('NULL')
+        #print(data)
+        #print(data['UserId'])
+        #valid_png_header = data['UserId'][2]
+        #print(valid_png_header)
+        #print(type(valid_png_header))
+        #encoding = sys.getdefaultencoding()
+        #s = valid_png_header.decode(encoding)
+        #print(s)
+        #print(valid_png_header.decode('utf-16'))
+        #print(binascii.hexlify(valid_png_header))
+        #valid_png_header2 = binascii.hexlify(valid_png_header)
+        #valid_png_header3 = str(valid_png_header2, 'cp949')
+        #print(str(valid_png_header2, 'cp949'))
+        #code = (valid_png_header2, 'cp949')
+        #print(code)
+        #code.decode("hex")
+        #print(binascii.unhexlify(valid_png_header3))
+        #print(valid_png_header.decode('hex'))
+        #print(binascii.a2b_base64(valid_png_header))
+        for key, value in data.iteritems():
+            print(key)
+            print(type(data[key][0]))
+            if type(data[key][0]) == type(bytes(1)):
+                for key2, value2 in data[key].iteritems():
+                    print(data[key][key2])
+                    valid_png_header = data[key][key2]
+                    #valid_png_header2 = str(data['UserId'][key], 'utf-8')
+                    #print(valid_png_header)
+                    try:
+                        data[key][key2] = valid_png_header.decode('utf-16')
+                    except:
+                        pass
+            else:
+                 continue
+                # data['UserId'][key] = binascii.a2b_base64(valid_png_header)
+                # print(data['UserId'][key])
+        #print(data['UserId'])
         print("===============================")
         print("Success")
         print("===============================")
@@ -51,7 +88,6 @@ def db_select(qry):
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
             data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
-
         else :
             if '[Error' in str(e) :
                 err_index = str(e).find('[Error')
@@ -80,11 +116,9 @@ def db_create(qry):
     db_user = DBUser
     db_query = qry
     db_result = ''
-
     try :
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('table ')[1].split(' ')[0]
@@ -127,7 +161,6 @@ def db_insert(qry):
     try:
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('into ')[1].split(' ')[0]
@@ -171,7 +204,6 @@ def db_update(qry):
     try:
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('update ')[1].split(' ')[0]
@@ -215,7 +247,6 @@ def db_delete(qry):
     try:
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('from ')[1].split(' ')[0]
@@ -259,7 +290,6 @@ def db_drop(qry):
     try:
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('table ')[1].split(' ')[0]
@@ -303,7 +333,6 @@ def db_rename(qry):
     try:
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('table ')[1].split(' ')[0]
@@ -347,7 +376,6 @@ def db_alter(qry):
     try:
         history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
-
         result = td_context.execute(qry)
         data = result.fetchall()
         table = qry.split('table ')[1].split(' ')[0]
@@ -400,11 +428,10 @@ def db_show(qry):
         print("Success")
         print("===============================")
         history = [dbname, dbtype, table, web_user, db_user, db_query, db_result]
-        data = {'status': 200, 'data': data, 'type': 'select', 'history': history}
+        data = {'status': 200, 'data': data, 'type': 'show', 'history': history}
     except Exception as e :
         if 'Failed to connect to Teradata Vantage' in str(e) :
-            data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'select'}
-
+            data = {'status' : 404, 'data' : 'Failed to connect to Teradata Vantage', 'type' : 'show'}
         else :
             if '[Error' in str(e) :
                 err_index = str(e).find('[Error')
@@ -478,7 +505,7 @@ def setting_insert(data): #파라미터값 web_user 추가
     #                password=data['user_pwd'],
     #                logmech="TD2")
     qry = """
-        INSERT INTO xfactor.connect_tera2
+        INSERT INTO xfactor.connect_tera
             (database_name, database_type, "host", port, web_user, db_user, db_pw)
         values
         ('"""+data['db_name']+"""','"""+data['db']+"""','"""+data['db_host']+"""','"""+data['db_port']+"""','"""+web_user+"""','"""+data['user_id']+"""','"""+data['user_pwd']+"""')
@@ -491,16 +518,14 @@ def connect_DBList():
         select 
             *
         from
-            xfactor.connect_tera2
+            xfactor.connect_tera
         """
     result = td_context.execute(qry)
     a = result.fetchall()
-
     a = pd.DataFrame(a).reset_index()
     a['index'] = a['index'].add(1)
     #print(a)
     dict = a.to_dict('records')
-
     return dict
 
 
@@ -513,7 +538,6 @@ def history_insert(data):
         dbuser=data['history'][4]
         dbquery=data['history'][5].replace('\'','"')
         dbresult=data['history'][6]
-
         qry="""
             insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
             values('"""+dbname+"""','"""+dbtype+"""','"""+dbtable+"""','"""+webuser+"""','"""+dbuser+"""','"""+dbquery+"""','"""+dbresult+"""',now());
@@ -534,7 +558,6 @@ def history_select():
                 """ + DBName + """.""" + HistoryTNM + """
 
             """
-
         result = td_context.execute(query)
         RS = result.fetchall()
         DFL = []
@@ -548,7 +571,6 @@ def history_select():
             db_query = d[6]
             db_result = d[7]
             commit_time = d[8]
-
             DFL.append([num, dbname, dbtype, dbtable, web_user, db_user, db_query, db_result, commit_time])
             DFC = ['num', 'dbname', 'dbtype', 'dbtable', 'web_user', 'db_user', 'db_query', 'db_result', 'commit_time']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by='commit_time', ascending=False).reset_index(drop=True)
@@ -578,7 +600,6 @@ def database_traffic():
         for d in RS:
             dbname = d[0]
             count = d[1]
-
             DFL.append([dbname, count])
             DFC = ['dbname', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
@@ -608,8 +629,6 @@ def user_traffic ():
         for d in RS:
             db_user = d[0]
             count = d[1]
-
-
             DFL.append([db_user, count])
             DFC = ['db_user', 'count']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="count", ascending=False).reset_index(drop=True)
@@ -637,7 +656,6 @@ def cpu_traffic():
                  order by
                     statistics_collection_date ASC;
                """
-
         result = td_context.execute(query)
         RS = result.fetchall()
         DFL = []
@@ -651,7 +669,6 @@ def cpu_traffic():
         #print(DF)
         remove_context()
         #return DF
-
         T_count = []
         date_list = []
         P_count = []
