@@ -6,7 +6,7 @@ Author: Sean Ngu
 */
 
 var handleRenderWebQueryTableData = function (f) {
-	
+
 	let column_num = f.length;
 	let data_num = f[0].length;
 
@@ -20,7 +20,7 @@ var handleRenderWebQueryTableData = function (f) {
 		}
 		data.push(data_dict);
 	};
-	
+
 	for (var i = 0; i < data_num; i++){
 		let column_dict = {};
 		let columnDef_dict = {};
@@ -30,7 +30,7 @@ var handleRenderWebQueryTableData = function (f) {
 		column.push(column_dict);
 		columnDef.push(columnDef_dict);
 	};
-	
+
 	console.log(columnDef);
 	var webQueryTable = $('#webQuery_table').DataTable({
 		dom: `<'row'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end '>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>`,

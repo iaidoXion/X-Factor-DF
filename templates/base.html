@@ -140,6 +140,8 @@
 
   <!-- ================== dataFabric chart  ================ -->
   {% elif request.path == '/monitoring_DF/' %}
+    <script src="{% static 'js/dataFabricJS/datafabric.js' %}"></script>
+  <script src="{% static 'js/dataFabricJS/xlsx.full.min.js' %}"></script>
   {% else %}
   {% endif %}
   <!-- ================== END dataFabric-js ================== -->
