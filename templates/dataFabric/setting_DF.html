@@ -120,7 +120,7 @@
                                         <td>{{ connectList.host }}</td>
                                         <td>{{ connectList.port }}</td>
                                         <td>{{ connectList.web_user }}</td>
-                                        <td class="text-center"><i class="bi bi-gear database-table-icon"></i></td>
+                                        <td class="text-center"><i class="bi bi-gear database-table-icon" onclick="db_update('{{ connectList.database_name }}')"></i></td>
                                     </tr>
                                     {% endfor %}
                                 {% endif %}
@@ -187,6 +187,9 @@
                     alert('올바른 Connection정보를 입력 해주세요');
                 }
             });
+    }
+    function db_update(dbname){
+      window.open("../setting_DF/"+dbname, "physicalServer", "width=1200, height=500");
     }
 </script>
 {% endblock %}

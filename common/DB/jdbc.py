@@ -510,6 +510,24 @@ def setting_insert(data): #파라미터값 web_user 추가
         values
         ('"""+data['db_name']+"""','"""+data['db']+"""','"""+data['db_host']+"""','"""+data['db_port']+"""','"""+web_user+"""','"""+data['user_id']+"""','"""+data['user_pwd']+"""')
         """
+    td_context.execute(qry)
+
+def setting_update(data): #파라미터값 web_user 추가
+    web_user = 'admin'
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+    # td_context = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
+    #                database=data['db_name'],
+    #                username=data['user_id'],
+    #                password=data['user_pwd'],
+    #                logmech="TD2")
+
+    qry = """
+
+    UPDATE xfactor.connect_tera
+    SET database_name='"""+data['db_name']+"""', database_type='"""+data['db']+"""', "host"='"""+data['db_host']+"""', port='"""+data['db_port']+"""', web_user='"""+web_user+"""', db_user='"""+data['user_id']+"""', db_pw='"""+data['user_pwd']+"""'
+    WHERE database_name='"""+data['db_name']+"""'
+    """
+    print(qry)
     result = td_context.execute(qry)
 
 def connect_DBList():
@@ -683,3 +701,48 @@ def cpu_traffic():
         return ChartDataList
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
+
+def update_connect_info(database_name):
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+    qry = """
+        SELECT 
+            tera_connect_num, database_name, database_type, "host", port, web_user, db_user, db_pw
+        FROM 
+            xfactor.connect_tera
+        Where
+            database_name= '"""+database_name+"""'
+        """
+    result = td_context.execute(qry)
+    data = result.fetchall()
+    data = pd.DataFrame(data).reset_index()
+    data['index'] = data['index'].add(1)
+    dict = data.to_dict('records')
+    return dict
+
+def update(data):
+        try :
+            db = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
+                                        username = data['user_id'],
+                                        password = data['user_pwd'],
+                                        logmech="TD2")
+            status = 200
+            useraddress = str(db)
+            setting_update(data)
+        except Exception as e :
+            print("==================")
+            print('연결실패')
+            print("==================")
+            status = 400
+
+        remove_context()
+
+        result = {
+            'status': status,
+            'data': useraddress,
+            'host': data['db_host'],
+            'dbname': data['user_id'],
+            'user': data['user_id'],
+            'password': data['user_id'],
+            'port': data['db_port']
+        }
+        return result

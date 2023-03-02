@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, cpu_traffic
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, update, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, cpu_traffic, update_connect_info
 import json
 import math
 
@@ -80,6 +80,13 @@ def dataFabric_navigator(request):
 def dataFabric_setting(request):
     returnData = {'menuList': menuListDB, 'Customer': Customer, 'connect_DBList': connect_DBList}
     return render(request, 'dataFabric/setting_DF.html', returnData)
+
+def setting_update(request,database_name):
+    dbinfo = update_connect_info(database_name)
+    returnData = {'update_connect_info' : dbinfo}
+    return render(request,'popup/setting_update_form.html',returnData)
+
+
 #################################### api ############################################
 @csrf_exempt
 def dataFabric_api(request) :
@@ -322,4 +329,38 @@ def hisotry_api():
         'db_result': result['db_result'],
         'commit_time': result['commit_time'],
     }
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def setting_delete(request) :
+    data = request.POST['dbname']
+    print(data)
+    td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+
+    qry = """
+        DELETE FROM xfactor.connect_tera
+        WHERE database_name ='"""+data+"""';
+        """
+    td_context.execute(qry)
+    returnData = {
+                 'status' : '200',
+    #             'data' : result['data']['TableName'].values.tolist(),
+    #             'ddl' : result['data']['RequestText'].values.tolist()
+             }
+    return JsonResponse(returnData)
+
+@csrf_exempt
+def settings_update_api(request) :
+    print('success')
+    data = request.POST
+    data_list ={
+        'db' : data['db'],
+        'db_name' : data['name'],
+        'db_host' : data['host'],
+        'db_port' : data['port'],
+        'user_id' : data['id'],
+        'user_pwd' : data['pwd'],
+    }
+    result = update(data_list)
+    returnData = result
     return JsonResponse(returnData)
