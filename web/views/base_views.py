@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, cpu_traffic
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, db_export, cpu_traffic
 import json
 import math
 
@@ -185,6 +185,19 @@ def dataFabric_api(request) :
     return JsonResponse(returnData)
 
 @csrf_exempt
+def export_api(request) :
+    print('success')
+    data = request.POST
+    
+    status = db_export(str(data['type']), str(data['sql']))
+    
+    returnData = {
+        'status' : status
+    }
+    
+    return JsonResponse(returnData)
+
+@csrf_exempt
 def settings_api(request) :
     print('success')
     data = request.POST
@@ -227,9 +240,6 @@ def property_api(request) :
     table = request.POST['table']
     ddl = request.POST['ddl']
     data = str(database) +'.'+ str(table)
-    print("=====================")
-    #print(data)
-    print("=====================")
     qry = """
         SELECT * 
         FROM """ + data + """;

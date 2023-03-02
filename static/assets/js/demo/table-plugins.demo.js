@@ -6,29 +6,35 @@ Author: Sean Ngu
 */
 
 var handleRenderWebQueryTableData = function (f) {
-	if ( $.fn.DataTable.isDataTable( '#webQuery_table' ) ) {
-		$("#webQuery_table").DataTable().state.clear();
-    };
+	
 	let column_num = f.length;
 	let data_num = f[0].length;
 
 	var data = []
 	var column = []
+	var columnDef = []
 	for (var i = 0; i < column_num; i++){
 		var data_dict = {}
 		for (var j = 0; j < data_num; j++){
 			data_dict["data" + (j + 1)] = f[i][j];
 		}
 		data.push(data_dict);
-	}
+	};
+	
 	for (var i = 0; i < data_num; i++){
 		let column_dict = {};
+		let columnDef_dict = {};
 		column_dict['data'] = "data" + (i + 1);
+		columnDef_dict["width"] = "100px";
+		columnDef_dict["target"] = i ;
 		column.push(column_dict);
-	}
+		columnDef.push(columnDef_dict);
+	};
+	
+	console.log(columnDef);
 	var webQueryTable = $('#webQuery_table').DataTable({
-		dom: "<'row'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end 'fB>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>",
-		destroy : true,
+		dom: `<'row'<'col-md-4 mb-3 mb-md-0'l><'col-md-8 text-right'<'d-flex justify-content-end '>>>t<'row align-items-center'<'mr-auto col-md-6 mb-3 mb-md-0 mt-n2 'i><'mb-0 col-md-6'p>>`,
+		destroy: true,
 		lengthMenu: [10, 20, 30, 40, 50],
 		info: false,
 		details: false,
@@ -45,14 +51,7 @@ var handleRenderWebQueryTableData = function (f) {
 		},
 		data : data,
 		columns: column,
-		/*columnDefs: [
-            { width: "2%", target: [0] },
-            { width: "4%", target: [1] },
-            { width: "20%", target: [2] },
-            { width: "66%", target: [3] },
-            { width: "3%", target: [4] },
-            { width: "4%", target: [5] }
-		],*/
+		columnDefs: columnDef,
 		language: {
 			"decimal": "",
 			"info": "현재 _START_ - _END_건 / 전체 _TOTAL_건",
@@ -74,6 +73,8 @@ var handleRenderWebQueryTableData = function (f) {
 			"infoPostFix": "",
 		},
 	});
+
+	return webQueryTable;
 };
 
 var handleRenderpropertiesTableData = function () {
@@ -198,9 +199,9 @@ var handleRenderDbConnectedTableData = function () {
 $(document).ready(function () {
 	/*if($("#webQuery_table").length > 0){
 	    handleRenderWebQueryTableData();
-	}else */if($("#properties_Table").length > 0){
+	}else if($("#properties_Table").length > 0){
 	    handleRenderpropertiesTableData();
-	}else if($("#queryHistoryTable").length > 0){
+	}else */if($("#queryHistoryTable").length > 0){
 	    handleRenderQueryHistoryTableData();
 	}else if($("#DbConnectedTable").length > 0){
 	    handleRenderDbConnectedTableData();

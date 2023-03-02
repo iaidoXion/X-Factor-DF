@@ -406,6 +406,7 @@ def db_alter(qry):
     remove_context()
     history_insert(data)
     return data
+
 def db_show(qry):
     qry=qry.lower()
     dbname = DBName
@@ -683,3 +684,26 @@ def cpu_traffic():
         return ChartDataList
     except:
         print(HistoryTNM + ' History Table connection(Select) Failure')
+        
+def db_export(ex_type, sql) :
+    try :
+        td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
+        result = td_context.execute(sql)
+        data = result.fetchall()
+        data = pd.DataFrame(data)
+        data = data.fillna('NULL')
+        
+        # =======================Select후 처리========================
+        if ex_type == 'excel' :
+            data.to_excel('DF_excel.xlsx')
+        elif ex_type == 'csv' :
+            data.to_csv('DF_csv.csv')
+        elif ex_type == 'json' :
+            with open('df_json.json', 'w', encoding='utf-8') as f:
+                data.to_json(f, force_ascii=False, orient = 'index', date_format='iso', indent=4)
+        print('{} is success'.format(ex_type))
+        status = 200
+    except :
+        print('{} is failed'.format(ex_type))
+        status = 400
+    return status

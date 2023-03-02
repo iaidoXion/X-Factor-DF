@@ -57,23 +57,21 @@
                                 </ul>
                                 <div class="queryDownload-container">
                                     <div class="queryDownload-box d-flex">
-                                        <button type="button" class="btn btn-sm downloadBtn"><i class="fas fa-file-alt file-icon"></i><span class="download-text">Excel</span><i class="fas fa-download download-icon"></i></button>
-                                        <button type="button" class="btn btn-sm downloadBtn"><i class="fas fa-file-alt file-icon"></i><span class="download-text">CSV</span><i class="fas fa-download download-icon"></i></button>
-                                        <button type="button" class="btn btn-sm downloadBtn"><i class="fas fa-file-alt file-icon"></i><span class="download-text">JSON</span><i class="fas fa-download download-icon"></i></button>
+                                        <button type="button" class="btn btn-sm downloadBtn" onclick="sql_export('excel');"><i class="fas fa-file-alt file-icon"></i><span class="download-text">Excel</span><i class="fas fa-download download-icon"></i></button>
+                                        <button type="button" class="btn btn-sm downloadBtn" onclick="sql_export('csv');"><i class="fas fa-file-alt file-icon"></i><span class="download-text">CSV</span><i class="fas fa-download download-icon"></i></button>
+                                        <button type="button" class="btn btn-sm downloadBtn" onclick="sql_export('json');"><i class="fas fa-file-alt file-icon"></i><span class="download-text">JSON</span><i class="fas fa-download download-icon"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-content">
                                 <div class="result-box tab-pane fade show active" style="white-space: nowrap" id="result1">
-                                    <div class="DataFabric-scroll">
+                                    <div class="DataFabric-scroll" id='webquery_div'>
                                         <table id="webQuery_table" class="table table-bordered dataFabricTable-sm queryTable fs-12px text-nowrap">
                                             <thead>
                                             <tr class="table-dark" id='query_thead'>
                                             </tr>
                                             </thead>
                                             <tbody id="query_tbody">
-                                            <tr>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -113,45 +111,50 @@
 
         /*=====================결과값==================*/
         let resultTxt = txtValue.substring(startIndex + 1, lastIndex);
-        console.log(resultTxt);
 
+        /*if ($.fn.DataTable.isDataTable('#webQuery_table')) {
+                                var table = $("#webQuery_table").DataTable()
+                                table.colReorder.reset();
+                                table.destroy();
+                                alert('hi');
+                            };*/
 
-
+        setCookie('query', String(resultTxt.trimStart()), 1);
         var params = {
             'data' : resultTxt.trimStart()
         }
-        console.log(params);
-
         $.ajax({
                 type : "POST",
                 url : "query_content/",
                 data : params,
-                async : false,
                 success : function(res){
-                    $("#query_thead").empty();
-                    $("#query_tbody").empty();
                     document.getElementById("query_stop").style.display = "none";
                     document.getElementById("query_start").style.display = "inline";
                     document.getElementById("query_thead").style.fontSize = "10px";
                     if (res.type == 'select'){
                         if (res.status==200){
+        
+                            if ($.fn.DataTable.isDataTable('#webQuery_table')) {
+                                $("#webQuery_table").remove()
+                                var str = "";
+                                str += '<table id="webQuery_table" class="table table-bordered dataFabricTable-sm queryTable fs-12px text-nowrap">'
+                                str += '<thead>'
+                                str += `<tr class="table-dark" id='query_thead'>`
+                                str += `</tr>`
+                                str += `</thead>`
+                                str += `<tbody id="query_tbody">`
+                                str += `</tbody>`
+                                str += '</table>'
+                                $("#webquery_div").html(str);
+                            };
+
                             var str = "";
                             $.each(res.column, function(i){
                                 str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '>' + res.column[i]+ '</Th>'
                             });
-                            $("#query_thead").append(str);
-
-                            /*var str = "";
-                            $.each(res.data, function(i){
-                                str += '<TR>'
-                                str += '<td class="text-center" style="border:1px solid rgba(255, 255, 255, .2);">'+ (i+1) +'</td>'
-                                for(var j = 0; j < res.data[i].length; j++){
-                                    str += '<td style="border:1px solid rgba(255, 255, 255, .2); padding-left : 5px;">' + res.data[i][j] +'</td>'
-                                }
-                                str += '</TR>'
-                            });
-                            $("#query_tbody").html(str);*/
+                            $("#query_thead").html(str);
                             handleRenderWebQueryTableData(res.data);
+
 
                         }else if (res.status==400){
                             $("#query_thead").empty();
@@ -294,7 +297,6 @@
                             $.each(res.column, function(i){
                                 str += '<Th style="display: sticky; border:1px solid rgba(255, 255, 255, .2);"' + res.column[i]+ '">' + res.column[i]+ '</Th>'
                             });
-                            console.log(str)
                             $("#query_thead").append(str);
 
                             var str = "";
@@ -318,7 +320,6 @@
                         }
                     }
                 },
-
                 beforeSend: function() {
                     document.getElementById("query_stop").style.display = "inline";
                     document.getElementById("query_start").style.display = "none";
@@ -334,7 +335,37 @@
                     $("#query_tbody").html(str);
                 }
             });
+    }
 
+    function sql_export(f){
+        var type = f;
+        var sql = getCookie('query');
+
+        var params = {
+            'type' : type,
+            'sql' : sql
+        };
+        console.log(params);
+        $.ajax({
+                type : "POST",
+                url : "export_api/",
+                data : params,
+                async : false,
+                success : function(res){
+                    console.log(res);
+                    if (res.status == 200){
+                        alert(type + '이 만들어졌습니다');
+                    }else if(res.status==400){
+                        alert(type + '이 만들어졌습니다');
+                    }
+                },
+                beforeSend: function() {
+                    console.log('hi');
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown){
+                    alert('에러발생');
+                }
+            });
     }
 </script>
 

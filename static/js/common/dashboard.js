@@ -328,54 +328,6 @@ $(document).ready(function () {
     });
 
 
-   $('.query-input').on('input',function(event){
-        let queryText = event.currentTarget.value
-        let split_txt = queryText.split('\n');
-        let textHere = $(this).next()
-        let i = 0
-        console.log(queryText)
-        $(textHere).text("");
-        split_txt.forEach(function(spText){
-            let noComment = 0
-            if (i >= 1){
-                $(textHere).append('<br>')
-            }
-            let text = spText.trim();
-
-            queryText = text.split(' ')
-            if(text.startsWith('--')){
-                $(textHere).append('<span class = "text-comment">' + text + '</span>')
-                noComment++
-            }
-               queryText.forEach(function(qrText){
-                  let defaultColor = 0
-                  let tap = text.split('\t')
-                  let uppText = qrText.toUpperCase();
-                  blueText.forEach(function(bText){
-                    if (uppText === bText.toUpperCase()){
-                        $(textHere).append('<span class = "text-queryBlue">' + qrText + ' </span>')
-                        defaultColor++
-                    }
-                  });
-                  yellowText.forEach(function(yText){
-                     if (uppText === yText.toUpperCase()){
-                       $(textHere).append('<span class = "text-queryYellow">' + qrText + ' </span>')
-                        defaultColor++
-                    }
-                  });
-                  if(qrText == ''){
-                    $(textHere).append('<span> </span>')
-                  }
-                  if (defaultColor == 0 && noComment == 0){
-                    $(textHere).append('<span>' + qrText + ' </span>')
-                  }
-
-                });
-
-
-            i++
-        });
-    });
 });
 
 

@@ -30575,7 +30575,7 @@ body .note-modal-backdrop {
 .query-container .query-box .query-input {
     width: 100%;
     height: 357px;
-    color: rgba(255, 255, 255,0);
+
     background-color: rgba(255, 255, 255, .2);
     border: 1px solid rgba(255, 255, 255, .2);
     outline: none;
