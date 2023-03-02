@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- BEGIN content -->
+<div id="content" class="app-content" style="padding: 1rem !important;">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- BEGIN col-xl-10 -->
+            <div class="col-xl-10">
+                <div class="row">
+                    <!-- BEGIN col-xl-12 -->
+                    <div class="col-xl-12 mb-6">
+                        <div class="d-flex h-30px form-control form-control-lg bg-white bg-opacity-25 mb-1 fs-12px p-0 w-200px  text-white align-items-center justify-content-center">
+                            Database Connection
+                        </div>
+                        <div class="form-control form-control-lg bg-white bg-opacity-10 fs-12px">
+                            <form method="post">
+                            {% csrf_token %}
+                            <div class="row justify-content-center">
+                                <!-- BEGIN col-xl-9 -->
+                                <div class="col-xl-9">
+                                    <span>Server</span>
+                                    <div class="mb-4 mt-5px settingConnection h-auto">
+                                        <div class="row justify-content-center">
+                                        <!-- BEGIN col-xl-10 -->
+                                            <div class="col-xl-5 mb-4 d-flex">
+                                                <span>Database :
+                                                    <select class="w-200px h-23px text-center settinginput" name="db" >
+                                                        <option class="setting-select">Teradata</option>
+                                                        <option class="setting-select">Postgres</option>
+                                                        <option class="setting-select">ETC1</option>
+                                                        <option class="setting-select">ETC2</option>
+                                                        <option class="setting-select">ETC3</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <!-- BEGIN col-xl-5 -->
+                                            {% if update_connect_info %}
+                                                {% for dbinfo in update_connect_info %}
+                                            <div class="col-xl-5 mb-4">
+                                                <span class="ps-3px">DB Name</span> : <input class="w-200px settinginput" name="name" type="text" value="{{ dbinfo.database_name }}">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        <!-- END col-xl-10 -->
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5 ">
+                                              <span class="ps-30px">Host</span> : <input class="w-200px settinginput" name="host"  type="text" value="{{ dbinfo.host }}">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5">
+                                              <span class="ps-32px">Port</span> : <input class="w-200px settinginput" name="port"  type="text" value="{{ dbinfo.port }}">
+                                            </div>
+
+                                        <!-- END col-xl-5 -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END col-xl-9 -->
+
+                                <!-- BEGIN col-xl-9 -->
+                                <div class="col-xl-9">
+                                    <span>Users</span>
+                                    <div class="mb-4 mt-5px settingConnection h-auto">
+                                        <div class="row justify-content-center">
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5">
+                                              <span class="ps-45px">ID</span> : <input class="w-200px settinginput" name="id" type="text" value="{{ dbinfo.db_user }}">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        <!-- BEGIN col-xl-5 -->
+                                            <div class="col-xl-5">
+                                              <span>Password</span> : <input class="w-200px settinginput" name="pwd"  type="text" value="{{ dbinfo.db_pw }}">
+                                            </div>
+                                        <!-- END col-xl-5 -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- END col-xl-9 -->
+
+                            </div>
+                            <!-- BEGIN col-xl-12 -->
+                            <div class="col-xl-12">
+
+                                <div class="text-end">
+                                    <button class="settingBtn w-130px" onclick="db_delete('{{ dbinfo.database_name }}')">
+                                        <i class="fas fa-times-circle ms-1 delScript"></i>
+                                        <span>Delete</span>
+                                    <button class="settingBtn w-130px" onclick=DBCON(this.form)>
+                                        <i class="fas fa-lg fa-fw me-1 fa-save "></i>
+                                        <span>Update</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                            <!-- END col-xl-10 -->
+                        </div>
+                    </div>
+                    <!-- END col-xl-12 -->
+                </div>
+            </div>
+            <!-- END col-xl-12 -->
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+<!-- END content -->
+<script>
+function db_delete(dbname){
+        var params = {
+            'dbname' : dbname
+        };
+        $.ajax({
+            type : "POST",
+            url : "../setting_delete/",
+            data : params,
+            async : false,
+            success : function(res){
+                console.log(res);
+                alert('Delete Successd');
+                opener.parent.location.reload();
+                window.close();
+
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown){
+                alert('Error');
+            }
+        });
+}
+function DBCON(form){
+    var db = form.db.value;
+    var name = form.name.value;
+    var host = form.host.value;
+    var port = form.port.value;
+    var id = form.id.value;
+    var pwd = form.pwd.value;
+
+    if(!name){
+    alert('DB Name을 입력해주세요');
+        return false;
+    }else if(!host){
+        alert('호스트를 입력해주세요');
+        return false;
+    }else if(!port){
+        alert('포트를 입력해주세요');
+        return false;
+    }else if(!id){
+        alert('User ID를 입력해주세요');
+        return false;
+    }else if(!pwd){
+        alert('Password를 입력해주세요');
+        return false;
+    };
+    var params = {
+    'db' : db,
+    'name' : name,
+    'host' : host,
+    'port' : port,
+    'id' : id,
+    'pwd' : pwd
+    };
+    $.ajax({
+        type : "POST",
+        url : "setting_update_api/",
+        data : params,
+        async : false,
+        success : function(res){
+            console.log(res);
+            alert('Update Successd');
+            opener.parent.location.reload();
+            window.close();
+
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            alert('올바른 Connection정보를 입력 해주세요');
+        }
+    });
+}
+
+</script>
+{% endblock %}
