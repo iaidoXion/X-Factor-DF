@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from common.menu import MenuSetting
-from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, update, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, db_export, cpu_traffic, update_connect_info
+from common.DB.jdbc import db_select, db_create, db_insert, db_delete, db_drop, db_rename, db_alter, connect, update, setting_insert, connect_DBList, history_select, database_traffic, user_traffic, db_show, db_update, db_export, cpu_traffic, update_connect_info,setting_db_update
 import json
 import math
 
@@ -217,6 +217,10 @@ def settings_api(request) :
         'user_pwd' : data['pwd'],
     }
     result = connect(data_list)
+    if result['status'] == 200:
+        setting_insert(data_list)
+    else:
+        pass
     returnData = result
     return JsonResponse(returnData)
 
@@ -371,6 +375,10 @@ def settings_update_api(request) :
         'user_id' : data['id'],
         'user_pwd' : data['pwd'],
     }
-    result = update(data_list)
+    result = connect(data_list)
+    if result['status'] == 200:
+        setting_db_update(data_list)
+    else:
+        pass
     returnData = result
     return JsonResponse(returnData)

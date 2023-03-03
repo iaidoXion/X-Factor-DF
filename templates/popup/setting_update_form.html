@@ -72,7 +72,7 @@
                                         <!-- END col-xl-5 -->
                                         <!-- BEGIN col-xl-5 -->
                                             <div class="col-xl-5">
-                                              <span>Password</span> : <input class="w-200px settinginput" name="pwd"  type="text" value="{{ dbinfo.db_pw }}">
+                                              <span>Password</span> : <input class="w-200px settinginput" name="pwd"  type="password" value="{{ dbinfo.db_pw }}">
                                             </div>
                                         <!-- END col-xl-5 -->
                                         </div>
@@ -170,9 +170,14 @@ function DBCON(form){
         async : false,
         success : function(res){
             console.log(res);
-            alert('Update Successd');
-            opener.parent.location.reload();
-            window.close();
+            if (res.status==200){
+                alert('Update Successd');
+                opener.parent.location.reload();
+                window.close();
+            }else if (res.status==400){
+                alert('올바른 Connection정보를 입력 해주세요');
+            }
+
 
         },
         error : function(XMLHttpRequest, textStatus, errorThrown){
