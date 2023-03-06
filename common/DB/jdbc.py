@@ -61,11 +61,11 @@ def db_select(qry):
         #print(valid_png_header.decode('hex'))
         #print(binascii.a2b_base64(valid_png_header))
         for key, value in data.iteritems():
-            print(key)
-            print(type(data[key][0]))
+            #print(key)
+            #print(type(data[key][0]))
             if type(data[key][0]) == type(bytes(1)):
                 for key2, value2 in data[key].iteritems():
-                    print(data[key][key2])
+                    #print(data[key][key2])
                     valid_png_header = data[key][key2]
                     #valid_png_header2 = str(data['UserId'][key], 'utf-8')
                     #print(valid_png_header)
@@ -459,7 +459,6 @@ def connect(data):
                                         password = data['user_pwd'],
                                         logmech="TD2")
             status = 200
-            setting_insert(data)
             useraddress = str(db)
         except Exception as e :
             print("==================")
@@ -475,7 +474,6 @@ def connect(data):
                                 password = data['user_id'],
                                 port = data['db_port'])
             status = 200
-            setting_insert(data)
             useraddress = str(db)
         except Exception as e :
             print("==================")
@@ -513,7 +511,7 @@ def setting_insert(data): #파라미터값 web_user 추가
         """
     td_context.execute(qry)
 
-def setting_update(data): #파라미터값 web_user 추가
+def setting_db_update(data): #파라미터값 web_user 추가
     web_user = 'admin'
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
     # td_context = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
@@ -521,15 +519,12 @@ def setting_update(data): #파라미터값 web_user 추가
     #                username=data['user_id'],
     #                password=data['user_pwd'],
     #                logmech="TD2")
-
     qry = """
-
     UPDATE xfactor.connect_tera
     SET database_name='"""+data['db_name']+"""', database_type='"""+data['db']+"""', "host"='"""+data['db_host']+"""', port='"""+data['db_port']+"""', web_user='"""+web_user+"""', db_user='"""+data['user_id']+"""', db_pw='"""+data['user_pwd']+"""'
     WHERE database_name='"""+data['db_name']+"""'
     """
-    print(qry)
-    result = td_context.execute(qry)
+    td_context.execute(qry)
 
 def connect_DBList():
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
@@ -743,30 +738,3 @@ def update_connect_info(database_name):
     dict = data.to_dict('records')
     return dict
 
-def update(data):
-        try :
-            db = create_context(host="{}:{}".format(data['db_host'], data['db_port']),
-                                        username = data['user_id'],
-                                        password = data['user_pwd'],
-                                        logmech="TD2")
-            status = 200
-            useraddress = str(db)
-            setting_update(data)
-        except Exception as e :
-            print("==================")
-            print('연결실패')
-            print("==================")
-            status = 400
-
-        remove_context()
-
-        result = {
-            'status': status,
-            'data': useraddress,
-            'host': data['db_host'],
-            'dbname': data['user_id'],
-            'user': data['user_id'],
-            'password': data['user_id'],
-            'port': data['db_port']
-        }
-        return result
