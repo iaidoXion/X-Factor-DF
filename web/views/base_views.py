@@ -327,7 +327,6 @@ def hisotry_api():
         select * from xfactor.history_tera ;
     """
     result = db_select(qry)
-    print(result)
     returnData = {
         'tera_history_num': result['tera_history_num'],
         'database_name': result['database_name'],
@@ -344,7 +343,6 @@ def hisotry_api():
 @csrf_exempt
 def setting_delete(request) :
     data = request.POST['dbname']
-    print(data)
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
 
     qry = """
@@ -361,7 +359,6 @@ def setting_delete(request) :
 
 @csrf_exempt
 def settings_update_api(request) :
-    print('success')
     data = request.POST
     data_list ={
         'db' : data['db'],

@@ -25,7 +25,7 @@
                             <div class="form-control form-control-lg bg-white bg-opacity-10 w-270px h-810px">
                                 <div class="Navi-DF Navi-DF-Teradata-menu DataFabric-scroll" >
                                     <div class="Navi-DF-menu1">
-                                        <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon">{{column.0.0}}</i>
+                                        <i class="bi bi-caret-down-fill menu-list menu-list1 menu-icon" id="nav_main">{{column.0.0}}</i>
                                         <div class="Navi-DF-menu2" id="database_table">
                                             {% for item in data%}
                                             <i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('{{item.1|safe}}', this);"><i class="bi bi-file-earmark-text">{{item.1}}</i></i></br>
@@ -44,9 +44,9 @@
                         <div class="w-100">
                             <div class="d-flex">
                                 <div>
-                                    <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active" onclick="pro_data();">Data</button>
-                                    <button type="button" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white" onclick="pro_col();">Column</button>
-                                    <button type="button" class="btn-tableProperties DDL-btn fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white" onclick="pro_ddl();">DDL</button>
+                                    <button type="button" id="pro_data" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active" onclick="pro_data();">Data</button>
+                                    <button type="button" id="pro_col" class="btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white" onclick="pro_col();">Column</button>
+                                    <button type="button" id="pro_ddl" class="btn-tableProperties DDL-btn fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white" onclick="pro_ddl();">DDL</button>
                                 </div>
 
                                 <div class="form-control form-control-lg bg-white bg-opacity-10 h-810px col-xl-8" id="pro_view">
@@ -69,11 +69,9 @@
 </div>
 <script>
     var all_data;
-    console.log({{data|safe}});
-    console.log({{column|safe}});
-
+    var ddl;
     column_list = {{column|safe}};
-
+    console.log(column_list);
     for(let i = 0; i < column_list.length; i++){
         window[column_list[i][0]] = function(name){
             $.ajax({
@@ -84,9 +82,9 @@
                 },
                 async : false,
                 success : function(res){
+                    $('#nav_main').text(name);
                     $('#database_table').empty()
                     var str = "";
-                                            
                     $.each(res.data, function(i){
                         str += `<i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('` + res.data[i] +`', this);" id='` + res.data[i] +`'><i class="bi bi-file-earmark-text">` + res.data[i] +`</i></i></br>`
                     });
@@ -111,7 +109,6 @@
         params = {
             'name' : String(f)
         };
-        console.log(class_property);
         var data_name =  $(class_property).attr("id");
         if ($(class_property).attr("class").includes('right-fill')){
             $.ajax({
@@ -123,9 +120,11 @@
                     $('#navigator_table').empty()
                     var str = "";
                     $.each(res.data, function(i){
-                        var ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
-                        str += `<i class="bi bi-caret-right-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `', '` + ddl +`');"><i class="bi bi-people ">` + res.data[i] +`</i></i></br>`
-                    });
+                        ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
+                        str += `<i class="bi bi-caret-right-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `');">`
+                        str += `<i class="bi bi-people ">` + String(res.data[i]).trim() +`</i>`
+                        str += `</i></br>`
+                        });
                     $(class_property).attr('class', 'bi bi-caret-down-fill menu-list menu-list3 menu-icon ');
                     $('#navigator_table').append(str)
                 },
@@ -170,9 +169,6 @@
     }
 
     function pro_col(){
-        console.log("===================");
-        console.log(all_data);
-        console.log("===================");
         if ($.fn.DataTable.isDataTable('#properties_Table')) {
             $("#properties_Table").remove()
             var str = "";
@@ -233,19 +229,20 @@
             $("#pro_view").html(str);
         };
         var str = "";
+        console.log(ddl);
         str += `<tr>`
                 str += `<td>1</td>`
                 str +=  `<td class="text-truncate">CREATE</td>`
-                str +=      `<td>`
-                str +=              all_data.ddl
-                str +=       `</td>`
+                str +=  `<td>`
+                str +=              ddl
+                str +=  `</td>`
                 str +=  `</td>`
         str += `</tr>`
         $('#properties_data').append(str);
         handleRenderpropertiesTableData();
     }
 
-    function properties_view(a, f, ddl){
+    function properties_view(a, f){
         params = {
             'database' : a,
             'table' : f,
@@ -257,6 +254,9 @@
                 data : params,
                 async : false,
                 success : function(res){
+                    $('#pro_data').attr('class', 'btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white active');
+                    $('#pro_col').attr('class', 'btn-tableProperties fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white');
+                    $('#pro_ddl').attr('class', 'btn-tableProperties DDL-btn fs-12px w-100px btn btn-outline-naviDF d-block mb-1 h-30px p-0 text-white');
                     if ($.fn.DataTable.isDataTable('#properties_Table')) {
                         $("#properties_Table").remove()
                         var str = "";
@@ -273,7 +273,6 @@
                     $('#properties_columns').empty()
                     $('#properties_data').empty()
                     all_data = res;
-                    console.log(res);
                     var str = "";
                     $.each(res.data_column, function(i){
                         str += `<th>` + res.data_column[i] + `</th>`
