@@ -235,7 +235,9 @@ def navigator_api(request) :
         FROM 
             dbc.tables 
         WHERE 
-            databasename = '""" + data + """';
+            databasename = '""" + data + """' and not(TableKind='V') and not(TableKind='M')
+        ORDER BY 
+            TableName;
     """
     result = db_select(qry)
     returnData = {

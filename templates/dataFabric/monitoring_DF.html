@@ -64,7 +64,7 @@
                                 <tbody>
                                     {% for historydata in history %}
                                     <tr>
-                                        <td>{{historydata.commit_time}}</td>
+                                        <td>{{historydata.commit_time|date:'Y-m-d H:i'}}</td>
                                         <td>{{historydata.dbname}}</td>
                                         <td>{{historydata.dbtype}}</td>
                                         <td>{{historydata.dbtable}}</td>
@@ -99,5 +99,6 @@
     var db_traffic = {{db_traffic | safe}};
     var user_traffic = {{user_traffic | safe}};
     var cpu_traffic = {{ cpu_traffic | safe}};
+    console.log(cpu_traffic);
 </script>
 {% endblock %}

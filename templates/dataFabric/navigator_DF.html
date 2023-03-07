@@ -30,7 +30,7 @@
                                             {% for item in data%}
                                             <i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('{{item.1|safe}}', this);"><i class="bi bi-file-earmark-text">{{item.1}}</i></i></br>
                                             {% endfor%}
-                                            <div class="Navi-DF-menu3" id="navigator_table">
+                                            <div class="Navi-DF-menu5" id="navigator_table">
                                             </div>
                                         </div>
                                     </div>
@@ -86,9 +86,9 @@
                     $('#database_table').empty()
                     var str = "";
                     $.each(res.data, function(i){
-                        str += `<i class="bi bi-caret-right-fill menu-list menu-list2 menu-icon" onclick="execute('` + res.data[i] +`', this);" id='` + res.data[i] +`'><i class="bi bi-file-earmark-text">` + res.data[i] +`</i></i></br>`
+                        str += `<i class="bi bi-caret-right-fill menu-list `+res.data[i]+` menu-icon" onclick="execute('` + res.data[i] +`', this);" id='` + res.data[i] +`'><i class="bi bi-file-earmark-text">` + res.data[i] +`</i></i></br>`
                     });
-                    str += `<div class="Navi-DF-menu3" id="navigator_table">`
+                    str += `<div class="Navi-DF-` + res.data[i] +`" id="navigator_table">`
                     str += `</div>`
                     $('#database_table').append(str)
                 },
@@ -103,7 +103,7 @@
 
     function execute(f, class_property) {
         if($(class_property).attr("class").includes('down-fill')){
-            $(class_property).attr('class', 'bi bi-caret-right-fill menu-list menu-list3 menu-icon ');
+            $(class_property).attr('class', 'bi bi-caret-right-fill menu-list `+res.data[i]+` menu-icon ');
             $('#navigator_table').empty()
         }else {
         params = {
@@ -121,7 +121,7 @@
                     var str = "";
                     $.each(res.data, function(i){
                         ddl = res.ddl[i].replace(/\r/g, "</br>").replace(/'/g, "<hr>");
-                        str += `<i class="bi bi-caret-right-fill menu-list menu-list3 menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `');">`
+                        str += `<i class="bi bi-caret-right-fill menu-list `+res.data[i]+` menu-icon " onclick="properties_view('` +String(f) + `','`+ String(res.data[i]) + `');">`
                         str += `<i class="bi bi-people ">` + String(res.data[i]).trim() +`</i>`
                         str += `</i></br>`
                         });

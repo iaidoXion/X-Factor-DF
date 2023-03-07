@@ -35,49 +35,25 @@ def db_select(qry):
     db_query = qry
     db_result = ''
     try :
-        history = []
         td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")
         result = td_context.execute(qry)
         data = result.fetchall()
         data = pd.DataFrame(data)
         data = data.fillna('NULL')
-        #print(data)
-        #print(data['UserId'])
-        #valid_png_header = data['UserId'][2]
-        #print(valid_png_header)
-        #print(type(valid_png_header))
-        #encoding = sys.getdefaultencoding()
-        #s = valid_png_header.decode(encoding)
-        #print(s)
-        #print(valid_png_header.decode('utf-16'))
-        #print(binascii.hexlify(valid_png_header))
-        #valid_png_header2 = binascii.hexlify(valid_png_header)
-        #valid_png_header3 = str(valid_png_header2, 'cp949')
-        #print(str(valid_png_header2, 'cp949'))
-        #code = (valid_png_header2, 'cp949')
-        #print(code)
-        #code.decode("hex")
-        #print(binascii.unhexlify(valid_png_header3))
-        #print(valid_png_header.decode('hex'))
-        #print(binascii.a2b_base64(valid_png_header))
         for key, value in data.iteritems():
-            #print(key)
-            #print(type(data[key][0]))
+            if type(data[key][0] ==type(pd.Timestamp.today())):
+                data[key] = data[key].astype(str)
             if type(data[key][0]) == type(bytes(1)):
                 for key2, value2 in data[key].iteritems():
-                    #print(data[key][key2])
                     valid_png_header = data[key][key2]
-                    #valid_png_header2 = str(data['UserId'][key], 'utf-8')
-                    #print(valid_png_header)
                     try:
-                        data[key][key2] = valid_png_header.decode('utf-16')
+                        #data[key][key2] = valid_png_header.decode('utf-16') #디코딩 UTF-16으로 사용 다음 문자로 (Ъ, Ж) 표현됨
+                        data[key][key2] = str(binascii.hexlify(valid_png_header)).replace('b','').replace("'",'') #디코딩 byte형 비트 문자 방식 (b'00002a04') 표현됨
+
                     except:
                         pass
             else:
                  continue
-                # data['UserId'][key] = binascii.a2b_base64(valid_png_header)
-                # print(data['UserId'][key])
-        #print(data['UserId'])
         print("===============================")
         print("Success")
         print("===============================")
@@ -550,7 +526,16 @@ def history_insert(data):
         dbtable=data['history'][2]
         webuser=data['history'][3]
         dbuser=data['history'][4]
-        dbquery=data['history'][5].replace('\'','"')
+        dbquery=data['history'][5]
+        if ';' in dbquery:
+            if "'" in dbquery:
+                dbquery = dbquery.replace("'","''")
+        else:
+            dbquery = dbquery+";"
+            if "'" in dbquery:
+                print(dbquery)
+                dbquery = dbquery.replace("'","''")
+                print(dbquery)
         dbresult=data['history'][6]
         qry="""
             insert into """+DBName+"""."""+HistoryTNM+"""("database_name", "database_type", "db_table", "web_user", "db_user", "db_query", "db_result", "commit_date")
@@ -588,6 +573,7 @@ def history_select():
             DFL.append([num, dbname, dbtype, dbtable, web_user, db_user, db_query, db_result, commit_time])
             DFC = ['num', 'dbname', 'dbtype', 'dbtable', 'web_user', 'db_user', 'db_query', 'db_result', 'commit_time']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by='commit_time', ascending=False).reset_index(drop=True)
+        DF = DF.head(50) #페이징 처리 이전 50개 제한
         DC = DF.to_dict('records')
         remove_context()
         return DC
@@ -680,19 +666,24 @@ def cpu_traffic():
             DFL.append([item, item_count ,statistics_collection_data])
             DFC = ['item', 'item_count', 'statistics_collection_data']
         DF = pd.DataFrame(DFL, columns=DFC).sort_values(by="item", ascending=False).reset_index(drop=True)
-        #print(DF)
         remove_context()
         #return DF
         T_count = []
         date_list = []
         P_count = []
+        ETC1_count = []
+        ETC2_count = []
         for i in range(len(DF)):
             if DF['item'][i] == 'teradata':
                 T_count.append(DF['item_count'][i])
+            elif DF['item'][i] == 'ETC1':
+                ETC1_count.append(DF['item_count'][i])
+            elif DF['item'][i] == 'ETC2':
+                ETC2_count.append(DF['item_count'][i])
             else:
                 P_count.append(DF['item_count'][i])
                 date_list.append(str(DF['statistics_collection_data'][i]).split(' ')[0])
-        ChartDataList = [{"data": [{"name": "TERADATA", "data": T_count}, {"name": "POSTGRES", "data": P_count}], "date": date_list}]
+        ChartDataList = [{"data": [{"name": "TERADATA", "data": T_count}, {"name": "POSTGRES", "data": P_count} , {"name": "ECT1", "data": ETC1_count},{"name": "ECT2", "data": ETC2_count}], "date": date_list}]
         #print(ChartDataList)
         return ChartDataList
     except:
