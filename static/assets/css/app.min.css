@@ -30524,7 +30524,7 @@ body .note-modal-backdrop {
 
 /* 공통 */
 .dataFabricTable-sm>:not(caption)>*>* {
-    padding: 0.1rem
+    padding: 0.2rem
 }
 /* Query web-page */
 .change-tabs {
@@ -30900,3 +30900,27 @@ body .note-modal-backdrop {
     background-color: #777;
     border-radius: 4px;
 }
+
+/* .link-2 tr {
+  -webkit-transition: all 0.1s linear;
+          transition: all 0.1s linear;
+} */
+
+.link-2 tr:hover {
+  color: #ff9f0c;
+}
+
+.link-2 i:hover {
+  cursor: pointer;
+}
+
+/* 
+.link-2 tr:before {
+  content: '';
+  border-bottom: solid 1px #ff9f0c;
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  
+  opacity: 0;
+} */

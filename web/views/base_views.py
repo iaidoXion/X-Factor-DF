@@ -194,12 +194,13 @@ def dataFabric_api(request) :
 @csrf_exempt
 def export_api(request) :
     print('success')
-    data = request.POST
+    data = request.GET
     
-    status = db_export(str(data['type']), str(data['sql']))
+    result = db_export(str(data['type']), str(data['sql']))
     
     returnData = {
-        'status' : status
+        'status' : result['status'],
+        'file' : result['data']
     }
     
     return JsonResponse(returnData)

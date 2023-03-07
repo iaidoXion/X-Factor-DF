@@ -114,14 +114,16 @@ var handleRenderQueryHistoryTableData = function () {
 		colReorder: {
 		    allowReorder: true,
 		},
-		/*columnDefs: [
-            { width: "2%", target: [0] },
-            { width: "4%", target: [1] },
-            { width: "20%", target: [2] },
-            { width: "66%", target: [3] },
-            { width: "3%", target: [4] },
-            { width: "4%", target: [5] }
-		],*/
+		columnDefs: [
+            { width: "4%", target: [0]},
+            { width: "10%", target: [1] },
+            { width: "6%", target: [2] },
+            { width: "6%", target: [3] },
+            { width: "6%", target: [4] },
+            { width: "6%", target: [5] },
+            { width: "41%", target: [6], className: 'text-start'},
+            { width: "21%", target: [7], className: 'text-start'}
+		],
 		language: {
 			"decimal": "",
 			"info": "현재 _START_ - _END_건 / 전체 _TOTAL_건",
