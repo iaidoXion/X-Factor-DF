@@ -27,6 +27,7 @@ monthDay = (datetime.today() - relativedelta(days=31)).strftime("%Y-%m-%d")
 
 def db_select(qry):
     qry=qry.lower()
+    print(qry)
     dbname = DBName
     dbtype = DBType
     table = ' '
@@ -707,19 +708,31 @@ def db_export(ex_type, sql) :
         data = data.fillna('NULL')
         
         # =======================Select후 처리========================
+        
+        down_path = os.getenv('USERPROFILE') + '\downloads'
         if ex_type == 'excel' :
-            data.to_excel('DF_excel.xlsx')
+            down_path = down_path + '\DF_excel.xlsx'
+            file = data.to_excel(down_path)
         elif ex_type == 'csv' :
-            data.to_csv('DF_csv.csv')
+            down_path = down_path + '\DF_csv.csv'
+            file = data.to_csv(down_path)
         elif ex_type == 'json' :
-            with open('df_json.json', 'w', encoding='utf-8') as f:
+            down_path = down_path + '\df_json.json'
+            with open(down_path, 'w', encoding='utf-8') as f:
                 data.to_json(f, force_ascii=False, orient = 'index', date_format='iso', indent=4)
         print('{} is success'.format(ex_type))
-        status = 200
+        print(file)
+        result= {
+            'status' : 200,
+            'data' : file
+        }
     except :
         print('{} is failed'.format(ex_type))
-        status = 400
-    return status
+        result= {
+            'status' : 200,
+            'data' : 'None'
+        }
+    return result
 
 def update_connect_info(database_name):
     td_context = create_context(host="1.223.168.93:44240", username="dbc", password="dbc", logmech="TD2")

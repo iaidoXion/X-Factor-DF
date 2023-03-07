@@ -52,6 +52,7 @@
                             <table id="queryHistoryTable" class="table table-bordered dataFabricTable-sm QueryHistoryTable fs-12px">
                                 <thead>
                                     <tr class="table-dark">
+                                        <th></th>
                                         <th>Timestamp</th>
                                         <th>DB Name</th>
                                         <th>Database</th>
@@ -61,27 +62,51 @@
                                         <th>Result</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="link-2">
                                     {% for historydata in history %}
                                     <tr>
-                                        <td>{{historydata.commit_time}}</td>
-                                        <td>{{historydata.dbname}}</td>
-                                        <td>{{historydata.dbtype}}</td>
-                                        <td>{{historydata.dbtable}}</td>
-                                        <td>{{historydata.db_user}}</td>
-                                        <td>{{historydata.db_query}}</td>
-                                        <td>{{historydata.db_result}}</td>
+                                        <td style="border-left: none; border-right: none;"><i class="bi bi-plus-square" onclick="accordian_all('accord{{forloop.counter}}');"></i></td>
+                                        <td style="border-left: none; border-right: none;"><span class="thin">{{historydata.commit_time}}</span></td>
+                                        <td style="border-left: none; border-right: none;"><span class="thin">{{historydata.dbname}}</span></td>
+                                        <td style="border-left: none; border-right: none;"><span class="thin">{{historydata.dbtype}}</span></td>
+                                        <td style="border-left: none; border-right: none;"><span class="thin">{{historydata.dbtable}}</span></td>
+                                        <td style="border-left: none; border-right: none;"><span class="thin">{{historydata.db_user}}</span></td>
+                                        <td style="border-left: none; border-right: none;"><i class="fa-regular fa-clipboard" onclick="copy_sql()"></i>
+                                            <span class="thin">
+                                            &nbsp{{historydata.db_query}}
+                                            </span>
+                                            <input type="hidden" value = '{{historydata.db_query}}' id="sql_text">
+                                        </td>
+                                        <td>
+                                        {% if 'Success' in historydata.db_result%}
+                                            <i class="fa-solid fa-circle-check" style="color: green;"></i>
+                                        {% else%}
+                                            <i class="fa-solid fa-circle-xmark" style="color: red;"></i>
+                                        {% endif %}
+                                        {{historydata.db_result}}</td>
+                                    </tr>
+                                    <tr style="display:none;" id="accord{{forloop.counter}}">
+                                        <td colspan="8">
+                                            <ul class="text-start">
+                                                <br>
+                                                <li>TimeStamp : {{historydata.commit_time}}</li>
+                                                <li>DB Name : {{historydata.dbname}}</li>
+                                                <li>database : {{historydata.dbtype}}</li>
+                                                <li>Table : {{historydata.dbtable}}</li>
+                                                <li>User : {{historydata.db_user}}</li>
+                                                <li>Query : {{historydata.db_query}}</li>
+                                                <li>Result : {{historydata.db_result}}</li>
+                                            </ul>
+                                        </td>
+                                        <td style="display:none";></td>
+                                        <td style="display:none";></td>
+                                        <td style="display:none";></td>
+                                        <td style="display:none";></td>
+                                        <td style="display:none";></td>
+                                        <td style="display:none";></td>
+                                        <td style="display:none";></td>
                                     </tr>
                                     {% endfor %}
-<!--                                        <tr>-->
-<!--                                            <td>2023-01-27 14:20:22</td>-->
-<!--                                            <td></td>-->
-<!--                                            <td>Postgres</td>-->
-<!--                                            <td>Statistics</td>-->
-<!--                                            <td>Guest</td>-->
-<!--                                            <td>DROP TABLE Statistic</td>-->
-<!--                                            <td>SUCCES ROWS</td>-->
-<!--                                        </tr>-->
                                 </tbody>
                             </table>
                         <!-- END monitoring-table -->
@@ -99,5 +124,26 @@
     var db_traffic = {{db_traffic | safe}};
     var user_traffic = {{user_traffic | safe}};
     var cpu_traffic = {{ cpu_traffic | safe}};
+
+    function copy_sql(){
+        var sql = document.getElementById('sql_text');
+
+        try {
+            navigator.clipboard.writeText(sql.value);
+            console.log('복사된 텍스트 내용: ' + sql.value);
+        } catch (err) {
+            console.log('복사할 수 없음!');
+        }
+        alert('복사되었습니다.')
+    };
+
+    function accordian_all(f){
+        const row = document.getElementById(f);
+        if(row.style.display=='none'){ 		
+            row.style.display = '';
+        }else{ 		
+            row.style.display = 'none'; 	
+        } 
+    };
 </script>
 {% endblock %}
